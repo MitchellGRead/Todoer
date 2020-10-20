@@ -1,4 +1,6 @@
 package com.example.todoer.homescreen
 
-class HomeScreenRepo {
+import com.example.todoer.database.TodoListDao
+
+class HomeScreenRepo(todoListDao: TodoListDao) {
 }
