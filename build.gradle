@@ -23,6 +23,7 @@ buildscript {
         navigation_version = "2.3.0"
         livedata_version = "2.2.0"
         fragment_version = "1.2.5"
+        cardview_version = "1.0.0"
 
         // Third-party Versions
         dagger_hilt_version = "1.0.0-alpha02"
