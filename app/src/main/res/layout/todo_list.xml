@@ -52,6 +52,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_more_vertical"
             tools:src="@drawable/ic_more_vertical"
             android:contentDescription="@string/more_options" />
 
