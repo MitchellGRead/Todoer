@@ -11,9 +11,12 @@ import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeScreenFragment : Fragment() {
+
+    @Inject lateinit var homeScreenRepo: HomeScreenRepo
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,12 +28,11 @@ class HomeScreenFragment : Fragment() {
         val binding: FragmentHomeScreenBinding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         val application = requireNotNull(this.activity).application
 
-        val viewModelFactory = HomeScreenViewModelFactory()
+        val viewModelFactory = HomeScreenViewModelFactory(homeScreenRepo)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(HomeScreenViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
 
         return binding.root
     }
