@@ -1,4 +1,4 @@
-package com.example.todoer.homescreen
+package com.example.todoer.ui.homescreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
+import com.example.todoer.ui.homescreen.recycler.TodoListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,14 +27,15 @@ class HomeScreenFragment : Fragment() {
         Timber.d("Creating Home Screen fragment view")
 
         val binding: FragmentHomeScreenBinding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        val application = requireNotNull(this.activity).application
-
         val viewModelFactory = HomeScreenViewModelFactory(homeScreenRepo)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(HomeScreenViewModel::class.java)
+        val adapter = TodoListAdapter()
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.todoList.adapter = adapter
 
+        adapter.submitList(viewModel._todoLists)
         return binding.root
     }
 

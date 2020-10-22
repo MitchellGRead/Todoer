@@ -1,7 +1,7 @@
 package com.example.todoer.daggerhilt
 
 import com.example.todoer.database.TodoListDao
-import com.example.todoer.homescreen.HomeScreenRepo
+import com.example.todoer.ui.homescreen.HomeScreenRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.example.todoer.homescreen
+package com.example.todoer.ui.homescreen
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -16,7 +16,7 @@ class HomeScreenViewModel @ViewModelInject constructor(
 //    private val _todoLists: MutableLiveData<List<TodoList>> = MutableLiveData()
 //    val todoLists: LiveData<List<TodoList>>
 //        get() = _todoLists
-    private lateinit var _todoLists: List<TodoList>
+    lateinit var _todoLists: List<TodoList>
 
     init {
         Timber.d("Init HomeScreen ViewModel")

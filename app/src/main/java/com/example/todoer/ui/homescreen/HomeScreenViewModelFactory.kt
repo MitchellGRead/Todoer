@@ -1,4 +1,4 @@
-package com.example.todoer.homescreen
+package com.example.todoer.ui.homescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

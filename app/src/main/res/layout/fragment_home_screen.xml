@@ -7,15 +7,24 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.todoer.homescreen.HomeScreenViewModel" />
+            type="com.example.todoer.ui.homescreen.HomeScreenViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".homescreen.HomeScreenFragment" >
+        tools:context=".ui.homescreen.HomeScreenFragment" >
 
-        <include layout="@layout/todo_list" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todo_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/double_spacing"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
