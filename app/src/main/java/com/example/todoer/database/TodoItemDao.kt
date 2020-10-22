@@ -1,5 +1,6 @@
 package com.example.todoer.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,8 +14,8 @@ interface TodoItemDao {
     suspend fun insertTodoItems(item: List<TodoItem>)
 
     @Query(value = "SELECT * FROM todo_item_table WHERE itemId = :itemId_ ")
-    suspend fun getTodoItem(itemId_: Long): TodoItem
+    fun getTodoItem(itemId_: Long): LiveData<TodoItem>
 
     @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_")
-    suspend fun getAllItemsFromList(listId_: Long): List<TodoItem>
+    fun getAllItemsFromList(listId_: Long): LiveData<List<TodoItem>>
 }

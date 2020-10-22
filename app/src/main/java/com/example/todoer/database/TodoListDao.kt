@@ -1,5 +1,6 @@
 package com.example.todoer.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,5 +14,5 @@ interface TodoListDao {
     suspend fun insertTodoList(todoList: TodoList)
 
     @Query(value = "SELECT * FROM todo_list_table")
-    suspend fun getAllTodoLists(): List<TodoList>
+    fun getAllTodoLists(): LiveData<List<TodoList>>
 }
