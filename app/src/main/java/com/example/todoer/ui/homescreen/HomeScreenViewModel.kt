@@ -18,6 +18,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
 //        get() = _todoLists
     lateinit var _todoLists: List<TodoList>
 
+    private val _navigateToCreateList: MutableLiveData<Boolean> = MutableLiveData()
+    val navigateCreateList: LiveData<Boolean>
+        get() = _navigateToCreateList
+
     init {
         Timber.d("Init HomeScreen ViewModel")
         updateTodoLists()
@@ -28,5 +32,14 @@ class HomeScreenViewModel @ViewModelInject constructor(
             _todoLists = repo.fetchTodoLists()
             Timber.d("$_todoLists")
         }
+    }
+
+    /* Navigation Functions */
+    fun onFabButtonClicked() {
+        _navigateToCreateList.value = true
+    }
+
+    fun onCreateListNavigated() {
+        _navigateToCreateList.value = false
     }
 }
