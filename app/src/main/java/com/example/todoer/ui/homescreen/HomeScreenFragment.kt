@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.TodoListAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,8 +38,26 @@ class HomeScreenFragment : Fragment() {
         binding.viewModel = viewModel
         binding.todoList.adapter = adapter
 
+        setUpFabClickHandler(binding.addList, viewModel)
+        setUpCreateListNavigation(viewModel)
+
         adapter.submitList(viewModel._todoLists)
         return binding.root
+    }
+
+    private fun setUpFabClickHandler(fab: FloatingActionButton, viewModel: HomeScreenViewModel) {
+        fab.setOnClickListener {
+            viewModel.onFabButtonClicked()
+        }
+    }
+
+    private fun setUpCreateListNavigation(viewModel: HomeScreenViewModel) {
+        viewModel.navigateCreateList.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateListFragment())
+                viewModel.onCreateListNavigated()
+            }
+        })
     }
 
     companion object {

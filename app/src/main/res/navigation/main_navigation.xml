@@ -9,5 +9,27 @@
         android:id="@+id/homeScreenFragment"
         android:name="com.example.todoer.ui.homescreen.HomeScreenFragment"
         android:label="HomeScreenFragment"
-        tools:layout="@layout/fragment_home_screen"/>
+        tools:layout="@layout/fragment_home_screen">
+        <action
+            android:id="@+id/action_homeScreenFragment_to_createListFragment"
+            app:destination="@id/createListFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:popUpTo="@id/homeScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createListFragment"
+        android:name="com.example.todoer.ui.createlist.CreateListFragment"
+        android:label="CreateListFragment"
+        tools:layout="@layout/fragment_create_list">
+        <action
+            android:id="@+id/action_createListFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"/>
+    </fragment>
 </navigation>
