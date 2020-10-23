@@ -1,6 +1,7 @@
 package com.example.todoer.daggerhilt
 
 import com.example.todoer.database.TodoListDao
+import com.example.todoer.ui.createlist.CreateListRepo
 import com.example.todoer.ui.homescreen.HomeScreenRepo
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,11 @@ object RepositoryModule {
     @FragmentScoped
     fun provideHomeScreenRepo(todoListDao: TodoListDao): HomeScreenRepo {
         return HomeScreenRepo(todoListDao)
+    }
+
+    @Provides
+    @FragmentScoped
+    fun provideCreateListRepo(todoListDao: TodoListDao): CreateListRepo {
+        return CreateListRepo(todoListDao)
     }
 }
