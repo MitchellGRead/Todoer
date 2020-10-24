@@ -20,7 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeScreenFragment : Fragment() {
 
-    @Inject lateinit var homeScreenRepo: HomeScreenRepo
+    private lateinit var viewModel: HomeScreenViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,28 +30,27 @@ class HomeScreenFragment : Fragment() {
         Timber.d("Creating Home Screen fragment view")
 
         val binding: FragmentHomeScreenBinding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        val viewModelFactory = HomeScreenViewModelFactory(homeScreenRepo)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(HomeScreenViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
         val adapter = TodoListAdapter()
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.todoList.adapter = adapter
 
-        setUpFabClickHandler(binding.addList, viewModel)
-        setUpCreateListNavigation(viewModel)
+        setUpFabClickHandler(binding.addList)
+        setUpCreateListNavigation()
 
         adapter.submitList(viewModel._todoLists)
         return binding.root
     }
 
-    private fun setUpFabClickHandler(fab: FloatingActionButton, viewModel: HomeScreenViewModel) {
+    private fun setUpFabClickHandler(fab: FloatingActionButton) {
         fab.setOnClickListener {
             viewModel.onFabButtonClicked()
         }
     }
 
-    private fun setUpCreateListNavigation(viewModel: HomeScreenViewModel) {
+    private fun setUpCreateListNavigation() {
         viewModel.navigateCreateList.observe(viewLifecycleOwner, Observer {
             if (it) {
                 this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateListFragment())

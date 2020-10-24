@@ -17,7 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CreateListFragment : Fragment() {
 
-    @Inject lateinit var createListRepo: CreateListRepo
+    private lateinit var viewModel: CreateListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,8 +27,7 @@ class CreateListFragment : Fragment() {
         Timber.d("Creating Create List fragment view")
 
         val binding: FragmentCreateListBinding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        val viewModelFactory = CreateListViewModelFactory(createListRepo)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(CreateListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CreateListViewModel::class.java)
 
         binding.lifecycleOwner = this
 
