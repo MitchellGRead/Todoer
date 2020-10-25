@@ -19,7 +19,7 @@ object DatabaseModule {
     @Singleton
     fun provideTodoDatabase(application: Application): TodoDatabase {
         return Room
-            .databaseBuilder(application, TodoDatabase::class.java, "TodoDabase.db")
+            .databaseBuilder(application, TodoDatabase::class.java, "TodoDatabase.db")
             .fallbackToDestructiveMigration()
             .build()
     }
