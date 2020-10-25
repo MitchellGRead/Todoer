@@ -1,10 +1,10 @@
-package com.example.todoer.Utils
+package com.example.todoer.utils
 
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 
-object Util {
+object ActivityUtils {
     fun hideKeyboard(activity: Activity) {
         val view = activity.currentFocus
         view?.let {

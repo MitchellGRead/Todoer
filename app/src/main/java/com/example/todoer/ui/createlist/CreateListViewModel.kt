@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoer.Utils.Util
+import com.example.todoer.utils.ActivityUtils
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ class CreateListViewModel @ViewModelInject constructor(
     fun onCreateList(listName: String) {
         viewModelScope.launch {
             repo.insertList(listName)
-            Util.hideKeyboard(context as Activity)
+            ActivityUtils.hideKeyboard(context as Activity)
             _navigateToHomeScreen.value = true
         }
     }
