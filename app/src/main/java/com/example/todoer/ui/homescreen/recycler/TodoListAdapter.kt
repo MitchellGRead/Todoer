@@ -30,9 +30,17 @@ class TodoListViewHolder private constructor(
 
     fun bind(item: TodoList) {
         with (binding) {
+            val completedTasks = item.completedTasks
+            val totalTasks = item.totalTasks
+            val progress = if (completedTasks != 0) {
+                ((item.completedTasks.toDouble() / item.totalTasks.toDouble()) * 100).roundToInt()
+            } else {
+                0
+            }
+
             listTitle.text = item.listName
-            todoCountsText.text = "${item.completedTasks} / ${item.totalTasks}"
-            progressBar.progress = ((item.completedTasks.toDouble() / item.totalTasks.toDouble()) * 100).roundToInt()
+            todoCountsText.text = "$completedTasks / $totalTasks"
+            progressBar.progress = progress
 //            listOptions.setOnClickListener {  }
         }
     }
