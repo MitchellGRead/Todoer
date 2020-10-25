@@ -12,15 +12,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.TodoListAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeScreenFragment : Fragment() {
 
     private lateinit var viewModel: HomeScreenViewModel
+    private lateinit var binding: FragmentHomeScreenBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +28,7 @@ class HomeScreenFragment : Fragment() {
     ): View? {
         Timber.d("Creating Home Screen fragment view")
 
-        val binding: FragmentHomeScreenBinding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
+        binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
         val adapter = TodoListAdapter()
 
@@ -37,21 +36,25 @@ class HomeScreenFragment : Fragment() {
         binding.viewModel = viewModel
         binding.todoList.adapter = adapter
 
-        setUpFabClickHandler(binding.addList)
+        setUpFabClickHandler()
         setUpCreateListNavigation()
 
-        adapter.submitList(viewModel._todoLists)
+        viewModel.todoLists.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
         return binding.root
     }
 
-    private fun setUpFabClickHandler(fab: FloatingActionButton) {
-        fab.setOnClickListener {
+    private fun setUpFabClickHandler() {
+        binding.addListFab.setOnClickListener {
             viewModel.onFabButtonClicked()
         }
     }
 
     private fun setUpCreateListNavigation() {
-        viewModel.navigateCreateList.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToCreateList.observe(viewLifecycleOwner, Observer {
             if (it) {
                 this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateListFragment())
                 viewModel.onCreateListNavigated()
