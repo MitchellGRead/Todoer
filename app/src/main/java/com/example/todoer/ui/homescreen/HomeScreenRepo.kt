@@ -10,4 +10,8 @@ class HomeScreenRepo @Inject constructor(private val todoListDao: TodoListDao) {
     fun fetchTodoLists(): LiveData<List<TodoList>> {
         return todoListDao.getAllTodoLists()
     }
+
+    suspend fun deleteList(listId: Long) {
+        todoListDao.deleteListById(listId)
+    }
 }

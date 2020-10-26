@@ -4,6 +4,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class HomeScreenViewModel @ViewModelInject constructor(
@@ -18,6 +20,12 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     init {
         Timber.d("Init HomeScreen ViewModel")
+    }
+
+    fun onDeleteList(listId: Long) {
+        viewModelScope.launch {
+            repo.deleteList(listId)
+        }
     }
 
     /* Navigation Functions */

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="todoList"
-            type="com.example.todoer.database.models.TodoList" />
+            name="viewModel"
+            type="com.example.todoer.ui.homescreen.HomeScreenViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
