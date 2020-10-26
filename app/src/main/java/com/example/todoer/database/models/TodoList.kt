@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "todo_list_table")
 data class TodoList(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "list_id")
     val listId: Long = 0L,
 
     @ColumnInfo(name = "list_name")

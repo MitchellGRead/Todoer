@@ -15,4 +15,7 @@ interface TodoListDao {
 
     @Query(value = "SELECT * FROM todo_list_table")
     fun getAllTodoLists(): LiveData<List<TodoList>>
+
+    @Query(value = "DELETE FROM todo_list_table WHERE list_id = :id")
+    fun deleteListById(id: Long)
 }
