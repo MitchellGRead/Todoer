@@ -3,4 +3,7 @@
     <string name="more_options">More Options</string>
     <string name="create_list">Create List</string>
     <string name="list_name_hint">List Name</string>
+    <string name="todo_list_options_rename">Rename</string>
+    <string name="todo_list_options_delete">Delete</string>
+    <string name="todo_list_options_share">Share</string>
 </resources>

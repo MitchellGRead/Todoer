@@ -30,7 +30,7 @@ class HomeScreenFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
-        val adapter = TodoListAdapter()
+        val adapter = TodoListAdapter(context)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
