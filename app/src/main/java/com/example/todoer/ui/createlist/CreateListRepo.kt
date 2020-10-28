@@ -13,15 +13,13 @@ class CreateListRepo @Inject constructor(private val todoListDao: TodoListDao) {
 
     private fun createTodoList(
         listName: String,
-        listType: String = "",
-        completedTasks: Int = 0,
-        totalTasks: Int = 0
+        listType: String = ""
     ): TodoList {
         return TodoList(
             listName = listName,
             listType = listType,
-            completedTasks = completedTasks,
-            totalTasks = totalTasks
+            completedTasks = 0,
+            totalTasks = 0
         )
     }
 }

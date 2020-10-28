@@ -34,7 +34,6 @@ class HomeScreenFragment : Fragment() {
         val adapter = TodoListAdapter(context, setupListMenuOptionListeners())
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
         binding.todoList.adapter = adapter
 
         setupFabClickHandler()
@@ -72,6 +71,6 @@ class HomeScreenFragment : Fragment() {
     }
 
     companion object {
-        val LAYOUT_ID = R.layout.fragment_home_screen
+        const val LAYOUT_ID = R.layout.fragment_home_screen
     }
 }

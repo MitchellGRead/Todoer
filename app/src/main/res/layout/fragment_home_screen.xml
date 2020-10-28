@@ -4,12 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.todoer.ui.homescreen.HomeScreenViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,11 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/double_spacing"
-            app:fabSize="normal"
             android:src="@drawable/ic_add"
             android:scaleType="fitCenter"
-            app:maxImageSize="50dp"
             android:tint="@color/dark_icon"
+            app:maxImageSize="50dp"
+            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -44,4 +38,5 @@
             app:layout_constraintVertical_bias="0.85" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

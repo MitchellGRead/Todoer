@@ -25,7 +25,7 @@ class CreateListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("Creating Create List fragment view")
+        Timber.d("Creating CreateList fragment view")
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(CreateListViewModel::class.java)
@@ -55,6 +55,6 @@ class CreateListFragment : Fragment() {
     }
 
     companion object {
-        val LAYOUT_ID = R.layout.fragment_create_list
+        const val LAYOUT_ID = R.layout.fragment_create_list
     }
 }
