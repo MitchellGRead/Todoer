@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.database.models.TodoList
 
 class TodoListAdapter(
-    private val context: Context?
+    private val context: Context?,
+    private val menuOptionListeners: TodoListMenuOptionListeners
 ) : ListAdapter<TodoList, RecyclerView.ViewHolder>(TodoListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -18,7 +19,7 @@ class TodoListAdapter(
         when (holder) {
             is TodoListViewHolder -> {
                 val todoList = getItem(position)
-                holder.bind(todoList)
+                holder.bind(todoList, menuOptionListeners)
             }
         }
     }

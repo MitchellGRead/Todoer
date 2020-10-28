@@ -24,8 +24,17 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     fun onDeleteList(listId: Long) {
         viewModelScope.launch {
+            // TODO("Add in deleting the list items as well")
             repo.deleteList(listId)
         }
+    }
+
+    fun onRenameList(listId: Long) {
+        TODO()
+    }
+
+    fun onShareList(listId: Long) {
+        TODO()
     }
 
     /* Navigation Functions */

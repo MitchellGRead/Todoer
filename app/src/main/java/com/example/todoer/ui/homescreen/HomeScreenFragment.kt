@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.TodoListAdapter
+import com.example.todoer.ui.homescreen.recycler.TodoListMenuOptionListeners
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -30,14 +31,14 @@ class HomeScreenFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
-        val adapter = TodoListAdapter(context)
+        val adapter = TodoListAdapter(context, setupListMenuOptionListeners())
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.todoList.adapter = adapter
 
-        setUpFabClickHandler()
-        setUpCreateListNavigation()
+        setupFabClickHandler()
+        setupCreateListNavigation()
 
         viewModel.todoLists.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -47,13 +48,21 @@ class HomeScreenFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpFabClickHandler() {
+    private fun setupListMenuOptionListeners() : TodoListMenuOptionListeners {
+        return TodoListMenuOptionListeners(
+            renameClickListener = { listId -> viewModel.onRenameList(listId) },
+            deleteClickListener = { listId -> viewModel.onDeleteList(listId)},
+            shareClickListener = { listId -> viewModel.onShareList(listId)}
+        )
+    }
+
+    private fun setupFabClickHandler() {
         binding.addListFab.setOnClickListener {
             viewModel.onFabButtonClicked()
         }
     }
 
-    private fun setUpCreateListNavigation() {
+    private fun setupCreateListNavigation() {
         viewModel.navigateToCreateList.observe(viewLifecycleOwner, Observer {
             if (it) {
                 this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateListFragment())

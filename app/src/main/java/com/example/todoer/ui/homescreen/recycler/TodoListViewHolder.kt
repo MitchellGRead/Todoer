@@ -15,10 +15,10 @@ import kotlin.math.roundToInt
 
 class TodoListViewHolder private constructor(
     private val binding: TodoListBinding,
-    private val context: Context?
+    private val context: Context?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoList) {
+    fun bind(item: TodoList, menuOptionListeners: TodoListMenuOptionListeners) {
         with (binding) {
             val completedTasks = item.completedTasks
             val totalTasks = item.totalTasks
@@ -32,12 +32,16 @@ class TodoListViewHolder private constructor(
             todoCountsText.text = "$completedTasks / $totalTasks"
             progressBar.progress = progress
             listOptions.setOnClickListener {
-                showPopupMenu(listOptions)
+                showPopupMenu(listOptions, item.listId, menuOptionListeners)
             }
         }
     }
 
-    private fun showPopupMenu(view: ImageView) {
+    private fun showPopupMenu(
+        view: ImageView,
+        listId: Long,
+        menuOptionListeners: TodoListMenuOptionListeners
+    ) {
         val popupMenu = PopupMenu(context, view)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -46,7 +50,7 @@ class TodoListViewHolder private constructor(
                     true
                 }
                 R.id.item_delete -> {
-                    Toast.makeText(context, "Delete selected", Toast.LENGTH_LONG).show()
+                    menuOptionListeners.deleteClickListener(listId)
                     true
                 }
                 R.id.item_share -> {
