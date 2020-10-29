@@ -11,11 +11,11 @@ import com.example.todoer.database.models.TodoItem
 interface TodoItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTodoItems(item: List<TodoItem>)
+    suspend fun insertTodoItem(item: TodoItem)
 
     @Query(value = "SELECT * FROM todo_item_table WHERE itemId = :itemId_ ")
     fun getTodoItem(itemId_: Long): LiveData<TodoItem>
 
-    @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_")
-    fun getAllItemsFromList(listId_: Long): LiveData<List<TodoItem>>
+    @Query(value = "SELECT * FROM todo_item_table")
+    fun getAllTodoItems(): LiveData<List<TodoItem>>
 }
