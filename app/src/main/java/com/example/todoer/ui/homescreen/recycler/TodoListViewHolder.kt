@@ -18,7 +18,7 @@ class TodoListViewHolder private constructor(
     private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoList, menuOptionListeners: TodoListMenuOptionListeners) {
+    fun bind(item: TodoList, listListener: TodoListListener, menuOptionListeners: TodoListMenuOptionListeners) {
         with (binding) {
             val completedTasks = item.completedTasks
             val totalTasks = item.totalTasks
@@ -28,6 +28,7 @@ class TodoListViewHolder private constructor(
                 0
             }
 
+            todoListCard.setOnClickListener { listListener.onClick(item.listId) }
             listTitle.text = item.listName
             todoCountsText.text = "$completedTasks / $totalTasks"
             progressBar.progress = progress

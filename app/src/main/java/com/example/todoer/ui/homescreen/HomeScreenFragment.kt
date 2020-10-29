@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
+import com.example.todoer.ui.homescreen.recycler.TodoListListener
 import com.example.todoer.ui.homescreen.recycler.TodoListMenuOptionListeners
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -31,13 +32,14 @@ class HomeScreenFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
-        val adapter = HomeScreenAdapter(setupListMenuOptionListeners())
+        val adapter = HomeScreenAdapter(setupTodoListListener(), setupListMenuOptionListeners())
 
         binding.lifecycleOwner = this
         binding.todoList.adapter = adapter
 
         setupFabClickHandler()
         setupCreateListNavigation()
+        setUpTodoListNavigation()
 
         viewModel.todoLists.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -47,18 +49,31 @@ class HomeScreenFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupListMenuOptionListeners() : TodoListMenuOptionListeners {
-        return TodoListMenuOptionListeners(
+    private fun setupTodoListListener() =
+        TodoListListener (
+            onClick = { listId -> viewModel.onTodoListClicked(listId) }
+        )
+
+    private fun setupListMenuOptionListeners() =
+        TodoListMenuOptionListeners(
             renameClickListener = { listId -> viewModel.onRenameList(listId) },
             deleteClickListener = { listId -> viewModel.onDeleteList(listId)},
             shareClickListener = { listId -> viewModel.onShareList(listId)}
         )
-    }
 
     private fun setupFabClickHandler() {
         binding.addListFab.setOnClickListener {
             viewModel.onFabButtonClicked()
         }
+    }
+
+    private fun setUpTodoListNavigation() {
+        viewModel.navigateToTodoList.observe(viewLifecycleOwner, Observer { listId ->
+            listId?.let {
+                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToListDetailsFragment(listId))
+                viewModel.onTodoListNavigated()
+            }
+        })
     }
 
     private fun setupCreateListNavigation() {

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.database.models.TodoList
 
 class HomeScreenAdapter(
+    private val listListener: TodoListListener,
     private val menuOptionListeners: TodoListMenuOptionListeners
 ) : ListAdapter<TodoList, RecyclerView.ViewHolder>(HomeScreenDiffCallback()) {
 
@@ -17,7 +18,7 @@ class HomeScreenAdapter(
         when (holder) {
             is TodoListViewHolder -> {
                 val todoList = getItem(position)
-                holder.bind(todoList, menuOptionListeners)
+                holder.bind(todoList, listListener, menuOptionListeners)
             }
         }
     }

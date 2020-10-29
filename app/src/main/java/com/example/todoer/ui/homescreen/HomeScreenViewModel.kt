@@ -18,8 +18,20 @@ class HomeScreenViewModel @ViewModelInject constructor(
     val navigateToCreateList: LiveData<Boolean>
         get() = _navigateToCreateList
 
+    private val _navigateToTodoList: MutableLiveData<Long?> = MutableLiveData()
+    val navigateToTodoList: LiveData<Long?>
+        get() = _navigateToTodoList
+
     init {
         Timber.d("Init HomeScreen ViewModel")
+    }
+
+    fun onTodoListClicked(listId: Long) {
+        _navigateToTodoList.value = listId
+    }
+
+    fun onTodoListNavigated() {
+        _navigateToTodoList.value = null
     }
 
     fun onDeleteList(listId: Long) {
