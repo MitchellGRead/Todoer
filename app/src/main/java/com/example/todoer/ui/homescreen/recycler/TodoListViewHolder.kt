@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 
 class TodoListViewHolder private constructor(
     private val binding: TodoListBinding,
-    private val context: Context?,
+    private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: TodoList, menuOptionListeners: TodoListMenuOptionListeners) {
@@ -68,10 +68,10 @@ class TodoListViewHolder private constructor(
     }
 
     companion object {
-        fun from(parent: ViewGroup, context: Context?): TodoListViewHolder {
+        fun from(parent: ViewGroup): TodoListViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = TodoListBinding.inflate(layoutInflater, parent, false)
-            return TodoListViewHolder(binding, context)
+            return TodoListViewHolder(binding, parent.context)
         }
     }
 }

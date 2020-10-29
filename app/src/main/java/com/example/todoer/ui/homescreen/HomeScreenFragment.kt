@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
-import com.example.todoer.ui.homescreen.recycler.TodoListAdapter
+import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
 import com.example.todoer.ui.homescreen.recycler.TodoListMenuOptionListeners
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -31,7 +31,7 @@ class HomeScreenFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         viewModel = ViewModelProvider(this).get(HomeScreenViewModel::class.java)
-        val adapter = TodoListAdapter(context, setupListMenuOptionListeners())
+        val adapter = HomeScreenAdapter(setupListMenuOptionListeners())
 
         binding.lifecycleOwner = this
         binding.todoList.adapter = adapter
