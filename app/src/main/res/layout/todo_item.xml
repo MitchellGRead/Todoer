@@ -17,6 +17,7 @@
             android:background="@color/transparent"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
+            android:inputType="text"
             android:textColor="@color/regular_text"
             android:fontFamily="@font/roboto"
             android:textSize="20sp"
