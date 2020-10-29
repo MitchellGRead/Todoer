@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/double_spacing"
             android:src="@drawable/ic_add"
             android:scaleType="fitCenter"
-            android:tint="@color/dark_icon"
+            android:tint="@color/regular_icon"
             app:maxImageSize="50dp"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"

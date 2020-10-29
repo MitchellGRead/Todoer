@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.todoer.ui.homescreen.HomeScreenViewModel" />
-    </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/todo_list_card"
@@ -20,45 +15,62 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/spacing">
+            android:padding="@dimen/double_spacing">
 
             <TextView
                 android:id="@+id/list_title"
-                android:layout_width="270dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/roboto"
                 android:maxLines="1"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/regular_text"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Groceries" />
 
-            <TextView
-                android:id="@+id/todo_counts_text"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/list_options"
-                app:layout_constraintEnd_toStartOf="@+id/list_options"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintStart_toEndOf="@+id/list_title"
-                app:layout_constraintTop_toTopOf="@+id/list_options"
-                tools:text="59 / 65" />
-
-            <ImageView
-                android:id="@+id/list_options"
-                android:layout_width="@dimen/more_options_vertical_size"
-                android:layout_height="@dimen/more_options_vertical_size"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/dark_icon"
-                android:src="@drawable/ic_more_vertical"
-                tools:src="@drawable/ic_more_vertical"
-                android:contentDescription="@string/more_options" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/list_title"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/todo_counts_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:layout_gravity="center"
+                    android:textColor="@color/regular_text"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/list_options"
+                    app:layout_constraintEnd_toStartOf="@+id/list_options"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toEndOf="@+id/list_title"
+                    app:layout_constraintTop_toTopOf="@+id/list_options"
+                    tools:text="59/65" />
+
+                <ImageView
+                    android:id="@+id/list_options"
+                    android:layout_width="@dimen/more_options_vertical_size"
+                    android:layout_height="@dimen/more_options_vertical_size"
+                    android:contentDescription="@string/more_options"
+                    android:src="@drawable/ic_more_vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/regular_icon"
+                    tools:src="@drawable/ic_more_vertical" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -71,11 +83,11 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:indeterminate="false"
-                android:indeterminateTintMode="src_atop"
-                android:indeterminateTint="@color/colorAccent"
                 android:layout_marginTop="@dimen/spacing"
+                android:indeterminate="false"
+                android:indeterminateTint="@color/colorAccent"
+                android:indeterminateTintMode="src_atop"
+                android:max="100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
