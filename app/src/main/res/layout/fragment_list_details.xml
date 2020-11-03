@@ -8,33 +8,35 @@
         android:layout_height="match_parent"
         tools:context=".ui.listdetails.ListDetailsFragment">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_item_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="@dimen/spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/add_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_item_hint"
+                android:padding="@dimen/spacing"
+                tools:text="what what what what what what hwat what what what hwat what what what hwat what what what hwat" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_items"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/double_spacing"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_item_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/double_spacing"
-            android:src="@drawable/ic_add"
-            android:scaleType="fitCenter"
-            android:tint="@color/regular_icon"
-            app:maxImageSize="50dp"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.85" />
+            app:layout_constraintTop_toBottomOf="@id/add_item_input_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

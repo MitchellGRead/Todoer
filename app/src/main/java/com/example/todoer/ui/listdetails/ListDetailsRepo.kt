@@ -10,4 +10,17 @@ class ListDetailsRepo @Inject constructor(private val todoItemDao: TodoItemDao) 
     fun fetchTodoItems(): LiveData<List<TodoItem>> {
         return todoItemDao.getAllTodoItems()
     }
+
+    suspend fun insertTodoItem(listId: Long, itemName: String) {
+        todoItemDao.insertTodoItem(createTodoItem(listId, itemName))
+    }
+
+    private fun createTodoItem(listId: Long, itemName: String) =
+        TodoItem(
+            listId = listId,
+            itemName = itemName,
+            itemDescription = "",
+            isComplete = false,
+            iconUrl = ""
+        )
 }
