@@ -62,8 +62,8 @@
 
                 <ImageView
                     android:id="@+id/list_options"
-                    android:layout_width="@dimen/more_options_vertical_size"
-                    android:layout_height="@dimen/more_options_vertical_size"
+                    android:layout_width="@dimen/standard_icon_size"
+                    android:layout_height="@dimen/standard_icon_size"
                     android:contentDescription="@string/more_options"
                     android:src="@drawable/ic_more_vertical"
                     app:layout_constraintBottom_toTopOf="@+id/guideline"

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="double_spacing">16dp</dimen>
     <dimen name="spacing">8dp</dimen>
-    <dimen name="more_options_vertical_size">30dp</dimen>
+    <dimen name="double_spacing">16dp</dimen>
+
     <dimen name="fab_size">60dp</dimen>
+
+    <dimen name="small_icon_size">24dp</dimen>
+    <dimen name="standard_icon_size">30dp</dimen>
 </resources>

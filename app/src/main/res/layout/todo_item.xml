@@ -8,23 +8,37 @@
         android:id="@+id/todo_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing" >
+        android:padding="@dimen/spacing"
+        android:background="@drawable/bottom_border">
+
+        <CheckBox
+            android:id="@+id/item_check_box"
+            android:minWidth="@dimen/small_icon_size"
+            android:minHeight="@dimen/small_icon_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:background="@android:color/white"
+            android:fontFamily="@font/roboto"
+            android:inputType="text|textMultiLine"
+            android:scrollHorizontally="false"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
-            android:inputType="text"
             android:textColor="@color/regular_text"
-            android:fontFamily="@font/roboto"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_icons"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_check_box"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="what what what" />
 
@@ -32,33 +46,32 @@
             android:id="@+id/item_icons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
-            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/item_name"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/edit_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:layout_marginEnd="@dimen/spacing"
                 android:background="?attr/selectableItemBackground"
                 app:tint="@color/regular_icon"
-                tools:src="@drawable/ic_edit"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_edit" />
 
             <ImageView
                 android:id="@+id/delete_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:background="?attr/selectableItemBackground"
                 app:tint="@color/regular_icon"
-                tools:src="@drawable/ic_delete"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_delete" />
 
         </LinearLayout>
 
