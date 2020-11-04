@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -16,14 +17,18 @@ import com.example.todoer.ui.listdetails.recycler.ListDetailsAdapter
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: ListDetailsViewModel
     private lateinit var binding: FragmentListDetailsBinding
-
     private val args: ListDetailsFragmentArgs by navArgs()
+
+    @Inject lateinit var viewModelAssistedInjectFactory: ListDetailsViewModel.AssistedFactory
+    private val viewModel: ListDetailsViewModel by viewModels {
+        ListDetailsViewModel.provideFactory(viewModelAssistedInjectFactory, args.todoListId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,14 +38,12 @@ class ListDetailsFragment : Fragment() {
         Timber.d("Creating ListDetails fragment")
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        viewModel = ViewModelProvider(this).get(ListDetailsViewModel::class.java)
         val adapter = ListDetailsAdapter()
 
         binding.lifecycleOwner = this
         binding.listItems.adapter = adapter
 
-        val listId = args.todoListId
-        setUpAddItem(listId)
+        setUpAddItem()
 
         viewModel.todoItems.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -51,13 +54,13 @@ class ListDetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpAddItem(listId: Long) {
+    private fun setUpAddItem() {
         with(binding) {
             addItem.setMultiLineAndDoneAction()
             addItem.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val itemName = addItem.text.toString()
-                    viewModel.insertTodoItem(listId, itemName)
+                    viewModel.insertTodoItem(itemName)
 
                     addItem.setText("")
                 }

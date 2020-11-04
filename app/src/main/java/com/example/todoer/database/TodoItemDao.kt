@@ -16,6 +16,6 @@ interface TodoItemDao {
     @Query(value = "SELECT * FROM todo_item_table WHERE itemId = :itemId_ ")
     fun getTodoItem(itemId_: Long): LiveData<TodoItem>
 
-    @Query(value = "SELECT * FROM todo_item_table")
-    fun getAllTodoItems(): LiveData<List<TodoItem>>
+    @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_")
+    fun getAllTodoItemsForList(listId_: Long): LiveData<List<TodoItem>>
 }

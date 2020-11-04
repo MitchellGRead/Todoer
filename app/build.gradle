@@ -97,9 +97,6 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
-    // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
-
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
 
@@ -112,6 +109,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$dagger_hilt_core_version"
     implementation "androidx.hilt:hilt-common:$dagger_hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$dagger_hilt_version"
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_inject_version"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:$assisted_inject_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_core_version"
     kapt "androidx.hilt:hilt-compiler:$dagger_hilt_version"
     kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hilt_core_version"

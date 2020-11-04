@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class ListDetailsRepo @Inject constructor(private val todoItemDao: TodoItemDao) {
 
-    fun fetchTodoItems(): LiveData<List<TodoItem>> {
-        return todoItemDao.getAllTodoItems()
+    fun fetchTodoItems(listId: Long): LiveData<List<TodoItem>> {
+        return todoItemDao.getAllTodoItemsForList(listId)
     }
 
     suspend fun insertTodoItem(listId: Long, itemName: String) {
