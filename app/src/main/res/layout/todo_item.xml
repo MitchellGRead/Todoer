@@ -56,20 +56,21 @@
 
             <ImageView
                 android:id="@+id/edit_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
                 android:layout_marginEnd="@dimen/spacing"
                 app:tint="@color/regular_icon"
+                android:src="@drawable/ic_edit"
                 tools:ignore="ContentDescription"
-                tools:src="@drawable/ic_edit" />
+                />
 
             <ImageView
                 android:id="@+id/delete_item"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 app:tint="@color/regular_icon"
-                tools:ignore="ContentDescription"
-                tools:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_delete"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
