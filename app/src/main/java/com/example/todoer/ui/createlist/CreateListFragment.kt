@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class CreateListFragment : Fragment() {
 
-    private lateinit var viewModel: CreateListViewModel
+    private val viewModel: CreateListViewModel by viewModels()
     private lateinit var binding: FragmentCreateListBinding
 
     override fun onCreateView(
@@ -28,21 +29,12 @@ class CreateListFragment : Fragment() {
         Timber.d("Creating CreateList fragment view")
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        viewModel = ViewModelProvider(this).get(CreateListViewModel::class.java)
-
         binding.lifecycleOwner = this
 
         setUpNavigation()
         setUpCreateListButton()
 
         return binding.root
-    }
-
-    private fun setUpCreateListButton() {
-        binding.createList.setOnClickListener {
-            val listName = binding.editListName.text.toString()
-            viewModel.onCreateList(listName)
-        }
     }
 
     private fun setUpNavigation() {
@@ -52,6 +44,13 @@ class CreateListFragment : Fragment() {
                 viewModel.onHomeScreenNavigated()
             }
         })
+    }
+
+    private fun setUpCreateListButton() {
+        binding.createList.setOnClickListener {
+            val listName = binding.editListName.text.toString()
+            viewModel.onCreateList(listName)
+        }
     }
 
     companion object {

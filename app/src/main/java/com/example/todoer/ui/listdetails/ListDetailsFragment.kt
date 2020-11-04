@@ -38,13 +38,12 @@ class ListDetailsFragment : Fragment() {
         Timber.d("Creating ListDetails fragment")
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
-        val adapter = ListDetailsAdapter()
-
         binding.lifecycleOwner = this
-        binding.listItems.adapter = adapter
 
         setUpAddItem()
 
+        val adapter = ListDetailsAdapter()
+        binding.listItems.adapter = adapter
         viewModel.todoItems.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)

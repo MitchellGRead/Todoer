@@ -18,7 +18,7 @@ class TodoListViewHolder private constructor(
     private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoList, listListener: TodoListListener, menuOptionListeners: TodoListMenuOptionListeners) {
+    fun bind(item: TodoList, listListeners: TodoListListeners) {
         with (binding) {
             val completedTasks = item.completedTasks
             val totalTasks = item.totalTasks
@@ -28,12 +28,12 @@ class TodoListViewHolder private constructor(
                 0
             }
 
-            todoListCard.setOnClickListener { listListener.onClick(item.listId) }
+            todoListCard.setOnClickListener { listListeners.onClickList(item.listId) }
             listTitle.text = item.listName
             todoCountsText.text = "$completedTasks / $totalTasks"
             progressBar.progress = progress
             listOptions.setOnClickListener {
-                showPopupMenu(listOptions, item.listId, menuOptionListeners)
+                showPopupMenu(listOptions, item.listId, listListeners)
             }
         }
     }
@@ -41,7 +41,7 @@ class TodoListViewHolder private constructor(
     private fun showPopupMenu(
         view: ImageView,
         listId: Long,
-        menuOptionListeners: TodoListMenuOptionListeners
+        listListeners: TodoListListeners
     ) {
         val popupMenu = PopupMenu(context, view)
         popupMenu.setOnMenuItemClickListener {
@@ -51,7 +51,7 @@ class TodoListViewHolder private constructor(
                     true
                 }
                 R.id.item_delete -> {
-                    menuOptionListeners.deleteClickListener(listId)
+                    listListeners.deleteClickListener(listId)
                     true
                 }
                 R.id.item_share -> {

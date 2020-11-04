@@ -26,14 +26,6 @@ class HomeScreenViewModel @ViewModelInject constructor(
         Timber.d("Init HomeScreen ViewModel")
     }
 
-    fun onTodoListClicked(listId: Long) {
-        _navigateToTodoList.value = listId
-    }
-
-    fun onTodoListNavigated() {
-        _navigateToTodoList.value = null
-    }
-
     fun onDeleteList(listId: Long) {
         viewModelScope.launch {
             // TODO("Add in deleting the list items as well")
@@ -56,5 +48,13 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     fun onCreateListNavigated() {
         _navigateToCreateList.value = false
+    }
+
+    fun onTodoListClicked(listId: Long) {
+        _navigateToTodoList.value = listId
+    }
+
+    fun onTodoListNavigated() {
+        _navigateToTodoList.value = null
     }
 }
