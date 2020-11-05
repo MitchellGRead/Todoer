@@ -29,7 +29,10 @@ object RepositoryModule {
 
     @Provides
     @FragmentScoped
-    fun provideListDetailsRepo(todoItemDao: TodoItemDao): ListDetailsRepo {
-        return ListDetailsRepo(todoItemDao)
+    fun provideListDetailsRepo(
+        todoListDao: TodoListDao,
+        todoItemDao: TodoItemDao
+    ): ListDetailsRepo {
+        return ListDetailsRepo(todoListDao, todoItemDao)
     }
 }

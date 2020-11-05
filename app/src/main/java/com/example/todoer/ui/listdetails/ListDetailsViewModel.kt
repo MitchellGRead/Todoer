@@ -1,8 +1,10 @@
 package com.example.todoer.ui.listdetails
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.database.models.TodoList
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -13,10 +15,33 @@ class ListDetailsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
     val todoItems = repo.fetchTodoItems(listId)
+    private val todoList = MutableLiveData<TodoList?>()
+
+    init {
+        initializeList()
+    }
+
+    private fun initializeList() {
+        viewModelScope.launch {
+            todoList.value = repo.fetchTodoList(listId)
+        }
+    }
 
     fun insertTodoItem(itemName: String) {
         viewModelScope.launch {
-            repo.insertTodoItem(listId, itemName)
+            todoList.value?.let { todoList ->
+                repo.insertTodoItem(todoList, itemName)
+                updateListTotalItems(todoList)
+            }
+        }
+    }
+
+    private suspend fun updateListTotalItems(todoList: TodoList) {
+        todoItems.value?.let { listItems ->
+            val updatedList = todoList.copy(
+                totalTasks = listItems.size + 1  // + 1 for adding the item that is being inserted
+            )
+            repo.updateTodoList(updatedList)
         }
     }
 
