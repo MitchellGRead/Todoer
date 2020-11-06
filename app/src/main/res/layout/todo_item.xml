@@ -8,8 +8,7 @@
         android:id="@+id/todo_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing"
-        android:background="@drawable/bottom_border">
+        android:background="@drawable/bottom_border_light" >
 
         <CheckBox
             android:id="@+id/item_check_box"
@@ -17,24 +16,27 @@
             android:minHeight="@dimen/small_icon_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginBottom="@dimen/spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:fontFamily="@font/roboto"
-            android:inputType="text|textMultiLine"
             android:scrollHorizontally="false"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
             android:textColor="@color/regular_text"
             android:textSize="20sp"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginBottom="@dimen/spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_icons"
             app:layout_constraintHorizontal_bias="0.5"
@@ -49,6 +51,9 @@
             android:orientation="horizontal"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginBottom="@dimen/spacing"
+            android:layout_marginEnd="@dimen/spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/item_name"

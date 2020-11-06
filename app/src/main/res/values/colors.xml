@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorDark">#636363</color>
+    <color name="colorLight">#B3B2B2</color>
 
     <color name="regular_icon">#636363</color>
     <color name="regular_text">#505050</color>

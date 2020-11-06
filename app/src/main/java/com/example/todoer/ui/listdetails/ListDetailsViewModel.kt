@@ -45,6 +45,14 @@ class ListDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun onItemCompleted(itemId: Long, isChecked: Boolean) {
+
+    }
+
+    fun onDeleteItem(itemId: Long) {
+
+    }
+
     @AssistedInject.Factory
     interface AssistedFactory {
         fun create(listId: Long): ListDetailsViewModel

@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.database.models.TodoItem
 
-class ListDetailsAdapter : ListAdapter<TodoItem, RecyclerView.ViewHolder>(ListDetailsDiffCallback()) {
+class ListDetailsAdapter(
+    private val todoItemListeners: TodoItemListeners
+) : ListAdapter<TodoItem, RecyclerView.ViewHolder>(ListDetailsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return TodoItemViewHolder.from(parent)
@@ -15,7 +17,7 @@ class ListDetailsAdapter : ListAdapter<TodoItem, RecyclerView.ViewHolder>(ListDe
         when (holder) {
             is TodoItemViewHolder -> {
                 val todoItem = getItem(position)
-                holder.bind(todoItem)
+                holder.bind(todoItem, todoItemListeners)
             }
         }
     }

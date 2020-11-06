@@ -9,11 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentListDetailsBinding
 import com.example.todoer.ui.listdetails.recycler.ListDetailsAdapter
+import com.example.todoer.ui.listdetails.recycler.TodoItemListeners
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -42,7 +42,7 @@ class ListDetailsFragment : Fragment() {
 
         setUpAddItem()
 
-        val adapter = ListDetailsAdapter()
+        val adapter = ListDetailsAdapter(setUpTodoItemListeners())
         binding.listItems.adapter = adapter
         viewModel.todoItems.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -66,6 +66,13 @@ class ListDetailsFragment : Fragment() {
                 return@setOnEditorActionListener true
             }
         }
+    }
+
+    private fun setUpTodoItemListeners(): TodoItemListeners {
+        return TodoItemListeners(
+            onCheckboxSelected = { itemId: Long, isChecked: Boolean -> viewModel.onItemCompleted(itemId, isChecked) },
+            onDeleted = { itemId -> viewModel.onDeleteItem(itemId) }
+        )
     }
 
     companion object {
