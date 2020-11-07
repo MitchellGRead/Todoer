@@ -10,6 +10,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.scopes.FragmentScoped
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Qualifier
 
 @Module
 @InstallIn(FragmentComponent::class)
@@ -23,8 +26,11 @@ object RepositoryModule {
 
     @Provides
     @FragmentScoped
-    fun provideCreateListRepo(todoListDao: TodoListDao): CreateListRepo {
-        return CreateListRepo(todoListDao)
+    fun provideCreateListRepo(
+        todoListDao: TodoListDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): CreateListRepo {
+        return CreateListRepo(todoListDao, dispatcher)
     }
 
     @Provides
