@@ -12,7 +12,7 @@ class HomeScreenViewModel @ViewModelInject constructor(
     private val repo: HomeScreenRepo
 ) : ViewModel() {
 
-    val todoLists = repo.fetchTodoLists()
+    val todoLists = repo.observeTodoLists()
 
     private val _navigateToCreateList: MutableLiveData<Boolean> = MutableLiveData()
     val navigateToCreateList: LiveData<Boolean>
