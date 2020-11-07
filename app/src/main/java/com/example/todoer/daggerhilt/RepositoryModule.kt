@@ -37,8 +37,9 @@ object RepositoryModule {
     @FragmentScoped
     fun provideListDetailsRepo(
         todoListDao: TodoListDao,
-        todoItemDao: TodoItemDao
+        todoItemDao: TodoItemDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
     ): ListDetailsRepo {
-        return ListDetailsRepo(todoListDao, todoItemDao)
+        return ListDetailsRepo(todoListDao, todoItemDao, dispatcher)
     }
 }
