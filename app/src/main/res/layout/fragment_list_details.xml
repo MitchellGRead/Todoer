@@ -12,8 +12,7 @@
             android:id="@+id/add_item_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_margin="@dimen/spacing"
+            android:padding="@dimen/spacing"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -22,15 +21,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_item_hint"
-                android:padding="@dimen/spacing"
-                tools:text="what what what what what what hwat what what what hwat what what what hwat what what what hwat" />
+                tools:text="what what what what what what hwat what what what hwat what what what hwat what what what hwat"
+                tools:ignore="Autofill,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_items"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="@dimen/double_spacing"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
