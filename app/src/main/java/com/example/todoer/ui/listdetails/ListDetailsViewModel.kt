@@ -46,7 +46,11 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     fun onDeleteItem(itemId: Long) {
-
+        viewModelScope.launch {
+            repo.deleteTodoItem(itemId)
+            updateListCompletedItems()
+            updateListTotalItems()
+        }
     }
 
     @AssistedInject.Factory

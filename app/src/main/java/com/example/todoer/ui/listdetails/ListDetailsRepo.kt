@@ -46,6 +46,12 @@ class ListDetailsRepo @Inject constructor(
         return todoItemDao.observeTodoItemsInList(listId)
     }
 
+    suspend fun deleteTodoItem(itemId: Long) {
+        withContext(ioDispatcher) {
+            todoItemDao.deleteItemById(itemId)
+        }
+    }
+
     /* TodoList Operations */
     suspend fun updateListCompleteTasks(listId: Long, completedTasks: Int) {
         withContext(ioDispatcher) {

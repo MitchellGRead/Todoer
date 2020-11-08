@@ -1,16 +1,15 @@
 package com.example.todoer.ui.homescreen
 
 import androidx.lifecycle.LiveData
+import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class HomeScreenRepo @Inject constructor(
-    private val todoListDao: TodoListDao
+    private val todoListDao: TodoListDao,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun observeTodoLists(): LiveData<List<TodoList>> {
@@ -18,8 +17,8 @@ class HomeScreenRepo @Inject constructor(
     }
 
     suspend fun deleteList(listId: Long) {
-        coroutineScope {
-            launch { todoListDao.deleteListById(listId) }
+        withContext(ioDispatcher) {
+            todoListDao.deleteListById(listId)
         }
     }
 }

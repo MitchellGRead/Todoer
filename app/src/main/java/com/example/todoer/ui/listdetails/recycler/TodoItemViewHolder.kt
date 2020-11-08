@@ -24,6 +24,10 @@ class TodoItemViewHolder private constructor(
                 todoItemListeners.onCheckboxSelected(item.itemId, itemCheckBox.isChecked)
                 itemCompleted(itemCheckBox.isChecked)
             }
+
+            deleteItem.setOnClickListener {
+                todoItemListeners.onDeleted(item.itemId)
+            }
         }
     }
 

@@ -20,8 +20,11 @@ object RepositoryModule {
 
     @Provides
     @FragmentScoped
-    fun provideHomeScreenRepo(todoListDao: TodoListDao): HomeScreenRepo {
-        return HomeScreenRepo(todoListDao)
+    fun provideHomeScreenRepo(
+        todoListDao: TodoListDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): HomeScreenRepo {
+        return HomeScreenRepo(todoListDao, dispatcher)
     }
 
     @Provides
