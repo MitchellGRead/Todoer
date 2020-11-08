@@ -7,6 +7,7 @@ import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ListDetailsRepo @Inject constructor(
@@ -15,20 +16,10 @@ class ListDetailsRepo @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun fetchTodoList(listId: Long): TodoList? {
-        return todoListDao.getTodoList(listId)
-    }
-
-    suspend fun updateTodoList(todoList: TodoList) {
-        todoListDao.updateTodoList(todoList)
-    }
-
-    fun fetchTodoItems(listId: Long): LiveData<List<TodoItem>> {
-        return todoItemDao.observeTodoItemsInList(listId)
-    }
-
     suspend fun insertTodoItem(todoList: TodoList, itemName: String) {
-        todoItemDao.insertTodoItem(createTodoItem(todoList.listId, itemName))
+        withContext(ioDispatcher) {
+            todoItemDao.insertTodoItem(createTodoItem(todoList.listId, itemName))
+        }
     }
 
     private fun createTodoItem(listId: Long, itemName: String) =
@@ -39,4 +30,28 @@ class ListDetailsRepo @Inject constructor(
             isComplete = false,
             iconUrl = ""
         )
+
+    suspend fun updateTodoList(todoList: TodoList) {
+        withContext(ioDispatcher) {
+            todoListDao.updateTodoList(todoList)
+        }
+    }
+
+    suspend fun updateListTotalTasks(listId: Long, totalTasks: Int) {
+        withContext(ioDispatcher) {
+            todoListDao.updateListTotalTasks(listId, totalTasks)
+        }
+    }
+
+    suspend fun getTodoList(listId: Long): TodoList? {
+        return todoListDao.getTodoList(listId)
+    }
+
+    suspend fun getTodoItems(listId: Long): List<TodoItem>? {
+        return todoItemDao.getTodoItemsInList(listId)
+    }
+
+    fun observeTodoItems(listId: Long): LiveData<List<TodoItem>> {
+        return todoItemDao.observeTodoItemsInList(listId)
+    }
 }
