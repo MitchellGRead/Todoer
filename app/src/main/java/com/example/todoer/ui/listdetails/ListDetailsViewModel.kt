@@ -15,29 +15,16 @@ class ListDetailsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
     val todoItems = repo.observeTodoItems(listId)
-    private var todoList: TodoList? = null
-
-    init {
-        initializeList()
-    }
-
-    private fun initializeList() {
-        viewModelScope.launch {
-            todoList = repo.getTodoList(listId)
-        }
-    }
 
     fun insertTodoItem(itemName: String) {
         viewModelScope.launch {
-            todoList?.let { todoList ->
-                repo.insertTodoItem(todoList, itemName)
-                updateListTotalItems(todoList)
-            }
+                repo.insertTodoItem(listId, itemName)
+                updateListTotalItems()
         }
     }
 
-    private suspend fun updateListTotalItems(todoList: TodoList) {
-        val listItems = repo.getTodoItems(todoList.listId)
+    private suspend fun updateListTotalItems() {
+        val listItems = repo.getTodoItems(listId)
         listItems?.let {
             repo.updateListTotalTasks(listId, it.size)
         }
@@ -45,10 +32,8 @@ class ListDetailsViewModel @AssistedInject constructor(
 
     fun onItemCompleted(itemId: Long, isChecked: Boolean) {
         viewModelScope.launch {
-            todoList?.let {
-                repo.updateItemCompleted(itemId, isChecked)
-                updateListCompletedItems()
-            }
+            repo.updateItemCompleted(itemId, isChecked)
+            updateListCompletedItems()
         }
     }
 

@@ -17,9 +17,9 @@ class ListDetailsRepo @Inject constructor(
 ) {
 
     /* TodoItem Operations */
-    suspend fun insertTodoItem(todoList: TodoList, itemName: String) {
+    suspend fun insertTodoItem(listId: Long, itemName: String) {
         withContext(ioDispatcher) {
-            todoItemDao.insertTodoItem(createTodoItem(todoList.listId, itemName))
+            todoItemDao.insertTodoItem(createTodoItem(listId, itemName))
         }
     }
 
@@ -57,9 +57,5 @@ class ListDetailsRepo @Inject constructor(
         withContext(ioDispatcher) {
             todoListDao.updateListTotalTasks(listId, totalTasks)
         }
-    }
-
-    suspend fun getTodoList(listId: Long): TodoList? {
-        return todoListDao.getTodoList(listId)
     }
 }
