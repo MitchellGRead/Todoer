@@ -2,9 +2,17 @@ package com.example.todoer.database.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "todo_item_table")
+@Entity(
+    tableName = "todo_item_table",
+    foreignKeys = [ForeignKey(
+        entity = TodoList::class,
+        parentColumns = ["list_id"],
+        childColumns = ["list_id"],
+        onDelete = ForeignKey.CASCADE)]
+)
 data class TodoItem(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "item_id")
