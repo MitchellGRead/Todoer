@@ -16,6 +16,7 @@ class ListDetailsRepo @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
+    /* TodoItem Operations */
     suspend fun insertTodoItem(todoList: TodoList, itemName: String) {
         withContext(ioDispatcher) {
             todoItemDao.insertTodoItem(createTodoItem(todoList.listId, itemName))
@@ -31,9 +32,24 @@ class ListDetailsRepo @Inject constructor(
             iconUrl = ""
         )
 
-    suspend fun updateTodoList(todoList: TodoList) {
+    suspend fun updateItemCompleted(itemId: Long, isComplete: Boolean) {
         withContext(ioDispatcher) {
-            todoListDao.updateTodoList(todoList)
+            todoItemDao.updateItemCompleted(itemId, isComplete)
+        }
+    }
+
+    suspend fun getTodoItems(listId: Long): List<TodoItem>? {
+        return todoItemDao.getTodoItemsInList(listId)
+    }
+
+    fun observeTodoItems(listId: Long): LiveData<List<TodoItem>> {
+        return todoItemDao.observeTodoItemsInList(listId)
+    }
+
+    /* TodoList Operations */
+    suspend fun updateListCompleteTasks(listId: Long, completedTasks: Int) {
+        withContext(ioDispatcher) {
+            todoListDao.updateListCompletedTasks(listId, completedTasks)
         }
     }
 
@@ -45,13 +61,5 @@ class ListDetailsRepo @Inject constructor(
 
     suspend fun getTodoList(listId: Long): TodoList? {
         return todoListDao.getTodoList(listId)
-    }
-
-    suspend fun getTodoItems(listId: Long): List<TodoItem>? {
-        return todoItemDao.getTodoItemsInList(listId)
-    }
-
-    fun observeTodoItems(listId: Long): LiveData<List<TodoItem>> {
-        return todoItemDao.observeTodoItemsInList(listId)
     }
 }

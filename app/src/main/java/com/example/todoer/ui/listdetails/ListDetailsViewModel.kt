@@ -3,6 +3,7 @@ package com.example.todoer.ui.listdetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -36,16 +37,27 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     private suspend fun updateListTotalItems(todoList: TodoList) {
-        viewModelScope.launch {
-            val listItems = repo.getTodoItems(listId)
-            listItems?.let {
-                repo.updateListTotalTasks(listId, it.size)
-            }
+        val listItems = repo.getTodoItems(todoList.listId)
+        listItems?.let {
+            repo.updateListTotalTasks(listId, it.size)
         }
     }
 
     fun onItemCompleted(itemId: Long, isChecked: Boolean) {
+        viewModelScope.launch {
+            todoList?.let {
+                repo.updateItemCompleted(itemId, isChecked)
+                updateListCompletedItems()
+            }
+        }
+    }
 
+    private suspend fun updateListCompletedItems() {
+        val listItems = repo.getTodoItems(listId)
+        listItems?.let { items ->
+            val totalCompleted = items.filter { it.isComplete }.size
+            repo.updateListCompleteTasks(listId, totalCompleted)
+        }
     }
 
     fun onDeleteItem(itemId: Long) {

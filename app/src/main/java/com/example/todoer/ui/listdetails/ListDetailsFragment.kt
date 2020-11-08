@@ -44,8 +44,8 @@ class ListDetailsFragment : Fragment() {
 
         val adapter = ListDetailsAdapter(setUpTodoItemListeners())
         binding.listItems.adapter = adapter
-        viewModel.todoItems.observe(viewLifecycleOwner, Observer {
-            it?.let {
+        viewModel.todoItems.observe(viewLifecycleOwner, Observer { todoItems ->
+            todoItems?.let {
                 adapter.submitList(it)
             }
         })

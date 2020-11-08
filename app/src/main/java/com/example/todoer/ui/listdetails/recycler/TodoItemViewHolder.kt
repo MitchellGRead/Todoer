@@ -18,16 +18,20 @@ class TodoItemViewHolder private constructor(
     fun bind(item: TodoItem, todoItemListeners: TodoItemListeners) {
         with(binding) {
             itemName.text = item.itemName
+
+            itemCompleted(item.isComplete)
             itemCheckBox.setOnClickListener {
                 todoItemListeners.onCheckboxSelected(item.itemId, itemCheckBox.isChecked)
-                updateItem(itemCheckBox.isChecked)
+                itemCompleted(itemCheckBox.isChecked)
             }
         }
     }
 
-    private fun updateItem(isChecked: Boolean) {
+    private fun itemCompleted(isComplete: Boolean) {
         with(binding) {
-            if (isChecked) {
+            itemCheckBox.isChecked = isComplete
+
+            if (isComplete) {
                 itemName.paintFlags = itemName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG  // Turn on strikethrough
                 todoListItem.setBackgroundColor(context.getResColor(R.color.colorLight))
             } else {
