@@ -7,13 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.utils.ActivityUtils
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 
 class CreateListViewModel @ViewModelInject constructor(
     @ActivityContext private val context: Context,
-    private val repo: CreateListRepo
+    private val repo: TodoListRepo
 ) : ViewModel() {
 
     private val _navigateToHomeScreen: MutableLiveData<Boolean> = MutableLiveData()
