@@ -8,7 +8,7 @@
         android:id="@+id/todo_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_border_light" >
+        android:background="@drawable/bottom_border_primary_dark" >
 
         <CheckBox
             android:id="@+id/item_check_box"
@@ -33,7 +33,7 @@
             android:scrollHorizontally="false"
             android:paddingStart="@dimen/spacing"
             android:paddingEnd="@dimen/spacing"
-            android:textColor="@color/regular_text"
+            android:textColor="@color/colorPrimaryDarkText"
             android:textSize="20sp"
             android:layout_marginTop="@dimen/spacing"
             android:layout_marginBottom="@dimen/spacing"
@@ -64,7 +64,7 @@
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:layout_marginEnd="@dimen/spacing"
-                app:tint="@color/regular_icon"
+                app:tint="@color/colorPrimaryIcon"
                 android:src="@drawable/ic_edit"
                 tools:ignore="ContentDescription"
                 />
@@ -73,7 +73,7 @@
                 android:id="@+id/delete_item"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
-                app:tint="@color/regular_icon"
+                app:tint="@color/colorPrimaryIcon"
                 android:src="@drawable/ic_delete"
                 tools:ignore="ContentDescription" />
 

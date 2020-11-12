@@ -37,10 +37,10 @@ class TodoItemViewHolder private constructor(
 
             if (isComplete) {
                 itemName.paintFlags = itemName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG  // Turn on strikethrough
-                todoListItem.setBackgroundColor(context.getResColor(R.color.colorLight))
+                todoListItem.setBackgroundColor(context.getResColor(R.color.todoItemCompleteBackground))
             } else {
                 itemName.paintFlags = itemName.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()  // Turn off strikethrough
-                todoListItem.setBackgroundResource(R.drawable.bottom_border_light)
+                todoListItem.setBackgroundResource(R.drawable.bottom_border_primary_dark)
             }
         }
     }
