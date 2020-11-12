@@ -5,49 +5,52 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
+import com.example.todoer.domain.TodoItemRepo
+import com.example.todoer.domain.TodoListRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class ListDetailsViewModel @AssistedInject constructor(
     @Assisted private val listId: Long,
-    private val repo: ListDetailsRepo
+    private val itemRepo: TodoItemRepo,
+    private val listRepo: TodoListRepo
 ) : ViewModel() {
 
-    val todoItems = repo.observeTodoItems(listId)
+    val todoItems = itemRepo.observeTodoItems(listId)
 
     fun insertTodoItem(itemName: String) {
         viewModelScope.launch {
-                repo.insertTodoItem(listId, itemName)
+            itemRepo.insertTodoItem(listId, itemName)
                 updateListTotalItems()
         }
     }
 
     private suspend fun updateListTotalItems() {
-        val listItems = repo.getTodoItems(listId)
+        val listItems = itemRepo.getTodoItems(listId)
         listItems?.let {
-            repo.updateListTotalTasks(listId, it.size)
+            listRepo.updateListTotalTasks(listId, it.size)
         }
     }
 
     fun onItemCompleted(itemId: Long, isChecked: Boolean) {
         viewModelScope.launch {
-            repo.updateItemCompleted(itemId, isChecked)
+            itemRepo.updateItemCompleted(itemId, isChecked)
             updateListCompletedItems()
         }
     }
 
     private suspend fun updateListCompletedItems() {
-        val listItems = repo.getTodoItems(listId)
+        val listItems = itemRepo.getTodoItems(listId)
         listItems?.let { items ->
             val totalCompleted = items.filter { it.isComplete }.size
-            repo.updateListCompleteTasks(listId, totalCompleted)
+            listRepo.updateListCompleteTasks(listId, totalCompleted)
         }
     }
 
     fun onDeleteItem(itemId: Long) {
         viewModelScope.launch {
-            repo.deleteTodoItem(itemId)
+            itemRepo.deleteTodoItem(itemId)
             updateListCompletedItems()
             updateListTotalItems()
         }

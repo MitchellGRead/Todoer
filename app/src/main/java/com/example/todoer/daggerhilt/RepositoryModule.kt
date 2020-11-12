@@ -2,8 +2,8 @@ package com.example.todoer.daggerhilt
 
 import com.example.todoer.database.TodoItemDao
 import com.example.todoer.database.TodoListDao
+import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
-import com.example.todoer.ui.listdetails.ListDetailsRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,11 +24,8 @@ object RepositoryModule {
 
     @Provides
     @FragmentScoped
-    fun provideListDetailsRepo(
-        todoListDao: TodoListDao,
+    fun provideTodoItemRepo(
         todoItemDao: TodoItemDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): ListDetailsRepo {
-        return ListDetailsRepo(todoListDao, todoItemDao, dispatcher)
-    }
+    ) : TodoItemRepo = TodoItemRepo(todoItemDao, dispatcher)
 }

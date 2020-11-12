@@ -13,6 +13,7 @@ class TodoListRepo @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
+    /* Inserting Operations */
     suspend fun insertList(listName: String) {
         withContext(ioDispatcher) {
             val todoList = createTodoList(listName)
@@ -32,10 +33,25 @@ class TodoListRepo @Inject constructor(
         )
     }
 
+    /* Updating Operations */
+    suspend fun updateListCompleteTasks(listId: Long, completedTasks: Int) {
+        withContext(ioDispatcher) {
+            todoListDao.updateListCompletedTasks(listId, completedTasks)
+        }
+    }
+
+    suspend fun updateListTotalTasks(listId: Long, totalTasks: Int) {
+        withContext(ioDispatcher) {
+            todoListDao.updateListTotalTasks(listId, totalTasks)
+        }
+    }
+
+    /* Fetching Operations */
     fun observeTodoLists(): LiveData<List<TodoList>> {
         return todoListDao.observeTodoLists()
     }
 
+    /* Deleting Operations */
     suspend fun deleteList(listId: Long) {
         withContext(ioDispatcher) {
             todoListDao.deleteListById(listId)
