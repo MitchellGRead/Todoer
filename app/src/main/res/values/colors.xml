@@ -10,6 +10,7 @@
     <color name="colorPrimaryIcon">#636363</color>
     <color name="colorPrimaryIconLight">#919191</color>
 
+    <color name="fabIconColor">#FFFFFFFF</color>
     <color name="todoItemCompleteBackground">#CBCDCDCD</color>
 
 </resources>

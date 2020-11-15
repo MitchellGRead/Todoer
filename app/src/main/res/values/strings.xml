@@ -7,4 +7,6 @@
     <string name="todo_list_options_delete">Delete</string>
     <string name="todo_list_options_share">Share</string>
     <string name="add_item_hint">Add Todo Item</string>
+    <string name="homescreen_toolbar_title">Todoer</string>
+    <string name="createlist_toolbar_title">Create List</string>
 </resources>

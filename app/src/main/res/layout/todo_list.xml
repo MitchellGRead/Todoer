@@ -22,8 +22,6 @@
                 android:id="@+id/list_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/colorPrimaryDarkText"
                 android:textSize="24sp"
