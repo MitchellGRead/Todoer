@@ -19,8 +19,8 @@ class HomeScreenViewModel @ViewModelInject constructor(
     val navigateToCreateList: LiveData<Boolean>
         get() = _navigateToCreateList
 
-    private val _navigateToTodoList: MutableLiveData<Long?> = MutableLiveData()
-    val navigateToTodoList: LiveData<Long?>
+    private val _navigateToTodoList: MutableLiveData<ListDetailArgs?> = MutableLiveData()
+    val navigateToTodoList: LiveData<ListDetailArgs?>
         get() = _navigateToTodoList
 
     init {
@@ -51,8 +51,8 @@ class HomeScreenViewModel @ViewModelInject constructor(
         _navigateToCreateList.value = false
     }
 
-    fun onTodoListClicked(listId: Long) {
-        _navigateToTodoList.value = listId
+    fun onTodoListClicked(listId: Long, listName: String) {
+        _navigateToTodoList.value = ListDetailArgs(listId, listName)
     }
 
     fun onTodoListNavigated() {

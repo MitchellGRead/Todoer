@@ -1,7 +1,7 @@
 package com.example.todoer.ui.homescreen.recycler
 
 data class TodoListListeners(
-    val onClickList: (listId: Long) -> Unit,
+    val onClickList: (listId: Long, listName: String) -> Unit,
     val renameClickListener: (listId: Long) -> Unit,
     val deleteClickListener: (listId: Long) -> Unit,
     val shareClickListener: (listId: Long) -> Unit

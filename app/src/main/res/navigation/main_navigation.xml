@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="com.example.todoer.ui.homescreen.HomeScreenFragment"
-        android:label="HomeScreenFragment"
+        android:label="@string/homescreen_toolbar_title"
         tools:layout="@layout/fragment_home_screen">
         <action
             android:id="@+id/action_homeScreenFragment_to_createListFragment"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/createListFragment"
         android:name="com.example.todoer.ui.createlist.CreateListFragment"
-        android:label="CreateListFragment"
+        android:label="@string/createlist_toolbar_title"
         tools:layout="@layout/fragment_create_list">
         <action
             android:id="@+id/action_createListFragment_to_homeScreenFragment"
@@ -31,13 +31,12 @@
     <fragment
         android:id="@+id/listDetailsFragment"
         android:name="com.example.todoer.ui.listdetails.ListDetailsFragment"
-        android:label="ListDetailsFragment"
         tools:layout="@layout/fragment_list_details">
-        <argument
-            android:name="todoListId"
-            app:argType="long" />
         <action
             android:id="@+id/action_listDetailsFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+        <argument
+            android:name="listDetailArgs"
+            app:argType="com.example.todoer.ui.homescreen.ListDetailArgs" />
     </fragment>
 </navigation>

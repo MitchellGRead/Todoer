@@ -28,7 +28,7 @@ class TodoListViewHolder private constructor(
                 0
             }
 
-            todoListCard.setOnClickListener { listListeners.onClickList(item.listId) }
+            todoListCard.setOnClickListener { listListeners.onClickList(item.listId, item.listName) }
             listTitle.text = item.listName
             todoCountsText.text = "$completedTasks / $totalTasks"
             progressBar.progress = progress

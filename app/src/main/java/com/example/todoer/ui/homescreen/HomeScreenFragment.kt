@@ -63,9 +63,9 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setUpTodoListNavigation() {
-        viewModel.navigateToTodoList.observe(viewLifecycleOwner, Observer { listId ->
-            listId?.let {
-                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToListDetailsFragment(listId))
+        viewModel.navigateToTodoList.observe(viewLifecycleOwner, Observer { listDetailArgs ->
+            listDetailArgs?.let {
+                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToListDetailsFragment(it))
                 viewModel.onTodoListNavigated()
             }
         })
@@ -73,7 +73,7 @@ class HomeScreenFragment : Fragment() {
 
     private fun setupTodoListListeners() =
         TodoListListeners (
-            onClickList = { listId -> viewModel.onTodoListClicked(listId) },
+            onClickList = { listId, listName -> viewModel.onTodoListClicked(listId, listName) },
             renameClickListener = { listId -> viewModel.onRenameList(listId) },
             deleteClickListener = { listId -> viewModel.onDeleteList(listId) },
             shareClickListener = { listId -> viewModel.onShareList(listId) }
