@@ -28,6 +28,9 @@ interface TodoListDao {
     @Query(value = "SELECT * FROM todo_list_table WHERE list_id = :listId_")
     suspend fun getTodoList(listId_: Long): TodoList?
 
+    @Query(value = "SELECT * FROM todo_list_table")
+    suspend fun getTodoLists(): List<TodoList>?
+
     /* Deleting List Queries */
     @Query(value = "DELETE FROM todo_list_table WHERE list_id = :listId_")
     suspend fun deleteListById(listId_: Long)
