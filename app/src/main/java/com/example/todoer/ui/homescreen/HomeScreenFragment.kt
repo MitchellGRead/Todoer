@@ -36,7 +36,7 @@ class HomeScreenFragment : Fragment() {
         setupCreateListNavigation()
         setUpTodoListNavigation()
 
-        val adapter = HomeScreenAdapter(setupTodoListListeners())
+        val adapter = HomeScreenAdapter(setupTodoListListeners(), activity)
         binding.todoList.adapter = adapter
         viewModel.todoLists.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -74,7 +74,7 @@ class HomeScreenFragment : Fragment() {
     private fun setupTodoListListeners() =
         TodoListListeners (
             onClickList = { listId, listName -> viewModel.onTodoListClicked(listId, listName) },
-            renameClickListener = { listId -> viewModel.onRenameList(listId) },
+            renameClickListener = { listId, updatedName -> viewModel.onRenameList(listId, updatedName) },
             deleteClickListener = { listId -> viewModel.onDeleteList(listId) },
             shareClickListener = { listId -> viewModel.onShareList(listId) }
         )

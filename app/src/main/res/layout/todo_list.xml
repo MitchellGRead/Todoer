@@ -18,19 +18,23 @@
             android:layout_height="match_parent"
             android:padding="@dimen/double_spacing">
 
-            <TextView
+            <com.example.todoer.ToggledEditText
                 android:id="@+id/list_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/colorPrimaryDarkText"
                 android:textSize="24sp"
+                android:background="@android:color/transparent"
+                android:importantForAutofill="no"
+                android:longClickable="false"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Groceries" />
+                tools:text="Groceries"
+                tools:ignore="LabelFor" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -51,6 +55,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/colorPrimaryDarkText"
                     android:textSize="18sp"
+                    android:layout_marginStart="@dimen/spacing"
                     app:layout_constraintBottom_toBottomOf="@+id/list_options"
                     app:layout_constraintEnd_toStartOf="@+id/list_options"
                     app:layout_constraintHorizontal_bias="0.8"
