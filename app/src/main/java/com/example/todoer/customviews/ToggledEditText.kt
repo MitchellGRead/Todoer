@@ -1,4 +1,4 @@
-package com.example.todoer
+package com.example.todoer.customviews
 
 import android.app.Activity
 import android.content.Context
@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
 import com.example.todoer.utils.ActivityUtils
+import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 
 class ToggledEditText(
     context: Context,
@@ -17,8 +18,8 @@ class ToggledEditText(
 ) : AppCompatEditText(context, attributeSet) {
 
     init {
-        imeOptions = EditorInfo.IME_ACTION_DONE
-        setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+        this.setMultiLineAndDoneAction()
+        this.isLongClickable = false
     }
 
     private var mOnKeyboardHidden: (() -> Unit)? = null
@@ -58,6 +59,7 @@ class ToggledEditText(
         super.onEditorAction(actionCode)
         if (actionCode == EditorInfo.IME_ACTION_DONE) {
             mOnKeyboardHidden?.invoke()
+            this.disableEditText()
         }
     }
 

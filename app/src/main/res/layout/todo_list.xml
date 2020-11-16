@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/double_spacing">
 
-            <com.example.todoer.ToggledEditText
+            <com.example.todoer.customviews.ToggledEditText
                 android:id="@+id/list_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -27,7 +27,6 @@
                 android:textSize="24sp"
                 android:background="@android:color/transparent"
                 android:importantForAutofill="no"
-                android:longClickable="false"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout"
                 app:layout_constraintHorizontal_bias="0.5"

@@ -1,22 +1,18 @@
 package com.example.todoer.ui.homescreen.recycler
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
-import com.example.todoer.ToggledEditText
+import com.example.todoer.customviews.ToggledEditText
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.databinding.TodoListBinding
-import com.example.todoer.utils.ActivityUtils
-import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 import timber.log.Timber
 import kotlin.math.roundToInt
 
@@ -62,7 +58,6 @@ class TodoListViewHolder private constructor(
     private fun onListRename(listTitle: EditText, listId: Long, listListeners: TodoListListeners) {
         val updatedName = listTitle.text.toString()
         listListeners.renameClickListener(listId, updatedName)
-        listTitle.isFocusable = false
     }
 
     private fun showPopupMenu(
