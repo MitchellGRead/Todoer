@@ -46,6 +46,10 @@ class TodoListRepo @Inject constructor(
         }
     }
 
+    suspend fun updateListName(listId: Long, updatedName: String) {
+        todoListDao.updateListName(listId, updatedName)
+    }
+
     /* Fetching Operations */
     fun observeTodoLists(): LiveData<List<TodoList>> {
         return todoListDao.observeTodoLists()

@@ -21,6 +21,9 @@ interface TodoListDao {
     @Query(value = "UPDATE todo_list_table SET completed_tasks = :completedTasks_ WHERE list_id = :listId_")
     suspend fun updateListCompletedTasks(listId_: Long, completedTasks_: Int)
 
+    @Query(value = "UPDATE todo_list_table SET list_name = :updatedName_ WHERE list_id = :listId_")
+    suspend fun updateListName(listId_: Long, updatedName_: String)
+
     /* Getting List Queries */
     @Query(value = "SELECT * FROM todo_list_table")
     fun observeTodoLists(): LiveData<List<TodoList>>

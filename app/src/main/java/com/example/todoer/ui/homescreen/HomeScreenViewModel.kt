@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoListRepo
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import timber.log.Timber
 
 class HomeScreenViewModel @ViewModelInject constructor(
@@ -29,13 +30,14 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     fun onDeleteList(listId: Long) {
         viewModelScope.launch {
-            // TODO("Add in deleting the list items as well")
             repo.deleteList(listId)
         }
     }
 
-    fun onRenameList(listId: Long) {
-        TODO()
+    fun onRenameList(listId: Long, updatedName: String) {
+        viewModelScope.launch {
+            repo.updateListName(listId, updatedName)
+        }
     }
 
     fun onShareList(listId: Long) {
