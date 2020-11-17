@@ -36,6 +36,12 @@ class TodoItemRepo @Inject constructor(
         }
     }
 
+    suspend fun updateItemName(itemId: Long, updatedName: String) {
+        withContext(ioDispatcher) {
+            todoItemDao.updateItemName(itemId, updatedName)
+        }
+    }
+
     /* Fetching Operations */
     suspend fun getTodoItems(listId: Long): List<TodoItem>? {
         return todoItemDao.getTodoItemsInList(listId)

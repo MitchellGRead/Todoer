@@ -18,6 +18,9 @@ interface TodoItemDao {
     @Query(value = "UPDATE todo_item_table SET is_complete = :isCompleted_ WHERE item_id = :itemId_")
     suspend fun updateItemCompleted(itemId_: Long, isCompleted_: Boolean)
 
+    @Query(value = "UPDATE todo_item_table SET item_name = :updatedName_ WHERE item_id = :itemId_")
+    suspend fun updateItemName(itemId_: Long, updatedName_: String)
+
     /* Retrieving Item Queries */
     @Query(value = "SELECT * FROM todo_item_table WHERE item_Id = :itemId_")
     suspend fun getTodoItem(itemId_: Long): TodoItem?
