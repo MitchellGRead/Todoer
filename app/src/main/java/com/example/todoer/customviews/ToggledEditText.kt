@@ -1,15 +1,13 @@
 package com.example.todoer.customviews
 
-import android.app.Activity
 import android.content.Context
-import android.text.InputType
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
-import com.example.todoer.utils.ActivityUtils
+import com.example.todoer.utils.ContextUtils.showKeyboard
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 
 class ToggledEditText(
@@ -42,7 +40,7 @@ class ToggledEditText(
         isFocusableInTouchMode = true
         requestFocus()
         setOnClickListener {  }
-        ActivityUtils.showKeyboard(context as Activity)
+        context?.showKeyboard(this)
     }
 
     override fun onKeyPreIme(keyCode: Int, event: KeyEvent?): Boolean {

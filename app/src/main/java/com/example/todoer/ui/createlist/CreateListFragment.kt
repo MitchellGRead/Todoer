@@ -2,16 +2,17 @@ package com.example.todoer.ui.createlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentCreateListBinding
+import com.example.todoer.utils.ContextUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -47,9 +48,12 @@ class CreateListFragment : Fragment() {
     }
 
     private fun setUpCreateListButton() {
-        binding.createList.setOnClickListener {
-            val listName = binding.editListName.text.toString()
-            viewModel.onCreateList(listName)
+        with(binding) {
+            createList.setOnClickListener {
+                val listName = editListName.text.toString()
+                viewModel.onCreateList(listName)
+                context?.hideKeyboard(view = editListName)
+            }
         }
     }
 
