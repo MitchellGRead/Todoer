@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
+import com.example.todoer.customviews.ToggledEditText
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.databinding.TodoItemBinding
 import com.example.todoer.utils.ContextUtils.getResColor
@@ -17,7 +18,10 @@ class TodoItemViewHolder private constructor(
 
     fun bind(item: TodoItem, todoItemListeners: TodoItemListeners) {
         with(binding) {
-            itemName.text = item.itemName
+            itemName.setText(item.itemName)
+            itemName.setOnKeyboardHidden {
+                onRenameItem(itemName, item.itemId, todoItemListeners)
+            }
 
             itemCompleted(item.isComplete)
             itemCheckBox.setOnClickListener {
@@ -25,10 +29,22 @@ class TodoItemViewHolder private constructor(
                 itemCompleted(itemCheckBox.isChecked)
             }
 
+            editItem.setOnClickListener {
+                itemName.enableEditText()
+            }
             deleteItem.setOnClickListener {
                 todoItemListeners.onDeleted(item.itemId)
             }
         }
+    }
+
+    private fun onRenameItem(
+        itemName: ToggledEditText,
+        itemId: Long,
+        todoItemListeners: TodoItemListeners
+    ) {
+        val updatedText = itemName.text.toString()
+        todoItemListeners.onEdited(itemId, updatedText)
     }
 
     private fun itemCompleted(isComplete: Boolean) {

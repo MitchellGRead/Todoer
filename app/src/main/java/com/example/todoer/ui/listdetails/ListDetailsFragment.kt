@@ -74,7 +74,8 @@ class ListDetailsFragment : Fragment() {
     private fun setUpTodoItemListeners(): TodoItemListeners {
         return TodoItemListeners(
             onCheckboxSelected = { itemId: Long, isChecked: Boolean -> viewModel.onItemCompleted(itemId, isChecked) },
-            onDeleted = { itemId -> viewModel.onDeleteItem(itemId) }
+            onDeleted = { itemId -> viewModel.onDeleteItem(itemId) },
+            onEdited = { itemId, updatedText -> viewModel.onEditItem(itemId, updatedText)}
         )
     }
 

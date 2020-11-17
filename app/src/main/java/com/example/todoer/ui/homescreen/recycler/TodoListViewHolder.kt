@@ -48,8 +48,7 @@ class TodoListViewHolder private constructor(
         listListeners: TodoListListeners
     ) {
         listTitle.setText(item.listName)
-        listTitle.disableEditText()
-        listTitle.rootView = root
+        listTitle.rootView = root  // For passing click events to the root
         listTitle.setOnKeyboardHidden {
             onListRename(listTitle, item.listId, listListeners)
         }
@@ -70,7 +69,7 @@ class TodoListViewHolder private constructor(
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_rename -> {
-                    listTitle.enableEditText(context)
+                    listTitle.enableEditText()
                     true
                 }
                 R.id.item_delete -> {

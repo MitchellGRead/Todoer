@@ -56,6 +56,12 @@ class ListDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun onEditItem(itemId: Long, updatedText: String) {
+        viewModelScope.launch {
+            itemRepo.updateItemName(itemId, updatedText)
+        }
+    }
+
     @AssistedInject.Factory
     interface AssistedFactory {
         fun create(listId: Long): ListDetailsViewModel
