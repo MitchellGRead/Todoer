@@ -25,18 +25,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.example.todoer.customviews.ToggledEditText
             android:id="@+id/item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:scrollHorizontally="false"
-            android:paddingStart="@dimen/spacing"
-            android:paddingEnd="@dimen/spacing"
             android:textColor="@color/colorPrimaryDarkText"
             android:textSize="20sp"
+            android:paddingStart="@dimen/spacing"
+            android:paddingEnd="@dimen/spacing"
             android:layout_marginTop="@dimen/spacing"
             android:layout_marginBottom="@dimen/spacing"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_icons"
             app:layout_constraintHorizontal_bias="0.5"
@@ -64,6 +64,7 @@
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:layout_marginEnd="@dimen/spacing"
+                android:background="?attr/selectableItemBackground"
                 app:tint="@color/colorPrimaryIcon"
                 android:src="@drawable/ic_edit"
                 tools:ignore="ContentDescription"
@@ -73,6 +74,7 @@
                 android:id="@+id/delete_item"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
+                android:background="?attr/selectableItemBackground"
                 app:tint="@color/colorPrimaryIcon"
                 android:src="@drawable/ic_delete"
                 tools:ignore="ContentDescription" />
