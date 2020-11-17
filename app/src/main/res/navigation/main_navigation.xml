@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_createListFragment"
             app:destination="@id/createListFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/homeScreenFragment" />
         <action
             android:id="@+id/action_homeScreenFragment_to_listDetailsFragment"
             app:destination="@id/listDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/homeScreenFragment" />
     </fragment>
     <fragment
