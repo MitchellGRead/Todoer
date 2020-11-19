@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.todoer.MainActivity
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentListDetailsBinding
-import com.example.todoer.ui.homescreen.ListDetailArgs
 import com.example.todoer.ui.listdetails.recycler.ListDetailsAdapter
 import com.example.todoer.ui.listdetails.recycler.TodoItemListeners
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction

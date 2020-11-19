@@ -1,5 +1,6 @@
 package com.example.todoer.ui.listdetails
 
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,9 @@ class ListDetailsViewModel @AssistedInject constructor(
     private val listRepo: TodoListRepo
 ) : ViewModel() {
 
-    val todoItems = itemRepo.observeTodoItems(listId)
+    val todoItems = Transformations.map(itemRepo.observeTodoItems(listId)) { todoItems ->
+        todoItems.sortedBy { it.isComplete }
+    }
 
     fun insertTodoItem(itemName: String) {
         viewModelScope.launch {

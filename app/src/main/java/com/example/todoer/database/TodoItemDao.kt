@@ -28,7 +28,7 @@ interface TodoItemDao {
     @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_")
     suspend fun getTodoItemsInList(listId_: Long): List<TodoItem>?
 
-    @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_ ORDER BY created_at DESC")
+    @Query(value = "SELECT * FROM todo_item_table WHERE list_id = :listId_ ORDER BY created_at")
     fun observeTodoItemsInList(listId_: Long): LiveData<List<TodoItem>>
 
     /* Deleting Item Queries */
