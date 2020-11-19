@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(
     tableName = "todo_item_table",
@@ -20,6 +21,9 @@ data class TodoItem(
 
     @ColumnInfo(name = "list_id")
     val listId: Long = 0L,
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Date = Date(),
 
     @ColumnInfo(name = "item_name")
     val itemName: String = "",

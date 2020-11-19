@@ -3,12 +3,16 @@ package com.example.todoer.database.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "todo_list_table")
 data class TodoList(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "list_id")
     val listId: Long = 0L,
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Date = Date(),
 
     @ColumnInfo(name = "list_name")
     val listName: String = "",

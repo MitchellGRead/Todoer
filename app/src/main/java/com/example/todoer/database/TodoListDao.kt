@@ -25,7 +25,7 @@ interface TodoListDao {
     suspend fun updateListName(listId_: Long, updatedName_: String)
 
     /* Getting List Queries */
-    @Query(value = "SELECT * FROM todo_list_table")
+    @Query(value = "SELECT * FROM todo_list_table ORDER BY created_at")
     fun observeTodoLists(): LiveData<List<TodoList>>
 
     @Query(value = "SELECT * FROM todo_list_table WHERE list_id = :listId_")
