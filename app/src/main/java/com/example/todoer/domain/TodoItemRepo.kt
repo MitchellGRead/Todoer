@@ -20,6 +20,12 @@ class TodoItemRepo @Inject constructor(
         }
     }
 
+    suspend fun insertTodoItem(todoItem: TodoItem) {
+        withContext(ioDispatcher) {
+            todoItemDao.insertTodoItem(todoItem)
+        }
+    }
+
     private fun createTodoItem(listId: Long, itemName: String) =
         TodoItem(
             listId = listId,
@@ -43,6 +49,10 @@ class TodoItemRepo @Inject constructor(
     }
 
     /* Fetching Operations */
+    suspend fun getTodoItem(itemId: Long): TodoItem? {
+        return todoItemDao.getTodoItem(itemId)
+    }
+
     suspend fun getTodoItems(listId: Long): List<TodoItem>? {
         return todoItemDao.getTodoItemsInList(listId)
     }

@@ -61,7 +61,7 @@ class ListDetailsFragment : Fragment() {
             addItem.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val itemName = addItem.text.toString()
-                    viewModel.insertTodoItem(itemName)
+                    viewModel.createTodoItem(itemName)
 
                     addItem.setText("")
                 }

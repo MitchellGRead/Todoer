@@ -22,10 +22,10 @@ class ListDetailsViewModel @AssistedInject constructor(
         todoItems.sortedBy { it.isComplete }
     }
 
-    fun insertTodoItem(itemName: String) {
+    fun createTodoItem(itemName: String) {
         viewModelScope.launch {
             itemRepo.insertTodoItem(listId, itemName)
-                updateListTotalItems()
+            updateListTotalItems()
         }
     }
 

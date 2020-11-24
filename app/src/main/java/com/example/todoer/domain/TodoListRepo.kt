@@ -21,6 +21,12 @@ class TodoListRepo @Inject constructor(
         }
     }
 
+    suspend fun insertList(todoList: TodoList) {
+        withContext(ioDispatcher) {
+            todoListDao.insertTodoList(todoList)
+        }
+    }
+
     private fun createTodoList(
         listName: String,
         listType: String = ""
@@ -53,6 +59,10 @@ class TodoListRepo @Inject constructor(
     /* Fetching Operations */
     fun observeTodoLists(): LiveData<List<TodoList>> {
         return todoListDao.observeTodoLists()
+    }
+
+    suspend fun getTodoList(listId: Long): TodoList? {
+        return todoListDao.getTodoList(listId)
     }
 
     /* Deleting Operations */
