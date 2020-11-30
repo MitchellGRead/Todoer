@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoListRepo
+import com.example.todoer.navigation.ListDetailNavArgs
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import timber.log.Timber
 
 class HomeScreenViewModel @ViewModelInject constructor(
@@ -20,9 +20,9 @@ class HomeScreenViewModel @ViewModelInject constructor(
     val navigateToCreateList: LiveData<Boolean>
         get() = _navigateToCreateList
 
-    private val _navigateToTodoList: MutableLiveData<ListDetailArgs?> = MutableLiveData()
-    val navigateToTodoList: LiveData<ListDetailArgs?>
-        get() = _navigateToTodoList
+    private val _navigateToTodoListNav: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
+    val navigateToTodoListNav: LiveData<ListDetailNavArgs?>
+        get() = _navigateToTodoListNav
 
     init {
         Timber.d("Init HomeScreen ViewModel")
@@ -54,10 +54,11 @@ class HomeScreenViewModel @ViewModelInject constructor(
     }
 
     fun onTodoListClicked(listId: Long, listName: String) {
-        _navigateToTodoList.value = ListDetailArgs(listId, listName)
+        _navigateToTodoListNav.value =
+            ListDetailNavArgs(listId, listName)
     }
 
     fun onTodoListNavigated() {
-        _navigateToTodoList.value = null
+        _navigateToTodoListNav.value = null
     }
 }

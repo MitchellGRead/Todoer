@@ -63,7 +63,7 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setUpTodoListNavigation() {
-        viewModel.navigateToTodoList.observe(viewLifecycleOwner, Observer { listDetailArgs ->
+        viewModel.navigateToTodoListNav.observe(viewLifecycleOwner, Observer { listDetailArgs ->
             listDetailArgs?.let {
                 this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToListDetailsFragment(it))
                 viewModel.onTodoListNavigated()

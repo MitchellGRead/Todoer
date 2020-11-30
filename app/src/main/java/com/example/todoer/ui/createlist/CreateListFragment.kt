@@ -39,10 +39,10 @@ class CreateListFragment : Fragment() {
     }
 
     private fun setUpNavigation() {
-        viewModel.navigateToHomeScreen.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                this.findNavController().navigate(CreateListFragmentDirections.actionCreateListFragmentToHomeScreenFragment())
-                viewModel.onHomeScreenNavigated()
+        viewModel.navigateToTodoList.observe(viewLifecycleOwner, Observer { listDetailArgs ->
+            listDetailArgs?.let {
+                this.findNavController().navigate(CreateListFragmentDirections.actionCreateListFragmentToListDetailsFragment(it))
+                viewModel.onTodoListNavigated()
             }
         })
     }

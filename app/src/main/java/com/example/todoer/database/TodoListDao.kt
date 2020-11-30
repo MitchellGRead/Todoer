@@ -9,7 +9,7 @@ interface TodoListDao {
 
     /* Inserting List Queries */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTodoList(todoList: TodoList)
+    suspend fun insertTodoList(todoList: TodoList): Long
 
     /* Updating List Queries */
     @Update

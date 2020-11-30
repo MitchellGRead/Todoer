@@ -6,24 +6,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoListRepo
+import com.example.todoer.navigation.ListDetailNavArgs
 import kotlinx.coroutines.launch
 
 class CreateListViewModel @ViewModelInject constructor(
     private val repo: TodoListRepo
 ) : ViewModel() {
 
-    private val _navigateToHomeScreen: MutableLiveData<Boolean> = MutableLiveData()
-    val navigateToHomeScreen: LiveData<Boolean>
-        get() = _navigateToHomeScreen
+    private val _navigateToTodoList: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
+    val navigateToTodoList: LiveData<ListDetailNavArgs?>
+        get() = _navigateToTodoList
 
     fun onCreateList(listName: String) {
         viewModelScope.launch {
-            repo.insertList(listName)
-            _navigateToHomeScreen.value = true
+            val listId = repo.insertList(listName)
+            _navigateToTodoList.value = ListDetailNavArgs(
+                listId = listId,
+                listName = listName
+            )
         }
     }
 
-    fun onHomeScreenNavigated() {
-        _navigateToHomeScreen.value = false
+    fun onTodoListNavigated() {
+        _navigateToTodoList.value = null
     }
 }
