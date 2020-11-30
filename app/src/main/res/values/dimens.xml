@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="zero">0dp</dimen>
     <dimen name="spacing">8dp</dimen>
     <dimen name="double_spacing">16dp</dimen>
 
@@ -7,4 +8,6 @@
 
     <dimen name="small_icon_size">24dp</dimen>
     <dimen name="standard_icon_size">30dp</dimen>
+
+    <dimen name="normal_button_text">16sp</dimen>
 </resources>

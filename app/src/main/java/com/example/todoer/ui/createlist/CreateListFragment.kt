@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,6 +35,7 @@ class CreateListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setUpNavigation()
+        setUpListTypeSpinner()
         setUpCreateListButton()
 
         return binding.root
@@ -47,11 +50,26 @@ class CreateListFragment : Fragment() {
         })
     }
 
+    private fun setUpListTypeSpinner() {
+        val spinner: Spinner = binding.listType
+        context?.let { context ->
+            ArrayAdapter.createFromResource(
+                context,
+                R.array.create_list_type_options,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = adapter
+            }
+        }
+    }
+
     private fun setUpCreateListButton() {
         with(binding) {
             createList.setOnClickListener {
                 val listName = editListName.text.toString()
-                viewModel.onCreateList(listName)
+                val listType = listType.selectedItem.toString()
+                viewModel.onCreateList(listName, listType)
                 context?.hideKeyboard(view = editListName)
             }
         }

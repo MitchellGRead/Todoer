@@ -9,4 +9,9 @@
     <string name="add_item_hint">Things Todo</string>
     <string name="homescreen_toolbar_title">Todoer</string>
     <string name="createlist_toolbar_title">Create List</string>
+
+    <string-array name="create_list_type_options">
+        <item>Checklist</item>
+        <item>Note</item>
+    </string-array>
 </resources>
