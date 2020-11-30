@@ -23,8 +23,10 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     fun createTodoItem(itemName: String) {
+        val defaultItemName = if (itemName.isEmpty()) "New Item" else itemName
+
         viewModelScope.launch {
-            itemRepo.insertTodoItem(listId, itemName)
+            itemRepo.insertTodoItem(listId, defaultItemName)
             updateListTotalItems()
         }
     }

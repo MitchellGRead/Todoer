@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
 
-@Database(entities = [TodoList::class, TodoItem::class], version = 5, exportSchema = false)
+@Database(entities = [TodoList::class, TodoItem::class], version = 6, exportSchema = false)
 @TypeConverters(value = [RoomTypeConverters::class])
 abstract class TodoDatabase : RoomDatabase() {
 

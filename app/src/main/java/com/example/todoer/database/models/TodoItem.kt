@@ -19,7 +19,7 @@ data class TodoItem(
     @ColumnInfo(name = "item_id")
     val itemId: Long = 0L,
 
-    @ColumnInfo(name = "list_id")
+    @ColumnInfo(name = "list_id", index = true)
     val listId: Long = 0L,
 
     @ColumnInfo(name = "created_at")

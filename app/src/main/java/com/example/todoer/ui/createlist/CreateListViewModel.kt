@@ -18,11 +18,13 @@ class CreateListViewModel @ViewModelInject constructor(
         get() = _navigateToTodoList
 
     fun onCreateList(listName: String) {
+        val defaultListName = if (listName.isEmpty()) "New List" else listName
+
         viewModelScope.launch {
-            val listId = repo.insertList(listName)
+            val listId = repo.insertList(defaultListName)
             _navigateToTodoList.value = ListDetailNavArgs(
                 listId = listId,
-                listName = listName
+                listName = defaultListName
             )
         }
     }
