@@ -8,25 +8,27 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.navigation.ListDetailNavArgs
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class CreateListViewModel @ViewModelInject constructor(
-    private val repo: TodoListRepo
+    private val listRepo: TodoListRepo
 ) : ViewModel() {
 
     private val _navigateToTodoList: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
     val navigateToTodoList: LiveData<ListDetailNavArgs?>
         get() = _navigateToTodoList
 
-    fun onCreateList(listName: String, listType: String) {
-        val defaultListName = if (listName.isEmpty()) "New List" else listName
+    fun onCreateList(name: String, type: String) {
+        val listType = ListType.toListType(type)
+        val listName = if(name.isEmpty()) ListType.getDefaultName(listType) else name
 
-        val type = listType
         viewModelScope.launch {
-            val listId = repo.insertList(defaultListName)
+            val listId = when (listType) {
+                is CheckList -> listRepo.insertList(listName, listType)
+                is Note -> TODO()
+            }
             _navigateToTodoList.value = ListDetailNavArgs(
                 listId = listId,
-                listName = defaultListName
+                listName = listName
             )
         }
     }

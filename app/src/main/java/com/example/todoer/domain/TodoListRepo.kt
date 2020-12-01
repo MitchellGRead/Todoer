@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
+import com.example.todoer.ui.createlist.CheckList
+import com.example.todoer.ui.createlist.ListType
+import com.example.todoer.ui.createlist.Note
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class TodoListRepo @Inject constructor(
@@ -14,24 +18,18 @@ class TodoListRepo @Inject constructor(
 ) {
 
     /* Inserting Operations */
-    suspend fun insertList(listName: String): Long {
+    suspend fun insertList(listName: String, listType: CheckList): Long {
         var listId: Long
         withContext(ioDispatcher) {
-            val todoList = createTodoList(listName)
+            val todoList = createTodoList(listName, listType)
             listId = todoListDao.insertTodoList(todoList)
         }
         return listId
     }
 
-    suspend fun insertList(todoList: TodoList) {
-        withContext(ioDispatcher) {
-            todoListDao.insertTodoList(todoList)
-        }
-    }
-
     private fun createTodoList(
         listName: String,
-        listType: String = ""
+        listType: CheckList
     ): TodoList {
         return TodoList(
             listName = listName,
