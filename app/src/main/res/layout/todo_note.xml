@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/todo_note_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/spacing" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/double_spacing">
+
+            <com.example.todoer.customviews.ToggledEditText
+                android:id="@+id/note_title"
+                style="@style/home_screen_card_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/list_options"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="LabelFor"
+                tools:text="Christmas ideas" />
+
+            <ImageView
+                android:id="@+id/list_options"
+                android:layout_width="@dimen/standard_icon_size"
+                android:layout_height="@dimen/standard_icon_size"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/more_options"
+                android:src="@drawable/ic_more_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/note_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/colorPrimaryIcon"
+                tools:src="@drawable/ic_more_vertical" />
+
+            <TextView
+                android:id="@+id/note_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                android:maxLines="3"
+                android:ellipsize="end"
+                style="@style/home_screen_note_preview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_title"
+                tools:text="Some text that is contained withinSome textSome text that is contained withinSome textSome text that is contained withinSome text that is contained withinSome text that is contained within" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

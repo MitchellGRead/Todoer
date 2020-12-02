@@ -6,12 +6,11 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/todo_list_card"
-        app:cardCornerRadius="@dimen/spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/double_spacing"
         android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardCornerRadius="@dimen/spacing">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,83 +19,61 @@
 
             <com.example.todoer.customviews.ToggledEditText
                 android:id="@+id/list_title"
+                style="@style/home_screen_card_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/colorPrimaryDarkText"
-                android:textSize="24sp"
-                android:background="@android:color/transparent"
-                android:importantForAutofill="no"
-                app:layout_constraintBottom_toTopOf="@+id/guideline"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                android:layout_marginBottom="@dimen/spacing"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+                app:layout_constraintEnd_toStartOf="@+id/todo_options"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Groceries"
-                tools:ignore="LabelFor" />
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                tools:ignore="LabelFor"
+                tools:text="Groceries" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/todo_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/list_title"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" >
 
                 <TextView
                     android:id="@+id/todo_counts_text"
+                    style="@style/home_screen_list_step_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDarkText"
-                    android:textSize="18sp"
                     android:layout_marginStart="@dimen/spacing"
-                    android:layout_marginEnd="@dimen/spacing"
-                    app:layout_constraintBottom_toBottomOf="@+id/list_options"
-                    app:layout_constraintEnd_toStartOf="@+id/list_options"
-                    app:layout_constraintHorizontal_bias="0.8"
-                    app:layout_constraintStart_toEndOf="@+id/list_title"
-                    app:layout_constraintTop_toTopOf="@+id/list_options"
                     tools:text="59/65" />
 
                 <ImageView
                     android:id="@+id/list_options"
                     android:layout_width="@dimen/standard_icon_size"
                     android:layout_height="@dimen/standard_icon_size"
-                    android:contentDescription="@string/more_options"
                     android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/more_options"
                     android:src="@drawable/ic_more_vertical"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/colorPrimaryIcon"
                     tools:src="@drawable/ic_more_vertical" />
             </LinearLayout>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing"
                 android:indeterminate="false"
                 android:indeterminateTint="@color/colorAccent"
                 android:indeterminateTintMode="src_atop"
                 android:max="100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
