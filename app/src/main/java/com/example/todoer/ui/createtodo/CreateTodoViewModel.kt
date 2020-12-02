@@ -1,4 +1,4 @@
-package com.example.todoer.ui.createlist
+package com.example.todoer.ui.createtodo
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -9,7 +9,7 @@ import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.navigation.ListDetailNavArgs
 import kotlinx.coroutines.launch
 
-class CreateListViewModel @ViewModelInject constructor(
+class CreateTodoViewModel @ViewModelInject constructor(
     private val listRepo: TodoListRepo
 ) : ViewModel() {
 
@@ -17,18 +17,18 @@ class CreateListViewModel @ViewModelInject constructor(
     val navigateToTodoList: LiveData<ListDetailNavArgs?>
         get() = _navigateToTodoList
 
-    fun onCreateList(name: String, type: String) {
-        val listType = ListType.toListType(type)
-        val listName = if(name.isEmpty()) ListType.getDefaultName(listType) else name
+    fun onCreateTodo(name: String, type: String) {
+        val todoType = TodoType.toListType(type)
+        val todoName = if(name.isEmpty()) TodoType.getDefaultName(todoType) else name
 
         viewModelScope.launch {
-            val listId = when (listType) {
-                is CheckList -> listRepo.insertList(listName, listType)
+            val todoId = when (todoType) {
+                is CheckList -> listRepo.insertList(todoName, todoType)
                 is Note -> TODO()
             }
             _navigateToTodoList.value = ListDetailNavArgs(
-                listId = listId,
-                listName = listName
+                listId = todoId,
+                listName = todoName
             )
         }
     }

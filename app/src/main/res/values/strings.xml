@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Todoer</string>
     <string name="more_options">More Options</string>
-    <string name="create_list">Create List</string>
-    <string name="list_name_hint">List Name</string>
+    <string name="create_todo">Create Todo</string>
+    <string name="todo_name_hint">Todo Name</string>
     <string name="todo_list_options_rename">Rename</string>
     <string name="todo_list_options_delete">Delete</string>
     <string name="todo_list_options_share">Share</string>
     <string name="add_item_hint">Things Todo</string>
-    <string name="homescreen_toolbar_title">Todoer</string>
-    <string name="createlist_toolbar_title">Create List</string>
+    <string name="home_screen_toolbar_title">Todoer</string>
+    <string name="create_todo_toolbar_title">Create Todo</string>
 
-    <string-array name="create_list_type_options">
+    <string-array name="create_todo_type_options">
         <item>Checklist</item>
         <item>Note</item>
     </string-array>

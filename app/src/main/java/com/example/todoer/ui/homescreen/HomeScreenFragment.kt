@@ -33,8 +33,7 @@ class HomeScreenFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setupFabClickHandler()
-        setupCreateListNavigation()
-        setUpTodoListNavigation()
+        setupNavigation()
 
         val adapter = HomeScreenAdapter(setupTodoListListeners(), activity)
         binding.todoList.adapter = adapter
@@ -48,22 +47,22 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setupFabClickHandler() {
-        binding.addListFab.setOnClickListener {
+        binding.addTodoFab.setOnClickListener {
             viewModel.onFabButtonClicked()
         }
     }
 
-    private fun setupCreateListNavigation() {
-        viewModel.navigateToCreateList.observe(viewLifecycleOwner, Observer {
+    private fun setupNavigation() {
+        // Create navigation
+        viewModel.navigateToCreateTodo.observe(viewLifecycleOwner, Observer {
             if (it) {
-                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateListFragment())
+                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToCreateTodoFragment())
                 viewModel.onCreateListNavigated()
             }
         })
-    }
 
-    private fun setUpTodoListNavigation() {
-        viewModel.navigateToTodoListNav.observe(viewLifecycleOwner, Observer { listDetailArgs ->
+        // Checklist details navigation
+        viewModel.navigateToListDetails.observe(viewLifecycleOwner, Observer { listDetailArgs ->
             listDetailArgs?.let {
                 this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToListDetailsFragment(it))
                 viewModel.onTodoListNavigated()
@@ -74,8 +73,8 @@ class HomeScreenFragment : Fragment() {
     private fun setupTodoListListeners() =
         TodoListListeners (
             onClickList = { listId, listName -> viewModel.onTodoListClicked(listId, listName) },
-            renameClickListener = { listId, updatedName -> viewModel.onRenameList(listId, updatedName) },
-            deleteClickListener = { listId -> viewModel.onDeleteList(listId) },
+            renameClickListener = { listId, updatedName -> viewModel.onRenameTodo(listId, updatedName) },
+            deleteClickListener = { listId -> viewModel.onDeleteTodo(listId) },
             shareClickListener = { listId -> viewModel.onShareList(listId) }
         )
 

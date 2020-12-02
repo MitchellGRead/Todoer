@@ -3,7 +3,7 @@ package com.example.todoer.database.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.todoer.ui.createlist.ListType
+import com.example.todoer.ui.createtodo.TodoType
 import java.util.*
 
 @Entity(tableName = "todo_list_table")
@@ -19,7 +19,7 @@ data class TodoList(
     val listName: String = "",
 
     @ColumnInfo(name = "list_type")
-    val listType: ListType,
+    val todoType: TodoType,
 
     @ColumnInfo(name = "completed_tasks")
     val completedTasks: Int = 0,

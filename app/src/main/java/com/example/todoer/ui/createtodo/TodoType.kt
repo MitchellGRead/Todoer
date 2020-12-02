@@ -1,11 +1,11 @@
-package com.example.todoer.ui.createlist
+package com.example.todoer.ui.createtodo
 
 import timber.log.Timber
 import java.util.*
 
-sealed class ListType {
+sealed class TodoType {
     companion object {
-        fun toListType(type: String): ListType {
+        fun toListType(type: String): TodoType {
             return when (type.toLowerCase(Locale.ROOT)) {
                 "checklist" -> CheckList("Checklist")
                 "note" -> Note("Note")
@@ -17,8 +17,8 @@ sealed class ListType {
             }
         }
 
-        fun getDefaultName(listType: ListType): String {
-            return when (listType) {
+        fun getDefaultName(todoType: TodoType): String {
+            return when (todoType) {
                 is CheckList -> "New List"
                 is Note -> "New Note"
             }
@@ -26,5 +26,5 @@ sealed class ListType {
     }
 }
 
-data class CheckList(val value: String) : ListType()
-data class Note(val value: String) : ListType()
+data class CheckList(val value: String) : TodoType()
+data class Note(val value: String) : TodoType()

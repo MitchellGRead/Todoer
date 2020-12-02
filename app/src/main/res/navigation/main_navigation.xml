@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="com.example.todoer.ui.homescreen.HomeScreenFragment"
-        android:label="@string/homescreen_toolbar_title"
+        android:label="@string/home_screen_toolbar_title"
         tools:layout="@layout/fragment_home_screen">
         <action
-            android:id="@+id/action_homeScreenFragment_to_createListFragment"
-            app:destination="@id/createListFragment"
+            android:id="@+id/action_homeScreenFragment_to_createTodoFragment"
+            app:destination="@id/createTodoFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
@@ -28,12 +28,12 @@
             app:popUpTo="@id/homeScreenFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createListFragment"
-        android:name="com.example.todoer.ui.createlist.CreateListFragment"
-        android:label="@string/createlist_toolbar_title"
-        tools:layout="@layout/fragment_create_list">
+        android:id="@+id/createTodoFragment"
+        android:name="com.example.todoer.ui.createtodo.CreateTodoFragment"
+        android:label="@string/create_todo_toolbar_title"
+        tools:layout="@layout/fragment_create_todo">
         <action
-            android:id="@+id/action_createListFragment_to_listDetailsFragment"
+            android:id="@+id/action_createTodoFragment_to_listDetailsFragment"
             app:destination="@id/listDetailsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

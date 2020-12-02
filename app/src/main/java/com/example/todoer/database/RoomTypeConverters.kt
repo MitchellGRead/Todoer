@@ -1,9 +1,9 @@
 package com.example.todoer.database
 
 import androidx.room.TypeConverter
-import com.example.todoer.ui.createlist.CheckList
-import com.example.todoer.ui.createlist.ListType
-import com.example.todoer.ui.createlist.Note
+import com.example.todoer.ui.createtodo.CheckList
+import com.example.todoer.ui.createtodo.TodoType
+import com.example.todoer.ui.createtodo.Note
 import java.util.*
 
 class RoomTypeConverters {
@@ -15,15 +15,15 @@ class RoomTypeConverters {
     fun dateToTimestamp(date: Date): Long = date.time
 
     @TypeConverter
-    fun fromListType(value: String): ListType {
-        return ListType.toListType(value)
+    fun fromListType(value: String): TodoType {
+        return TodoType.toListType(value)
     }
 
     @TypeConverter
-    fun listTypeToString(listType: ListType): String {
-        return when (listType) {
-            is CheckList -> listType.value
-            is Note -> listType.value
+    fun listTypeToString(todoType: TodoType): String {
+        return when (todoType) {
+            is CheckList -> todoType.value
+            is Note -> todoType.value
         }
     }
 }

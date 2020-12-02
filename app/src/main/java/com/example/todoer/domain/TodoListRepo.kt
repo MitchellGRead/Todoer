@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
-import com.example.todoer.ui.createlist.CheckList
-import com.example.todoer.ui.createlist.ListType
-import com.example.todoer.ui.createlist.Note
+import com.example.todoer.ui.createtodo.CheckList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class TodoListRepo @Inject constructor(
@@ -33,7 +30,7 @@ class TodoListRepo @Inject constructor(
     ): TodoList {
         return TodoList(
             listName = listName,
-            listType = listType,
+            todoType = listType,
             completedTasks = 0,
             totalTasks = 0
         )

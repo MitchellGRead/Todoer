@@ -11,32 +11,32 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class HomeScreenViewModel @ViewModelInject constructor(
-    private val repo: TodoListRepo
+    private val listRepo: TodoListRepo
 ) : ViewModel() {
 
-    val todoLists = repo.observeTodoLists()
+    val todoLists = listRepo.observeTodoLists()
 
-    private val _navigateToCreateList: MutableLiveData<Boolean> = MutableLiveData()
-    val navigateToCreateList: LiveData<Boolean>
-        get() = _navigateToCreateList
+    private val _navigateToCreateTodo: MutableLiveData<Boolean> = MutableLiveData()
+    val navigateToCreateTodo: LiveData<Boolean>
+        get() = _navigateToCreateTodo
 
-    private val _navigateToTodoListNav: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
-    val navigateToTodoListNav: LiveData<ListDetailNavArgs?>
-        get() = _navigateToTodoListNav
+    private val _navigateToListDetails: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
+    val navigateToListDetails: LiveData<ListDetailNavArgs?>
+        get() = _navigateToListDetails
 
     init {
         Timber.d("Init HomeScreen ViewModel")
     }
 
-    fun onDeleteList(listId: Long) {
+    fun onDeleteTodo(todoId: Long) {
         viewModelScope.launch {
-            repo.deleteList(listId)
+            listRepo.deleteList(todoId)
         }
     }
 
-    fun onRenameList(listId: Long, updatedName: String) {
+    fun onRenameTodo(todoId: Long, updatedName: String) {
         viewModelScope.launch {
-            repo.updateListName(listId, updatedName)
+            listRepo.updateListName(todoId, updatedName)
         }
     }
 
@@ -46,19 +46,19 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     /* Navigation Functions */
     fun onFabButtonClicked() {
-        _navigateToCreateList.value = true
+        _navigateToCreateTodo.value = true
     }
 
     fun onCreateListNavigated() {
-        _navigateToCreateList.value = false
+        _navigateToCreateTodo.value = false
     }
 
     fun onTodoListClicked(listId: Long, listName: String) {
-        _navigateToTodoListNav.value =
+        _navigateToListDetails.value =
             ListDetailNavArgs(listId, listName)
     }
 
     fun onTodoListNavigated() {
-        _navigateToTodoListNav.value = null
+        _navigateToListDetails.value = null
     }
 }
