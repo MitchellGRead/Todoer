@@ -15,25 +15,17 @@ class TodoListRepo @Inject constructor(
 ) {
 
     /* Inserting Operations */
-    suspend fun insertList(listName: String, listType: CheckList): Long {
+    suspend fun insertList(listName: String): Long {
         var listId: Long
         withContext(ioDispatcher) {
-            val todoList = createTodoList(listName, listType)
+            val todoList = createTodoList(listName)
             listId = todoListDao.insertTodoList(todoList)
         }
         return listId
     }
 
-    private fun createTodoList(
-        listName: String,
-        listType: CheckList
-    ): TodoList {
-        return TodoList(
-            listName = listName,
-            todoType = listType,
-            completedTasks = 0,
-            totalTasks = 0
-        )
+    private fun createTodoList(listName: String): TodoList {
+        return TodoList(listName = listName)
     }
 
     /* Updating Operations */

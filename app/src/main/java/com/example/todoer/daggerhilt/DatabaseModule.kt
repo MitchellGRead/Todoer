@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.todoer.database.TodoDatabase
 import com.example.todoer.database.TodoItemDao
 import com.example.todoer.database.TodoListDao
+import com.example.todoer.database.TodoNoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,12 @@ object DatabaseModule {
     @Singleton
     fun provideTodoListDao(todoDatabase: TodoDatabase): TodoListDao {
         return todoDatabase.todoListDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTodoNoteDao(todoDatabase: TodoDatabase): TodoNoteDao {
+        return todoDatabase.todoNoteDao()
     }
 
     @Provides

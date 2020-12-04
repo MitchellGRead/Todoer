@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoListRepo
+import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class HomeScreenViewModel @ViewModelInject constructor(
-    private val listRepo: TodoListRepo
+    private val listRepo: TodoListRepo,
+    private val noteRepo: TodoNoteRepo
 ) : ViewModel() {
 
     val todoLists = listRepo.observeTodoLists()

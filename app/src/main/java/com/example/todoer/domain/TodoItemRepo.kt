@@ -27,13 +27,7 @@ class TodoItemRepo @Inject constructor(
     }
 
     private fun createTodoItem(listId: Long, itemName: String) =
-        TodoItem(
-            listId = listId,
-            itemName = itemName,
-            itemDescription = "",
-            isComplete = false,
-            iconUrl = ""
-        )
+        TodoItem(listId = listId, itemName = itemName)
 
     /* Updating Operations */
     suspend fun updateItemCompleted(itemId: Long, isComplete: Boolean) {

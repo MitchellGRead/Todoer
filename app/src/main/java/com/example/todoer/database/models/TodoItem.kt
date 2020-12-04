@@ -20,13 +20,13 @@ data class TodoItem(
     val itemId: Long = 0L,
 
     @ColumnInfo(name = "list_id", index = true)
-    val listId: Long = 0L,
+    val listId: Long,
 
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date(),
 
     @ColumnInfo(name = "item_name")
-    val itemName: String = "",
+    val itemName: String,
 
     @ColumnInfo(name = "item_description")
     val itemDescription: String = "",
