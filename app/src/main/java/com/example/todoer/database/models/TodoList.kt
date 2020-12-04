@@ -19,7 +19,7 @@ data class TodoList(
     val listName: String = "",
 
     @ColumnInfo(name = "list_type")
-    val todoType: TodoType,
+    val todoType: TodoType = TodoType.toListType(TodoType.CheckListType),
 
     @ColumnInfo(name = "completed_tasks")
     val completedTasks: Int = 0,
