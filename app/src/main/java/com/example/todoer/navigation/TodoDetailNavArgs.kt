@@ -8,3 +8,9 @@ data class ListDetailNavArgs(
     val listId: Long,
     val listName: String
 ) : Parcelable
+
+@Parcelize
+data class NoteDetailNavArgs(
+    val noteId: Long,
+    val noteName: String
+) : Parcelable

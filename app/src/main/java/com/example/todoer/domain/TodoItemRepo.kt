@@ -10,18 +10,18 @@ import javax.inject.Inject
 
 class TodoItemRepo @Inject constructor(
     private val todoItemDao: TodoItemDao,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
 
     /* Inserting Operations */
     suspend fun insertTodoItem(listId: Long, itemName: String) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoItemDao.insertTodoItem(createTodoItem(listId, itemName))
         }
     }
 
     suspend fun insertTodoItem(todoItem: TodoItem) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoItemDao.insertTodoItem(todoItem)
         }
     }
@@ -31,13 +31,13 @@ class TodoItemRepo @Inject constructor(
 
     /* Updating Operations */
     suspend fun updateItemCompleted(itemId: Long, isComplete: Boolean) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoItemDao.updateItemCompleted(itemId, isComplete)
         }
     }
 
     suspend fun updateItemName(itemId: Long, updatedName: String) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoItemDao.updateItemName(itemId, updatedName)
         }
     }
@@ -57,7 +57,7 @@ class TodoItemRepo @Inject constructor(
 
     /* Deleting Operations */
     suspend fun deleteTodoItem(itemId: Long) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoItemDao.deleteItemById(itemId)
         }
     }

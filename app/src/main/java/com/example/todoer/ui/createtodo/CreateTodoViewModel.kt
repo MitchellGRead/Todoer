@@ -5,31 +5,49 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.database.models.TodoNote
 import com.example.todoer.domain.TodoListRepo
+import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
+import com.example.todoer.navigation.NoteDetailNavArgs
 import kotlinx.coroutines.launch
 
 class CreateTodoViewModel @ViewModelInject constructor(
-    private val listRepo: TodoListRepo
+    private val listRepo: TodoListRepo,
+    private val noteRepo: TodoNoteRepo
 ) : ViewModel() {
 
     private val _navigateToTodoList: MutableLiveData<ListDetailNavArgs?> = MutableLiveData()
     val navigateToTodoList: LiveData<ListDetailNavArgs?>
         get() = _navigateToTodoList
 
+    private val _navigateToTodoNote: MutableLiveData<NoteDetailNavArgs?> = MutableLiveData()
+    val navigateToTodoNote: LiveData<NoteDetailNavArgs?>
+        get() = _navigateToTodoNote
+
     fun onCreateTodo(name: String, type: String) {
         val todoType = TodoType.toListType(type)
         val todoName = if(name.isEmpty()) TodoType.getDefaultName(todoType) else name
 
         viewModelScope.launch {
-            val todoId = when (todoType) {
-                is CheckList -> listRepo.insertList(todoName, todoType)
-                is Note -> TODO()
+            when (todoType) {
+                is CheckList -> {
+                    val listId = listRepo.insertList(todoName)
+                    _navigateToTodoList.value = ListDetailNavArgs(
+                        listId = listId,
+                        listName = todoName
+                    )
+                }
+                // TODO(Route to the note directly)
+                is Note -> {
+                    val noteId = noteRepo.insertNote(todoName)
+                    _navigateToTodoNote.value = NoteDetailNavArgs(
+                        noteId = noteId,
+                        noteName = todoName
+                    )
+                }
             }
-            _navigateToTodoList.value = ListDetailNavArgs(
-                listId = todoId,
-                listName = todoName
-            )
+
         }
     }
 

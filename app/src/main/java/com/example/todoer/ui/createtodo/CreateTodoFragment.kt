@@ -47,6 +47,8 @@ class CreateTodoFragment : Fragment() {
                 viewModel.onTodoListNavigated()
             }
         })
+
+        // TODO observe the todo note navigation livedata
     }
 
     private fun setUpTodoTypeSpinner() {

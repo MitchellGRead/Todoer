@@ -10,7 +10,6 @@ sealed class TodoType {
 
         fun toListType(type: String): TodoType {
             return when (type.toLowerCase(Locale.ROOT)) {
-                // TODO(Change this so it doesn't represent what is seen on view)
                 CheckListType -> CheckList("Checklist")
                 NoteType -> Note("Note")
                 else -> {

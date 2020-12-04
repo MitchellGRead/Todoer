@@ -4,20 +4,19 @@ import androidx.lifecycle.LiveData
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
-import com.example.todoer.ui.createtodo.CheckList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TodoListRepo @Inject constructor(
     private val todoListDao: TodoListDao,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
 
     /* Inserting Operations */
     suspend fun insertList(listName: String): Long {
         var listId: Long
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             val todoList = createTodoList(listName)
             listId = todoListDao.insertTodoList(todoList)
         }
@@ -30,13 +29,13 @@ class TodoListRepo @Inject constructor(
 
     /* Updating Operations */
     suspend fun updateListCompleteTasks(listId: Long, completedTasks: Int) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoListDao.updateListCompletedTasks(listId, completedTasks)
         }
     }
 
     suspend fun updateListTotalTasks(listId: Long, totalTasks: Int) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoListDao.updateListTotalTasks(listId, totalTasks)
         }
     }
@@ -56,7 +55,7 @@ class TodoListRepo @Inject constructor(
 
     /* Deleting Operations */
     suspend fun deleteList(listId: Long) {
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             todoListDao.deleteListById(listId)
         }
     }
