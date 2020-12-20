@@ -2,6 +2,7 @@ package com.example.todoer.database
 
 import androidx.room.*
 import com.example.todoer.database.models.TodoNote
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoNoteDao {
@@ -23,6 +24,9 @@ interface TodoNoteDao {
     /* Getting Note Queries */
     @Query(value = "SELECT * FROM todo_note_table WHERE note_id = :noteId_")
     suspend fun getTodoNote(noteId_: Long): TodoNote?
+
+    @Query(value = "SELECT * FROM todo_note_table")
+    fun observeTodoNotes(): Flow<List<TodoNote>>
 
     @Query(value = "SELECT * FROM todo_note_table")
     suspend fun getTodoNotes(): List<TodoNote>?

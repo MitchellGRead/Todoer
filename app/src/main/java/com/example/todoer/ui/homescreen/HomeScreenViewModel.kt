@@ -1,13 +1,17 @@
 package com.example.todoer.ui.homescreen
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.todoer.database.models.TodoList
+import com.example.todoer.database.models.TodoNote
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
+import com.example.todoer.ui.homescreen.recycler.ChecklistItem
+import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
+import com.example.todoer.ui.homescreen.recycler.NoteItem
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -16,7 +20,19 @@ class HomeScreenViewModel @ViewModelInject constructor(
     private val noteRepo: TodoNoteRepo
 ) : ViewModel() {
 
-    val todoLists = listRepo.observeTodoLists()
+    @ExperimentalCoroutinesApi
+    fun getTodoItems(): LiveData<List<HomeScreenItem>> {
+        val todoListFlow = listRepo.observeTodoLists().map { lists ->
+            lists.map { ChecklistItem(it) }
+        }
+        val todoNoteFlow = noteRepo.observeTodoNotes().map { notes ->
+            notes.map { NoteItem(it) }
+        }
+
+        return combine(todoListFlow, todoNoteFlow) { lists, notes ->
+            lists + notes
+        }.asLiveData()
+    }
 
     private val _navigateToCreateTodo: MutableLiveData<Boolean> = MutableLiveData()
     val navigateToCreateTodo: LiveData<Boolean>

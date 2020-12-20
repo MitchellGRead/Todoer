@@ -5,6 +5,7 @@ import com.example.todoer.database.TodoNoteDao
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -25,5 +26,14 @@ class TodoNoteRepo @Inject constructor(
 
     private fun createTodoNote(noteName: String): TodoNote {
         return TodoNote(noteName = noteName)
+    }
+
+    /* Fetching Operations */
+    fun observeTodoNotes(): Flow<List<TodoNote>> {
+        return todoNoteDao.observeTodoNotes()
+    }
+
+    suspend fun getTodoNotes(): List<TodoNote>? {
+        return todoNoteDao.getTodoNotes()
     }
 }

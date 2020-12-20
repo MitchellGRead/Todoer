@@ -14,6 +14,7 @@ import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
 import com.example.todoer.ui.homescreen.recycler.TodoListListeners
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -22,6 +23,7 @@ class HomeScreenFragment : Fragment() {
     private lateinit var binding: FragmentHomeScreenBinding
     private val viewModel: HomeScreenViewModel by viewModels()
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +39,7 @@ class HomeScreenFragment : Fragment() {
 
         val adapter = HomeScreenAdapter(setupTodoListListeners(), activity)
         binding.todoList.adapter = adapter
-        viewModel.todoLists.observe(viewLifecycleOwner, Observer {
+        viewModel.getTodoItems().observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

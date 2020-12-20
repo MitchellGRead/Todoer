@@ -3,6 +3,7 @@ package com.example.todoer.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.todoer.database.models.TodoList
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoListDao {
@@ -26,7 +27,7 @@ interface TodoListDao {
 
     /* Getting List Queries */
     @Query(value = "SELECT * FROM todo_list_table ORDER BY created_at")
-    fun observeTodoLists(): LiveData<List<TodoList>>
+    fun observeTodoLists(): Flow<List<TodoList>>
 
     @Query(value = "SELECT * FROM todo_list_table WHERE list_id = :listId_")
     suspend fun getTodoList(listId_: Long): TodoList?
