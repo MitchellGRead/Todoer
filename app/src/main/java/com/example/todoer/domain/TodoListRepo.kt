@@ -3,8 +3,10 @@ package com.example.todoer.domain
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
+import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -41,7 +43,9 @@ class TodoListRepo @Inject constructor(
     }
 
     suspend fun updateListName(listId: Long, updatedName: String) {
-        todoListDao.updateListName(listId, updatedName)
+        withContext(dispatcher) {
+            todoListDao.updateListName(listId, updatedName)
+        }
     }
 
     /* Fetching Operations */

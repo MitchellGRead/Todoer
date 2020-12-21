@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
-import com.example.todoer.ui.homescreen.recycler.TodoListListeners
+import com.example.todoer.ui.homescreen.recycler.TodoCardListeners
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -73,11 +73,10 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setupTodoListListeners() =
-        TodoListListeners (
-            onClickList = { listId, listName -> viewModel.onTodoListClicked(listId, listName) },
-            renameClickListener = { listId, updatedName -> viewModel.onRenameTodo(listId, updatedName) },
-            deleteClickListener = { listId -> viewModel.onDeleteTodo(listId) },
-            shareClickListener = { listId -> viewModel.onShareList(listId) }
+        TodoCardListeners (
+            onClickTodoCard = { cardId, cardType, listName -> viewModel.onTodoCardClicked(cardId, cardType, listName) },
+            renameTodoListener = { cardId, cardType, updatedName -> viewModel.onRenameTodo(cardId, cardType, updatedName) },
+            deleteTodoListener = { cardId, cardType -> viewModel.onDeleteTodo(cardId, cardType) }
         )
 
 

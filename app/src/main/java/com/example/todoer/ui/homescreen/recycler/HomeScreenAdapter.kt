@@ -4,12 +4,10 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todoer.database.models.TodoList
-import com.example.todoer.database.models.TodoNote
 import java.lang.ClassCastException
 
 class HomeScreenAdapter(
-    private val listListeners: TodoListListeners,
+    private val cardListeners: TodoCardListeners,
     private val context: Context?
 ) : ListAdapter<HomeScreenItem, RecyclerView.ViewHolder>(HomeScreenDiffCallback()) {
 
@@ -25,11 +23,11 @@ class HomeScreenAdapter(
         when (holder) {
             is TodoListViewHolder -> {
                 val listItem = getItem(position) as ChecklistItem
-                holder.bind(listItem.checkList, listListeners)
+                holder.bind(listItem.checkList, cardListeners)
             }
             is TodoNoteViewHolder -> {
                 val noteItem = getItem(position) as NoteItem
-                holder.bind(noteItem.note, listListeners)
+                holder.bind(noteItem.note, cardListeners)
             }
         }
     }

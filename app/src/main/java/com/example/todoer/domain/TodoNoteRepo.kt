@@ -28,6 +28,11 @@ class TodoNoteRepo @Inject constructor(
         return TodoNote(noteName = noteName)
     }
 
+    /* Updating Operations */
+    suspend fun updateNoteName(noteId: Long, updatedName: String) {
+        todoNoteDao.updateNoteName(noteId, updatedName)
+    }
+
     /* Fetching Operations */
     fun observeTodoNotes(): Flow<List<TodoNote>> {
         return todoNoteDao.observeTodoNotes()
@@ -35,5 +40,12 @@ class TodoNoteRepo @Inject constructor(
 
     suspend fun getTodoNotes(): List<TodoNote>? {
         return todoNoteDao.getTodoNotes()
+    }
+
+    /* Deleting Operations */
+    suspend fun deleteNote(noteId: Long) {
+        withContext(dispatcher) {
+            todoNoteDao.deleteNoteById(noteId)
+        }
     }
 }

@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
 import com.example.todoer.customviews.ToggledEditText
 import com.example.todoer.database.models.TodoItem
-import com.example.todoer.databinding.TodoItemBinding
+import com.example.todoer.databinding.TodoListItemBinding
 import com.example.todoer.utils.ContextUtils.getResColor
 
 class TodoItemViewHolder private constructor(
-    private val binding: TodoItemBinding,
+    private val binding: TodoListItemBinding,
     private val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -64,7 +64,7 @@ class TodoItemViewHolder private constructor(
     companion object {
         fun from(parent: ViewGroup): TodoItemViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = TodoItemBinding.inflate(layoutInflater, parent, false)
+            val binding = TodoListItemBinding.inflate(layoutInflater, parent, false)
             return TodoItemViewHolder(binding, parent.context)
         }
     }
