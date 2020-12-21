@@ -48,11 +48,16 @@ class CreateTodoFragment : Fragment() {
             }
         })
 
-        // TODO observe the todo note navigation livedata
+        viewModel.navigateToTodoNote.observe(viewLifecycleOwner, Observer { noteDetailArgs ->
+            noteDetailArgs?.let {
+                this.findNavController().navigate(CreateTodoFragmentDirections.actionCreateTodoFragmentToNoteDetailsFragment(it))
+                viewModel.onTodoNoteNavigated()
+            }
+        })
     }
 
     private fun setUpTodoTypeSpinner() {
-        val spinner: Spinner = binding.listType
+        val spinner: Spinner = binding.todoType
         context?.let { context ->
             ArrayAdapter.createFromResource(
                 context,
@@ -67,12 +72,12 @@ class CreateTodoFragment : Fragment() {
 
     private fun setUpCreateTodoButton() {
         with(binding) {
-            createList.setOnClickListener {
-                val listName = editListName.text.toString()
-                val listType = listType.selectedItem.toString()
+            createTodo.setOnClickListener {
+                val todoName = newTodoName.text.toString()
+                val todoType = todoType.selectedItem.toString()
 
-                viewModel.onCreateTodo(listName, listType)
-                context?.hideKeyboard(view = editListName)
+                viewModel.onCreateTodo(todoName, todoType)
+                context?.hideKeyboard(view = newTodoName)
             }
         }
     }

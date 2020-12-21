@@ -26,6 +26,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/createTodoFragment"
@@ -40,6 +48,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_createTodoFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeScreenFragment"/>
     </fragment>
     <fragment
         android:id="@+id/listDetailsFragment"
@@ -48,5 +64,13 @@
         <argument
             android:name="listDetailArgs"
             app:argType="com.example.todoer.navigation.ListDetailNavArgs" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailsFragment"
+        android:name="com.example.todoer.ui.notedetails.NoteDetailsFragment"
+        tools:layout="@layout/fragment_note_details" >
+        <argument
+            android:name="noteDetailArgs"
+            app:argType="com.example.todoer.navigation.NoteDetailNavArgs" />
     </fragment>
 </navigation>

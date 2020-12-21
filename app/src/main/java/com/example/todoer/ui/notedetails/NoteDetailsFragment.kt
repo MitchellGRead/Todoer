@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.example.todoer.MainActivity
 import com.example.todoer.R
 import com.example.todoer.databinding.FragmentNoteDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,10 +19,11 @@ import javax.inject.Inject
 class NoteDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentNoteDetailsBinding
+    private val args: NoteDetailsFragmentArgs by navArgs()
 
     @Inject lateinit var viewModelAssistedInjectFactory: NoteDetailsViewModel.AssistedFactory
     private val viewModel: NoteDetailsViewModel by viewModels {
-        NoteDetailsViewModel.provideFactory(viewModelAssistedInjectFactory, 3)
+        NoteDetailsViewModel.provideFactory(viewModelAssistedInjectFactory, args.noteDetailArgs.noteId)
     }
 
     override fun onCreateView(
@@ -29,6 +32,7 @@ class NoteDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Timber.d("Creating NoteDetails fragment")
+        (activity as MainActivity).supportActionBar?.title = args.noteDetailArgs.noteName
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         binding.lifecycleOwner = this

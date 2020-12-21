@@ -70,6 +70,14 @@ class HomeScreenFragment : Fragment() {
                 viewModel.onTodoListNavigated()
             }
         })
+
+        // Note details navigation
+        viewModel.navigateToNoteDetails.observe(viewLifecycleOwner, Observer { noteDetailArgs ->
+            noteDetailArgs?.let {
+                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenFragmentToNoteDetailsFragment(it))
+                viewModel.onTodoNoteNavigated()
+            }
+        })
     }
 
     private fun setupTodoListListeners() =

@@ -38,7 +38,6 @@ class CreateTodoViewModel @ViewModelInject constructor(
                         listName = todoName
                     )
                 }
-                // TODO(Route to the note directly)
                 is Note -> {
                     val noteId = noteRepo.insertNote(todoName)
                     _navigateToTodoNote.value = NoteDetailNavArgs(
@@ -53,5 +52,9 @@ class CreateTodoViewModel @ViewModelInject constructor(
 
     fun onTodoListNavigated() {
         _navigateToTodoList.value = null
+    }
+
+    fun onTodoNoteNavigated() {
+        _navigateToTodoNote.value = null
     }
 }

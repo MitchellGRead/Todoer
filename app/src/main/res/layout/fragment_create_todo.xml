@@ -17,7 +17,7 @@
             tools:context=".ui.createtodo.CreateTodoFragment">
 
             <EditText
-                android:id="@+id/edit_list_name"
+                android:id="@+id/new_todo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/todo_name_hint"
@@ -29,17 +29,17 @@
                 tools:ignore="LabelFor" />
 
             <Spinner
-                android:id="@+id/list_type"
+                android:id="@+id/todo_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/zero"
                 android:paddingEnd="@dimen/spacing"
-                app:layout_constraintBottom_toBottomOf="@+id/create_list"
+                app:layout_constraintBottom_toBottomOf="@+id/create_todo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/create_list" />
+                app:layout_constraintTop_toTopOf="@+id/create_todo" />
 
             <Button
-                android:id="@+id/create_list"
+                android:id="@+id/create_todo"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_list_name" />
+                app:layout_constraintTop_toBottomOf="@+id/new_todo_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

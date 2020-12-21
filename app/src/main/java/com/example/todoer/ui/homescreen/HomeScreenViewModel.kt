@@ -6,6 +6,7 @@ import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
+import com.example.todoer.navigation.NoteDetailNavArgs
 import com.example.todoer.ui.createtodo.CheckList
 import com.example.todoer.ui.createtodo.Note
 import com.example.todoer.ui.createtodo.TodoType
@@ -49,6 +50,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
     val navigateToListDetails: LiveData<ListDetailNavArgs?>
         get() = _navigateToListDetails
 
+    private val _navigateToNoteDetails: MutableLiveData<NoteDetailNavArgs?> = MutableLiveData()
+    val navigateToNoteDetails: LiveData<NoteDetailNavArgs?>
+        get() = _navigateToNoteDetails
+
     init {
         Timber.d("Init HomeScreen ViewModel")
     }
@@ -82,12 +87,18 @@ class HomeScreenViewModel @ViewModelInject constructor(
         _navigateToCreateTodo.value = false
     }
 
-    fun onTodoCardClicked(listId: Long, cardType: TodoType, listName: String) {
-        _navigateToListDetails.value =
-            ListDetailNavArgs(listId, listName)
+    fun onTodoCardClicked(cardId: Long, cardType: TodoType, cardName: String) {
+        when (cardType) {
+            is CheckList -> _navigateToListDetails.value = ListDetailNavArgs(cardId, cardName)
+            is Note -> _navigateToNoteDetails.value = NoteDetailNavArgs(cardId, cardName)
+        }
     }
 
     fun onTodoListNavigated() {
         _navigateToListDetails.value = null
+    }
+
+    fun onTodoNoteNavigated() {
+        _navigateToNoteDetails.value = null
     }
 }
