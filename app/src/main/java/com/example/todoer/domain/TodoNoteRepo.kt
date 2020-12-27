@@ -2,11 +2,13 @@ package com.example.todoer.domain
 
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoNoteDao
-import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class TodoNoteRepo @Inject constructor(
@@ -30,12 +32,24 @@ class TodoNoteRepo @Inject constructor(
 
     /* Updating Operations */
     suspend fun updateNoteName(noteId: Long, updatedName: String) {
-        todoNoteDao.updateNoteName(noteId, updatedName)
+        withContext(dispatcher) {
+            todoNoteDao.updateNoteName(noteId, updatedName)
+        }
+    }
+
+    suspend fun updateNoteDescription(noteId: Long, updatedDescription: String) {
+        withContext(dispatcher) {
+            todoNoteDao.updateNoteDescription(noteId, updatedDescription)
+        }
     }
 
     /* Fetching Operations */
     fun observeTodoNotes(): Flow<List<TodoNote>> {
         return todoNoteDao.observeTodoNotes()
+    }
+
+    suspend fun getNoteDescription(noteId: Long): String {
+        return todoNoteDao.getNoteDescriptionById(noteId).first()
     }
 
     suspend fun getTodoNotes(): List<TodoNote>? {

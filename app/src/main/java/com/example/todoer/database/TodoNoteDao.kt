@@ -28,10 +28,14 @@ interface TodoNoteDao {
     @Query(value = "SELECT * FROM todo_note_table")
     fun observeTodoNotes(): Flow<List<TodoNote>>
 
+    @Query(value = "SELECT note_description FROM todo_note_table WHERE note_id = :noteId_")
+    fun getNoteDescriptionById(noteId_: Long): Flow<String>
+
     @Query(value = "SELECT * FROM todo_note_table")
     suspend fun getTodoNotes(): List<TodoNote>?
 
     /* Deleting List Queries */
     @Query(value = "DELETE FROM todo_note_table WHERE note_id = :noteId_")
     suspend fun deleteNoteById(noteId_: Long)
+
 }

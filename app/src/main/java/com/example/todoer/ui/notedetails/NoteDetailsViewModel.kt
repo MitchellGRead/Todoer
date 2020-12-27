@@ -2,19 +2,28 @@ package com.example.todoer.ui.notedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoNoteRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class NoteDetailsViewModel @AssistedInject constructor(
     @Assisted private val noteId: Long,
     private val noteRepo: TodoNoteRepo
 ) : ViewModel() {
 
-    fun observeNoteContent(): String {
-        return ""
+    suspend fun getNoteDescription(): String {
+        return noteRepo.getNoteDescription(noteId)
     }
 
+    fun saveNoteContent(updatedContent: String) {
+        viewModelScope.launch {
+            noteRepo.updateNoteDescription(noteId, updatedContent)
+        }
+
+    }
 
     @AssistedInject.Factory
     interface AssistedFactory {
