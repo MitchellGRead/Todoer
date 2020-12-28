@@ -1,11 +1,13 @@
 package com.example.todoer.mock
 
+import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 import com.example.todoer.ui.createtodo.TodoType
+import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import com.example.todoer.ui.homescreen.recycler.NoteItem
 import java.util.*
 
-object TodoNoteMockFactory {
+class TodoNoteMockFactory {
 
     private val noteName = "noteName"
     private val createdAt = Date(2020, 10, 10)
@@ -37,5 +39,11 @@ object TodoNoteMockFactory {
         )
 
     val noteItems: List<NoteItem>
-        get() = todoNotes.map { NoteItem(it) }
+        get() = todoNotes.map { it.toHomeScreenItem() }
+
+    companion object {
+        fun TodoNote.toHomeScreenItem(): NoteItem {
+            return NoteItem(this)
+        }
+    }
 }

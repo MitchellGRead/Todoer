@@ -5,7 +5,7 @@ import com.example.todoer.ui.createtodo.TodoType
 import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import java.util.*
 
-object TodoListMockFactory {
+class TodoListMockFactory {
 
     private val listName = "listName"
     private val createdAt = Date(2020, 10, 10)
@@ -40,5 +40,11 @@ object TodoListMockFactory {
         )
 
     val checkListItems: List<ChecklistItem>
-        get() = todoLists.map { ChecklistItem(it) }
+        get() = todoLists.map { it.toHomeScreenItem() }
+
+    companion object {
+        fun TodoList.toHomeScreenItem(): ChecklistItem {
+            return ChecklistItem(this)
+        }
+    }
 }
