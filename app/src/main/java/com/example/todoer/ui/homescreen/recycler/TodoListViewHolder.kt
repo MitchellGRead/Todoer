@@ -10,7 +10,6 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
 import com.example.todoer.customviews.ToggledEditText
-import com.example.todoer.database.models.TodoList
 import com.example.todoer.databinding.TodoListBinding
 import timber.log.Timber
 import kotlin.math.roundToInt
@@ -20,10 +19,12 @@ class TodoListViewHolder private constructor(
     private val context: Context?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoList, cardListeners: TodoCardListeners) {
+    fun bind(item: ChecklistItem, cardListeners: TodoCardListeners) {
         with (binding) {
-            val completedTasks = item.completedTasks
-            val totalTasks = item.totalTasks
+            val todoList = item.checkList
+
+            val completedTasks = todoList.completedTasks
+            val totalTasks = todoList.totalTasks
             val progress = if (completedTasks != 0) {
                 ((completedTasks.toDouble() / totalTasks.toDouble()) * 100).roundToInt()
             } else {
@@ -31,10 +32,14 @@ class TodoListViewHolder private constructor(
             }
 
             todoListCard.setOnClickListener {
-                cardListeners.onClickTodoCard(item.listId, item.todoType, item.listName)
+                cardListeners.onClickTodoCard(item)
             }
             setupTitle(root, listTitle, item ,cardListeners)
-            todoCountsText.text = "$completedTasks / $totalTasks"
+            todoCountsText.text = context?.resources?.getString(
+                R.string.checklist_item_complete_over_total_tasks,
+                completedTasks,
+                totalTasks
+            )
             progressBar.progress = progress
             listOptions.setOnClickListener {
                 showPopupMenu(listOptions, item, cardListeners, listTitle)
@@ -45,24 +50,24 @@ class TodoListViewHolder private constructor(
     private fun setupTitle(
         root: View,
         listTitle: ToggledEditText,
-        item: TodoList,
+        item: ChecklistItem,
         cardListeners: TodoCardListeners
     ) {
-        listTitle.setText(item.listName)
+        listTitle.setText(item.checkList.listName)
         listTitle.rootView = root  // For passing click events to the root
         listTitle.setOnKeyboardHidden {
             onListRename(listTitle, item, cardListeners)
         }
     }
 
-    private fun onListRename(listTitle: EditText, item: TodoList, cardListeners: TodoCardListeners) {
+    private fun onListRename(listTitle: EditText, item: ChecklistItem, cardListeners: TodoCardListeners) {
         val updatedName = listTitle.text.toString()
-        cardListeners.renameTodoListener(item.listId, item.todoType, updatedName)
+        cardListeners.renameTodoListener(item, updatedName)
     }
 
     private fun showPopupMenu(
         view: ImageView,
-        item: TodoList,
+        item: ChecklistItem,
         cardListeners: TodoCardListeners,
         listTitle: ToggledEditText
     ) {
@@ -74,7 +79,7 @@ class TodoListViewHolder private constructor(
                     true
                 }
                 R.id.item_delete -> {
-                    cardListeners.deleteTodoListener(item.listId, item.todoType)
+                    cardListeners.deleteTodoListener(item)
                     true
                 }
                 else -> {

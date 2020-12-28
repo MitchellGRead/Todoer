@@ -1,16 +1,18 @@
 package com.example.todoer.ui.homescreen
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
 import com.example.todoer.navigation.NoteDetailNavArgs
-import com.example.todoer.ui.createtodo.CheckList
-import com.example.todoer.ui.createtodo.Note
-import com.example.todoer.ui.createtodo.TodoType
+import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
+import com.example.todoer.ui.homescreen.recycler.NoteItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -18,7 +20,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicInteger
 
 @ExperimentalCoroutinesApi
 class HomeScreenViewModel @ViewModelInject constructor(
@@ -63,20 +64,20 @@ class HomeScreenViewModel @ViewModelInject constructor(
         }
     }
 
-    fun onDeleteTodo(todoId: Long, cardType: TodoType) {
+    fun onDeleteTodo(homeScreenItem: HomeScreenItem) {
         viewModelScope.launch {
-            when (cardType) {
-                is CheckList -> listRepo.deleteList(todoId)
-                is Note -> noteRepo.deleteNote(todoId)
+            when (homeScreenItem) {
+                is ChecklistItem -> listRepo.deleteList(homeScreenItem.id)
+                is NoteItem -> noteRepo.deleteNote(homeScreenItem.id)
             }
         }
     }
 
-    fun onRenameTodo(todoId: Long, cardType: TodoType, updatedName: String) {
+    fun onRenameTodo(homeScreenItem: HomeScreenItem, updatedName: String) {
         viewModelScope.launch {
-            when (cardType) {
-                is CheckList -> listRepo.updateListName(todoId, updatedName)
-                is Note -> noteRepo.updateNoteName(todoId, updatedName)
+            when (homeScreenItem) {
+                is ChecklistItem -> listRepo.updateListName(homeScreenItem.id, updatedName)
+                is NoteItem -> noteRepo.updateNoteName(homeScreenItem.id, updatedName)
             }
         }
     }
@@ -90,10 +91,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
         _navigateToCreateTodo.value = false
     }
 
-    fun onTodoCardClicked(cardId: Long, cardType: TodoType, cardName: String) {
-        when (cardType) {
-            is CheckList -> _navigateToListDetails.value = ListDetailNavArgs(cardId, cardName)
-            is Note -> _navigateToNoteDetails.value = NoteDetailNavArgs(cardId, cardName)
+    fun onHomeScreenItemClicked(homeScreenItem: HomeScreenItem) {
+        when (homeScreenItem) {
+            is ChecklistItem -> _navigateToListDetails.value = ListDetailNavArgs(homeScreenItem.id, homeScreenItem.checkList.listName)
+            is NoteItem -> _navigateToNoteDetails.value = NoteDetailNavArgs(homeScreenItem.id, homeScreenItem.note.noteName)
         }
     }
 

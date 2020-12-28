@@ -83,9 +83,9 @@ class HomeScreenFragment : Fragment() {
 
     private fun setupTodoListListeners() =
         TodoCardListeners (
-            onClickTodoCard = { cardId, cardType, listName -> viewModel.onTodoCardClicked(cardId, cardType, listName) },
-            renameTodoListener = { cardId, cardType, updatedName -> viewModel.onRenameTodo(cardId, cardType, updatedName) },
-            deleteTodoListener = { cardId, cardType -> viewModel.onDeleteTodo(cardId, cardType) }
+            onClickTodoCard = { homeScreenItem -> viewModel.onHomeScreenItemClicked(homeScreenItem) },
+            renameTodoListener = { homeScreenItem, updatedName -> viewModel.onRenameTodo(homeScreenItem, updatedName) },
+            deleteTodoListener = { homeScreenItem -> viewModel.onDeleteTodo(homeScreenItem) }
         )
 
 

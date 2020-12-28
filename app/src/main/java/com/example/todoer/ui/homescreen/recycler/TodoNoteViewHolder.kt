@@ -10,7 +10,6 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
 import com.example.todoer.customviews.ToggledEditText
-import com.example.todoer.database.models.TodoNote
 import com.example.todoer.databinding.TodoNoteBinding
 import timber.log.Timber
 
@@ -19,14 +18,14 @@ class TodoNoteViewHolder private constructor(
     private val context: Context?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoNote, cardListeners: TodoCardListeners) {
+    fun bind(item: NoteItem, cardListeners: TodoCardListeners) {
         with (binding) {
             todoNoteCard.setOnClickListener {
-                cardListeners.onClickTodoCard(item.noteId, item.todoType, item.noteName)
+                cardListeners.onClickTodoCard(item)
             }
 
             setupTitle(root, noteTitle, item, cardListeners)
-            notePreview.text = item.noteDescription
+            notePreview.text = item.note.noteDescription
             listOptions.setOnClickListener {
                 showPopupMenu(listOptions, item, cardListeners, noteTitle)
             }
@@ -36,24 +35,24 @@ class TodoNoteViewHolder private constructor(
     private fun setupTitle(
         root: View,
         noteTitle: ToggledEditText,
-        item: TodoNote,
+        item: NoteItem,
         cardListeners: TodoCardListeners
     ) {
-        noteTitle.setText(item.noteName)
+        noteTitle.setText(item.note.noteName)
         noteTitle.rootView = root  // For passing click events to the root
         noteTitle.setOnKeyboardHidden {
             onListRename(noteTitle, item, cardListeners)
         }
     }
 
-    private fun onListRename(noteTitle: EditText, item: TodoNote, cardListeners: TodoCardListeners) {
+    private fun onListRename(noteTitle: EditText, item: NoteItem, cardListeners: TodoCardListeners) {
         val updatedName = noteTitle.text.toString()
-        cardListeners.renameTodoListener(item.noteId, item.todoType, updatedName)
+        cardListeners.renameTodoListener(item, updatedName)
     }
 
     private fun showPopupMenu(
         view: ImageView,
-        item: TodoNote,
+        item: NoteItem,
         cardListeners: TodoCardListeners,
         noteTitle: ToggledEditText
     ) {
@@ -65,7 +64,7 @@ class TodoNoteViewHolder private constructor(
                     true
                 }
                 R.id.item_delete -> {
-                    cardListeners.deleteTodoListener(item.noteId, item.todoType)
+                    cardListeners.deleteTodoListener(item)
                     true
                 }
                 else -> {

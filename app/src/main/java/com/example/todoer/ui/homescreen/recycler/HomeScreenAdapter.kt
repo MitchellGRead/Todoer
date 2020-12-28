@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.ClassCastException
 
 class HomeScreenAdapter(
     private val cardListeners: TodoCardListeners,
@@ -23,11 +22,11 @@ class HomeScreenAdapter(
         when (holder) {
             is TodoListViewHolder -> {
                 val listItem = getItem(position) as ChecklistItem
-                holder.bind(listItem.checkList, cardListeners)
+                holder.bind(listItem, cardListeners)
             }
             is TodoNoteViewHolder -> {
                 val noteItem = getItem(position) as NoteItem
-                holder.bind(noteItem.note, cardListeners)
+                holder.bind(noteItem, cardListeners)
             }
         }
     }
