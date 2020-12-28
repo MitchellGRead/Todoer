@@ -10,37 +10,26 @@ import com.example.todoer.navigation.NoteDetailNavArgs
 import com.example.todoer.ui.createtodo.CheckList
 import com.example.todoer.ui.createtodo.Note
 import com.example.todoer.ui.createtodo.TodoType
-import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
-import com.example.todoer.ui.homescreen.recycler.NoteItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicInteger
 
+@ExperimentalCoroutinesApi
 class HomeScreenViewModel @ViewModelInject constructor(
     private val listRepo: TodoListRepo,
     private val noteRepo: TodoNoteRepo,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    @ExperimentalCoroutinesApi
-    fun getTodoItems(): LiveData<List<HomeScreenItem>> {
-        val todoListFlow = listRepo.observeTodoLists().map { lists ->
-            lists.map { ChecklistItem(it) }
-        }.flowOn(dispatcher)
-
-        val todoNoteFlow = noteRepo.observeTodoNotes().map { notes ->
-            notes.map { NoteItem(it) }
-        }.flowOn(dispatcher)
-
-        return combine(todoListFlow, todoNoteFlow) { lists, notes ->
-            lists + notes
-        }.flowOn(dispatcher).asLiveData()
-    }
+    private val _homeScreenItems: MutableLiveData<List<HomeScreenItem>> = MutableLiveData()
+    val homeScreenItems: LiveData<List<HomeScreenItem>>
+        get() = _homeScreenItems
 
     private val _navigateToCreateTodo: MutableLiveData<Boolean> = MutableLiveData()
     val navigateToCreateTodo: LiveData<Boolean>
@@ -56,6 +45,22 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     init {
         Timber.d("Init HomeScreen ViewModel")
+        getHomeScreenItems()
+    }
+
+    private fun getHomeScreenItems() {
+        val checklistItems = listRepo.observeChecklistItems()
+        val noteItems = noteRepo.observeNoteItems()
+
+        viewModelScope.launch {
+            combine(checklistItems, noteItems) { checklists, notes ->
+                checklists + notes
+            }
+                .flowOn(dispatcher)
+                .collect{
+                    _homeScreenItems.value = it
+                }
+        }
     }
 
     fun onDeleteTodo(todoId: Long, cardType: TodoType) {
@@ -64,7 +69,6 @@ class HomeScreenViewModel @ViewModelInject constructor(
                 is CheckList -> listRepo.deleteList(todoId)
                 is Note -> noteRepo.deleteNote(todoId)
             }
-
         }
     }
 
@@ -74,7 +78,6 @@ class HomeScreenViewModel @ViewModelInject constructor(
                 is CheckList -> listRepo.updateListName(todoId, updatedName)
                 is Note -> noteRepo.updateNoteName(todoId, updatedName)
             }
-
         }
     }
 

@@ -3,10 +3,13 @@ package com.example.todoer.domain
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoNoteDao
 import com.example.todoer.database.models.TodoNote
+import com.example.todoer.ui.homescreen.recycler.NoteItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -44,8 +47,10 @@ class TodoNoteRepo @Inject constructor(
     }
 
     /* Fetching Operations */
-    fun observeTodoNotes(): Flow<List<TodoNote>> {
-        return todoNoteDao.observeTodoNotes()
+    fun observeNoteItems(): Flow<List<NoteItem>> {
+        return todoNoteDao.observeTodoNotes().map { notes ->
+            notes.map { NoteItem(it) }
+        }.flowOn(dispatcher)
     }
 
     suspend fun getNoteDescription(noteId: Long): String {

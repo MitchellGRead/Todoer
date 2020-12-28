@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class HomeScreenFragment : Fragment() {
 
@@ -39,7 +40,7 @@ class HomeScreenFragment : Fragment() {
 
         val adapter = HomeScreenAdapter(setupTodoListListeners(), activity)
         binding.todoList.adapter = adapter
-        viewModel.getTodoItems().observe(viewLifecycleOwner, Observer {
+        viewModel.homeScreenItems.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

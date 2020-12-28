@@ -3,11 +3,14 @@ package com.example.todoer.domain
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
+import com.example.todoer.ui.createtodo.TodoType
 import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class TodoListRepo @Inject constructor(
@@ -49,8 +52,10 @@ class TodoListRepo @Inject constructor(
     }
 
     /* Fetching Operations */
-    fun observeTodoLists(): Flow<List<TodoList>> {
-        return todoListDao.observeTodoLists()
+    fun observeChecklistItems(): Flow<List<ChecklistItem>> {
+        return todoListDao.observeTodoLists().map { checklists ->
+            checklists.map { ChecklistItem(it) }
+        }.flowOn(dispatcher)
     }
 
     suspend fun getTodoList(listId: Long): TodoList? {
