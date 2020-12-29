@@ -66,13 +66,13 @@ class TodoListDaoTest {
             val listId = todoListDao.insertTodoList(list)
             val expectedTotal = 404
             assertEquals(list.totalTasks, getList(listId)?.totalTasks)
-            assertNotSame(list.totalTasks, expectedTotal)
+            assertNotSame(expectedTotal, list.totalTasks)
 
             todoListDao.updateListTotalTasks(listId, expectedTotal)
 
             val actual = getList(listId)
             assertNotSame(list.totalTasks, actual?.totalTasks)
-            assertEquals(actual?.totalTasks, expectedTotal)
+            assertEquals(expectedTotal, actual?.totalTasks)
         }
 
     @Test
@@ -98,7 +98,7 @@ class TodoListDaoTest {
             val listId = todoListDao.insertTodoList(list)
             val expectedName = "what a new name"
             assertEquals(list.listName, getList(listId)?.listName)
-            assertNotSame(list.listName, expectedName)
+            assertNotSame(expectedName, list.listName)
 
             todoListDao.updateListName(listId, expectedName)
 

@@ -5,13 +5,11 @@ import com.example.todoer.database.TodoNoteDao
 import com.example.todoer.database.models.TodoNote
 import com.example.todoer.ui.homescreen.recycler.NoteItem
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class TodoNoteRepo @Inject constructor(
@@ -54,11 +52,7 @@ class TodoNoteRepo @Inject constructor(
     }
 
     suspend fun getNoteDescription(noteId: Long): String {
-        return todoNoteDao.getNoteDescriptionById(noteId).first()
-    }
-
-    suspend fun getTodoNotes(): List<TodoNote>? {
-        return todoNoteDao.getTodoNotes()
+        return todoNoteDao.getNoteDescriptionById(noteId) ?: ""
     }
 
     /* Deleting Operations */

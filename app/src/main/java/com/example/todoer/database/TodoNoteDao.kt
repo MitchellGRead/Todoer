@@ -12,9 +12,6 @@ interface TodoNoteDao {
     suspend fun insertTodoNote(todoNote: TodoNote): Long
 
     /* Updating Note Queries */
-    @Update
-    suspend fun updateTodoNote(todoNote: TodoNote)
-
     @Query(value = "UPDATE todo_note_table SET note_name = :updatedName_ WHERE note_id = :noteId_")
     suspend fun updateNoteName(noteId_: Long, updatedName_: String)
 
@@ -29,10 +26,7 @@ interface TodoNoteDao {
     fun observeTodoNotes(): Flow<List<TodoNote>>
 
     @Query(value = "SELECT note_description FROM todo_note_table WHERE note_id = :noteId_")
-    fun getNoteDescriptionById(noteId_: Long): Flow<String>
-
-    @Query(value = "SELECT * FROM todo_note_table")
-    suspend fun getTodoNotes(): List<TodoNote>?
+    suspend fun getNoteDescriptionById(noteId_: Long): String?
 
     /* Deleting List Queries */
     @Query(value = "DELETE FROM todo_note_table WHERE note_id = :noteId_")
