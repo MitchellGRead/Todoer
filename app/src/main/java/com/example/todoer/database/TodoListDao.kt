@@ -1,6 +1,5 @@
 package com.example.todoer.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.todoer.database.models.TodoList
 import kotlinx.coroutines.flow.Flow
@@ -13,9 +12,6 @@ interface TodoListDao {
     suspend fun insertTodoList(todoList: TodoList): Long
 
     /* Updating List Queries */
-    @Update
-    suspend fun updateTodoList(todoList: TodoList)
-
     @Query(value = "UPDATE todo_list_table SET total_tasks = :totalTasks_ WHERE list_id = :listId_")
     suspend fun updateListTotalTasks(listId_: Long, totalTasks_: Int)
 
@@ -31,9 +27,6 @@ interface TodoListDao {
 
     @Query(value = "SELECT * FROM todo_list_table WHERE list_id = :listId_")
     suspend fun getTodoList(listId_: Long): TodoList?
-
-    @Query(value = "SELECT * FROM todo_list_table")
-    suspend fun getTodoLists(): List<TodoList>?
 
     /* Deleting List Queries */
     @Query(value = "DELETE FROM todo_list_table WHERE list_id = :listId_")
