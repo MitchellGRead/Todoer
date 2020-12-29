@@ -1,10 +1,10 @@
 package com.example.todoer.domain
 
-import androidx.lifecycle.LiveData
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoItemDao
 import com.example.todoer.database.models.TodoItem
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -43,15 +43,11 @@ class TodoItemRepo @Inject constructor(
     }
 
     /* Fetching Operations */
-    suspend fun getTodoItem(itemId: Long): TodoItem? {
-        return todoItemDao.getTodoItem(itemId)
-    }
-
     suspend fun getTodoItems(listId: Long): List<TodoItem>? {
         return todoItemDao.getTodoItemsInList(listId)
     }
 
-    fun observeTodoItems(listId: Long): LiveData<List<TodoItem>> {
+    fun observeTodoItems(listId: Long): Flow<List<TodoItem>> {
         return todoItemDao.observeTodoItemsInList(listId)
     }
 

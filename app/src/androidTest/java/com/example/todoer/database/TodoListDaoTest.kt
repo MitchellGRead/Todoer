@@ -117,7 +117,7 @@ class TodoListDaoTest {
 
             val actual = todoListDao.observeTodoLists().take(1).toList()[0]
 
-            assertEquals(expected.size, actual.size)
+            assertEquals(expected, actual)
         }
 
     /* Deleting Tests */

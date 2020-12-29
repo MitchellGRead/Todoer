@@ -1,25 +1,44 @@
 package com.example.todoer.ui.listdetails
 
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.models.TodoItem
-import com.example.todoer.database.models.TodoList
 import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ListDetailsViewModel @AssistedInject constructor(
     @Assisted private val listId: Long,
     private val itemRepo: TodoItemRepo,
-    private val listRepo: TodoListRepo
+    private val listRepo: TodoListRepo,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val todoItems = Transformations.map(itemRepo.observeTodoItems(listId)) { todoItems ->
-        todoItems.sortedBy { it.isComplete }
+    private val _todoItems: MutableLiveData<List<TodoItem>> = MutableLiveData()
+    val todoItems: LiveData<List<TodoItem>>
+        get() = _todoItems
+
+    init {
+        observeTodoItems()
+    }
+
+    private fun observeTodoItems() {
+        viewModelScope.launch {
+            itemRepo.observeTodoItems(listId)
+                .map { items ->
+                    items.sortedBy { it.isComplete }
+                }
+                .flowOn(dispatcher)
+                .collect {
+                    _todoItems.value = it
+                }
+        }
     }
 
     fun createTodoItem(itemName: String) {
