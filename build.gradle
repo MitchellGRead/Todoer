@@ -5,6 +5,8 @@ buildscript {
         versionCode = 1
         versionName = "1.0"
 
+        buildToolsVersion = "30.0.2"
+
         /* SDK Versions */
         compileSdkVersion = 30
         minSdkVersion = 21

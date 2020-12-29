@@ -1,9 +1,7 @@
-package com.example.todoer.mock
+package com.example.testingmodule.mockfactories
 
-import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 import com.example.todoer.ui.createtodo.TodoType
-import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import com.example.todoer.ui.homescreen.recycler.NoteItem
 import java.util.*
 

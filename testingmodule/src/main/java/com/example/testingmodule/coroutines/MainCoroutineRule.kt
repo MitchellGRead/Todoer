@@ -1,4 +1,4 @@
-package com.example.todoer
+package com.example.testingmodule.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

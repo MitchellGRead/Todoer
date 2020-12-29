@@ -1,13 +1,13 @@
 package com.example.todoer.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.todoer.MainCoroutineRule
+import com.example.testingmodule.coroutines.MainCoroutineRule
+import com.example.testingmodule.mockfactories.TodoListMockFactory
+import com.example.testingmodule.mockfactories.TodoListMockFactory.Companion.toHomeScreenItem
+import com.example.testingmodule.mockfactories.TodoNoteMockFactory
+import com.example.testingmodule.mockfactories.TodoNoteMockFactory.Companion.toHomeScreenItem
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
-import com.example.todoer.mock.TodoListMockFactory
-import com.example.todoer.mock.TodoListMockFactory.Companion.toHomeScreenItem
-import com.example.todoer.mock.TodoNoteMockFactory
-import com.example.todoer.mock.TodoNoteMockFactory.Companion.toHomeScreenItem
 import com.example.todoer.ui.homescreen.HomeScreenViewModel
 import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.mock

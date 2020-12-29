@@ -5,12 +5,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "com.example.todoer"
@@ -59,6 +57,11 @@ android {
                 events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
             }
         }
+    }
+
+    packagingOptions {
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
     }
 }
 
@@ -116,6 +119,9 @@ dependencies {
     kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hilt_core_version"
     testImplementation "com.google.dagger:hilt-android-testing:$dagger_hilt_core_version"
 
+    testImplementation project(":testingmodule")
+    androidTestImplementation project(":testingmodule")
+
     // Unit testing
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
@@ -127,4 +133,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$navigation_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$android_core_version"
 }
