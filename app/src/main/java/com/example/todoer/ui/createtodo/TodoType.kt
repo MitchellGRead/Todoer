@@ -5,13 +5,17 @@ import java.util.*
 
 sealed class TodoType {
     companion object {
-        const val CheckListType = "checklist"
-        const val NoteType = "note"
+        const val CheckListTypeId = "checklist"
+        const val NoteTypeId = "note"
 
-        fun toListType(type: String): TodoType {
+        /*
+        Error is thrown on invalid type id cause the user should never have access to the string
+        id types themselves. This ensures we can catch and fix the mistake immediately in development.
+         */
+        fun toTodoType(type: String): TodoType {
             return when (type.toLowerCase(Locale.ROOT)) {
-                CheckListType -> CheckList("Checklist")
-                NoteType -> Note("Note")
+                CheckListTypeId -> CheckList("Checklist")
+                NoteTypeId -> Note("Note")
                 else -> {
                     val message = "List type: $type does not exist"
                     Timber.e(message)
@@ -30,6 +34,5 @@ sealed class TodoType {
 }
 
 // Best to use TodoType.[const val type] for safety initializing
-// TODO(Make this better)
-data class CheckList(val value: String) : TodoType()
-data class Note(val value: String) : TodoType()
+data class CheckList(val id: String) : TodoType()
+data class Note(val id: String) : TodoType()

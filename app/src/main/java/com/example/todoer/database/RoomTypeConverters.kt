@@ -16,14 +16,14 @@ class RoomTypeConverters {
 
     @TypeConverter
     fun fromListType(value: String): TodoType {
-        return TodoType.toListType(value)
+        return TodoType.toTodoType(value)
     }
 
     @TypeConverter
     fun listTypeToString(todoType: TodoType): String {
         return when (todoType) {
-            is CheckList -> todoType.value
-            is Note -> todoType.value
+            is CheckList -> todoType.id
+            is Note -> todoType.id
         }
     }
 }

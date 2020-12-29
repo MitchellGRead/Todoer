@@ -9,7 +9,7 @@ class TodoListMockFactory {
 
     private val listName = "listName"
     private val createdAt = Date(2020, 10, 10)
-    private val listType = TodoType.toListType(TodoType.CheckListType)
+    private val listType = TodoType.toTodoType(TodoType.CheckListTypeId)
     private val completedTasks = 2
     private val totalTasks = 4
 

@@ -9,7 +9,7 @@ class TodoNoteMockFactory {
 
     private val noteName = "noteName"
     private val createdAt = Date(2020, 10, 10)
-    private val noteType = TodoType.toListType(TodoType.NoteType)
+    private val noteType = TodoType.toTodoType(TodoType.NoteTypeId)
     private val noteDescription = "I am a wee note description used for testing"
 
     val todoNote1: TodoNote

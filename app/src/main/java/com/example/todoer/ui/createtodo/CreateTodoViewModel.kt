@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoer.database.models.TodoNote
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
@@ -26,7 +25,7 @@ class CreateTodoViewModel @ViewModelInject constructor(
         get() = _navigateToTodoNote
 
     fun onCreateTodo(name: String, type: String) {
-        val todoType = TodoType.toListType(type)
+        val todoType = TodoType.toTodoType(type)
         val todoName = if(name.isEmpty()) TodoType.getDefaultName(todoType) else name
 
         viewModelScope.launch {

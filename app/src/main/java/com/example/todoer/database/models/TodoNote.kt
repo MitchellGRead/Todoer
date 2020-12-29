@@ -19,7 +19,7 @@ data class TodoNote(
     val noteName: String = "",
 
     @ColumnInfo(name = "note_type")
-    val todoType: TodoType = TodoType.toListType(TodoType.NoteType),
+    val todoType: TodoType = TodoType.toTodoType(TodoType.NoteTypeId),
 
     @ColumnInfo(name = "note_description")
     val noteDescription: String = ""
