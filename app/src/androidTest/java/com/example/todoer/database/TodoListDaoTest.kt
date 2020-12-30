@@ -49,7 +49,7 @@ class TodoListDaoTest {
     @Test
     fun `GIVEN_valid_todo_list_WHEN_insertTodoList_THEN_list_is_inserted`() =
         mainCoroutineRule.runBlockingTest {
-            val expected = listFactory.todoList1
+            val expected = TodoList(404L)
             assertNull(getList(expected.listId))
 
             val listId = todoListDao.insertTodoList(expected)

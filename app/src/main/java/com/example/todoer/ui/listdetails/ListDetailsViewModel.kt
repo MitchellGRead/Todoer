@@ -5,6 +5,7 @@ import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
+import com.example.todoer.ui.createtodo.CheckList
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -42,7 +43,7 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     fun createTodoItem(itemName: String) {
-        val defaultItemName = if (itemName.isEmpty()) "New Item" else itemName
+        val defaultItemName = if (itemName.isEmpty()) CheckList.getDefaultItemName() else itemName
 
         viewModelScope.launch {
             itemRepo.insertTodoItem(listId, defaultItemName)
@@ -80,7 +81,7 @@ class ListDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun onEditItem(itemId: Long, updatedText: String) {
+    fun onRenameItem(itemId: Long, updatedText: String) {
         viewModelScope.launch {
             itemRepo.updateItemName(itemId, updatedText)
         }

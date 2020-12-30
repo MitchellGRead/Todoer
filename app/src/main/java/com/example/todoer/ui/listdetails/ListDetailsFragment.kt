@@ -74,7 +74,7 @@ class ListDetailsFragment : Fragment() {
         return TodoItemListeners(
             onCheckboxSelected = { itemId: Long, isChecked: Boolean -> viewModel.onItemCompleted(itemId, isChecked) },
             onDeleted = { itemId -> viewModel.onDeleteItem(itemId) },
-            onEdited = { itemId, updatedText -> viewModel.onEditItem(itemId, updatedText)}
+            onEdited = { itemId, updatedText -> viewModel.onRenameItem(itemId, updatedText)}
         )
     }
 

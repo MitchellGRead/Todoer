@@ -34,5 +34,9 @@ sealed class TodoType {
 }
 
 // Best to use TodoType.[const val type] for safety initializing
-data class CheckList(val id: String) : TodoType()
+data class CheckList(val id: String) : TodoType() {
+    companion object {
+        fun getDefaultItemName() = "New Item"
+    }
+}
 data class Note(val id: String) : TodoType()

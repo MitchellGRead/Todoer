@@ -57,7 +57,7 @@ class TodoItemDaoTest {
     @Test
     fun `GIVEN_valid_todo_item_WHEN_insertTodoItem_THEN_item_is_inserted`() =
         mainCoroutineRule.runBlockingTest {
-            val expected = itemFactory.completedItem
+            val expected = itemFactory.completedItem1
             assertNull(getItem(expected.itemId))
 
             val itemId = todoItemDao.insertTodoItem(expected)
@@ -70,7 +70,7 @@ class TodoItemDaoTest {
     @Test
     fun `GIVEN_item_is_completed_WHEN_updateItemCompleted_THEN_item_marked_as_complete_updated`() =
         mainCoroutineRule.runBlockingTest {
-            val item = itemFactory.incompleteItem
+            val item = itemFactory.incompleteItem1
             val itemId = todoItemDao.insertTodoItem(item)
             val expectedCompleted = true
             assertEquals(item.isComplete, getItem(itemId)?.isComplete)
@@ -86,7 +86,7 @@ class TodoItemDaoTest {
     @Test
     fun `GIVEN_new_item_name_WHEN_updateItemName_THEN_name_is_updated`() =
         mainCoroutineRule.runBlockingTest {
-            val item = itemFactory.incompleteItem
+            val item = itemFactory.incompleteItem1
             val itemId = todoItemDao.insertTodoItem(item)
             val expectedName = "what a new name"
             assertEquals(item.itemName, getItem(itemId)?.itemName)
@@ -104,8 +104,8 @@ class TodoItemDaoTest {
     fun `GIVEN_valid_list_id_WHEN_getTodoItemsInList_THEN_return_all_items_in_list`() =
         mainCoroutineRule.runBlockingTest {
             val listId = todoList.listId
-            todoItemDao.insertTodoItem(itemFactory.incompleteItem)
-            todoItemDao.insertTodoItem(itemFactory.completedItem)
+            todoItemDao.insertTodoItem(itemFactory.incompleteItem1)
+            todoItemDao.insertTodoItem(itemFactory.completedItem1)
             todoItemDao.insertTodoItem(itemFactory.rogueItem)
             val expected: List<TodoItem> = itemFactory.listTodoItems
 
@@ -120,8 +120,8 @@ class TodoItemDaoTest {
     fun `GIVEN_valid_list_id_WHEN_observeTodoItems_THEN_flow_of_items_in_default_order`() =
         mainCoroutineRule.runBlockingTest {
             val listId = todoList.listId
-            todoItemDao.insertTodoItem(itemFactory.incompleteItem)
-            todoItemDao.insertTodoItem(itemFactory.completedItem)
+            todoItemDao.insertTodoItem(itemFactory.incompleteItem1)
+            todoItemDao.insertTodoItem(itemFactory.completedItem1)
             todoItemDao.insertTodoItem(itemFactory.rogueItem)
             val expected: List<TodoItem> = itemFactory.listTodoItems
 
@@ -135,7 +135,7 @@ class TodoItemDaoTest {
     @Test
     fun `GIVEN_existing_id_WHEN_deleteListById_THEN_list_removed_from_database`() =
         mainCoroutineRule.runBlockingTest {
-            val itemId = todoItemDao.insertTodoItem(itemFactory.completedItem)
+            val itemId = todoItemDao.insertTodoItem(itemFactory.completedItem1)
             assertNotNull(getItem(itemId))
 
             todoItemDao.deleteItemById(itemId)

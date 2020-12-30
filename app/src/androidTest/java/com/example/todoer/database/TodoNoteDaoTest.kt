@@ -49,7 +49,7 @@ class TodoNoteDaoTest {
     @Test
     fun `GIVEN_valid_todo_note_WHEN_insertTodoNote_THEN_note_is_inserted`() =
         mainCoroutineRule.runBlockingTest {
-            val expected = noteFactory.todoNote1
+            val expected = TodoNote(404L)
             assertNull(getNote(expected.noteId))
 
             val noteId = todoNoteDao.insertTodoNote(expected)

@@ -20,12 +20,6 @@ class TodoItemRepo @Inject constructor(
         }
     }
 
-    suspend fun insertTodoItem(todoItem: TodoItem) {
-        withContext(dispatcher) {
-            todoItemDao.insertTodoItem(todoItem)
-        }
-    }
-
     private fun createTodoItem(listId: Long, itemName: String) =
         TodoItem(listId = listId, itemName = itemName)
 
