@@ -31,6 +31,7 @@ class TodoItemDaoTest {
 
     private lateinit var database: TodoDatabase
     private lateinit var todoItemDao: TodoItemDao
+    private lateinit var todoListDao: TodoListDao
 
     @Before
     fun setup() {
@@ -39,7 +40,7 @@ class TodoItemDaoTest {
             .allowMainThreadQueries()
             .build()
 
-        val todoListDao = database.todoListDao()
+        todoListDao = database.todoListDao()
         todoItemDao = database.todoItemDao()
 
         mainCoroutineRule.runBlockingTest {
@@ -139,6 +140,18 @@ class TodoItemDaoTest {
             assertNotNull(getItem(itemId))
 
             todoItemDao.deleteItemById(itemId)
+
+            assertNull(getItem(itemId))
+        }
+
+    @Test
+    fun `WHEN_list_gets_deleted_THEN_items_removed_from_database`() =
+        mainCoroutineRule.runBlockingTest {
+            val listId = todoList.listId
+            val itemId = todoItemDao.insertTodoItem(itemFactory.completedItem2)
+            assertNotNull(getItem(itemId))
+
+            todoListDao.deleteListById(listId)
 
             assertNull(getItem(itemId))
         }

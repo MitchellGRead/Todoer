@@ -22,7 +22,6 @@ class NoteDetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             noteRepo.updateNoteDescription(noteId, updatedContent)
         }
-
     }
 
     @AssistedInject.Factory
