@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoer.domain.TodoNoteRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class NoteDetailsViewModel @AssistedInject constructor(
@@ -18,9 +17,9 @@ class NoteDetailsViewModel @AssistedInject constructor(
         return noteRepo.getNoteDescription(noteId)
     }
 
-    fun saveNoteContent(updatedContent: String) {
+    fun saveNoteDescription(updatedDescription: String) {
         viewModelScope.launch {
-            noteRepo.updateNoteDescription(noteId, updatedContent)
+            noteRepo.updateNoteDescription(noteId, updatedDescription)
         }
     }
 

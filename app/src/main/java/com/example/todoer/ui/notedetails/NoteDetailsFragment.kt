@@ -55,7 +55,7 @@ class NoteDetailsFragment : Fragment() {
             }
             noteContent.doAfterTextChanged { text ->
                 text?.let {
-                    viewModel.saveNoteContent(it.toString())
+                    viewModel.saveNoteDescription(it.toString())
                 }
             }
         }
