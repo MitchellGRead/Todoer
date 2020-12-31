@@ -30,8 +30,8 @@ object RepositoryModule {
     fun provideTodoNoteRepo(
         todoNoteDao: TodoNoteDao,
         @IoDispatcher dispatcher: CoroutineDispatcher,
-        @AppIoScope ioScope: CoroutineScope
-    ) : TodoNoteRepo = TodoNoteRepo(todoNoteDao, dispatcher, ioScope)
+        @AppIoScope appIoScope: CoroutineScope
+    ) : TodoNoteRepo = TodoNoteRepo(todoNoteDao, dispatcher, appIoScope)
 
     @Provides
     @Singleton

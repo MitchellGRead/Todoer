@@ -18,12 +18,10 @@ class TodoListRepo @Inject constructor(
 
     /* Inserting Operations */
     suspend fun insertList(listName: String): Long {
-        var listId: Long
-        withContext(dispatcher) {
+        return withContext(dispatcher) {
             val todoList = createTodoList(listName)
-            listId = todoListDao.insertTodoList(todoList)
+            todoListDao.insertTodoList(todoList)
         }
-        return listId
     }
 
     private fun createTodoList(listName: String): TodoList {

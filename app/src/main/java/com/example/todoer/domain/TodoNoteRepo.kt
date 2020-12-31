@@ -19,7 +19,8 @@ class TodoNoteRepo @Inject constructor(
     @AppIoScope private val appIoScope: CoroutineScope
 ) {
 
-    private var updateNoteJob: Job? = null
+    private var updateDescriptionJob: Job? = null
+    private var updateNameJob: Job? = null
 
     init {
         Timber.d("Creating TodoNoteRepo")
@@ -39,18 +40,19 @@ class TodoNoteRepo @Inject constructor(
 
     /* Updating Operations */
     suspend fun updateNoteName(noteId: Long, updatedName: String) {
-        withContext(dispatcher) {
+        updateNameJob?.cancel()
+        updateNameJob = appIoScope.launch {
+            delay(USER_TYPE_DELAY)
             todoNoteDao.updateNoteName(noteId, updatedName)
         }
     }
 
     suspend fun updateNoteDescription(noteId: Long, updatedDescription: String) {
-        updateNoteJob?.let { if (it.isActive) it.cancel() }
-        updateNoteJob = appIoScope.launch {
+        updateDescriptionJob?.cancel()
+        updateDescriptionJob = appIoScope.launch {
             delay(USER_TYPE_DELAY)
             todoNoteDao.updateNoteDescription(noteId, updatedDescription)
         }
-        updateNoteJob?.join()
     }
 
     /* Fetching Operations */
