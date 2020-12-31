@@ -1,30 +1,36 @@
 package com.example.todoer.domain
 
+import com.example.todoer.daggerhilt.AppIoScope
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoNoteDao
 import com.example.todoer.database.models.TodoNote
 import com.example.todoer.ui.homescreen.recycler.NoteItem
-import kotlinx.coroutines.CoroutineDispatcher
+import com.example.todoer.utils.Constants.USER_TYPE_DELAY
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class TodoNoteRepo @Inject constructor(
     private val todoNoteDao: TodoNoteDao,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    @AppIoScope private val appIoScope: CoroutineScope
 ) {
+
+    private var updateNoteJob: Job? = null
+
+    init {
+        Timber.d("Creating TodoNoteRepo")
+    }
 
     /* Inserting Operations */
     suspend fun insertNote(noteName: String): Long {
-        var noteId: Long
-        withContext(dispatcher) {
+        return withContext(dispatcher) {
             val todoNote = createTodoNote(noteName)
-            noteId = todoNoteDao.insertTodoNote(todoNote)
+            todoNoteDao.insertTodoNote(todoNote)
         }
-        return noteId
     }
 
     private fun createTodoNote(noteName: String): TodoNote {
@@ -39,9 +45,12 @@ class TodoNoteRepo @Inject constructor(
     }
 
     suspend fun updateNoteDescription(noteId: Long, updatedDescription: String) {
-        withContext(dispatcher) {
+        updateNoteJob?.let { if (it.isActive) it.cancel() }
+        updateNoteJob = appIoScope.launch {
+            delay(USER_TYPE_DELAY)
             todoNoteDao.updateNoteDescription(noteId, updatedDescription)
         }
+        updateNoteJob?.join()
     }
 
     /* Fetching Operations */
@@ -51,8 +60,8 @@ class TodoNoteRepo @Inject constructor(
         }.flowOn(dispatcher)
     }
 
-    suspend fun getNoteDescription(noteId: Long): String {
-        return todoNoteDao.getNoteDescriptionById(noteId) ?: ""
+    suspend fun getNoteDescription(noteId: Long): String? {
+        return todoNoteDao.getNoteDescriptionById(noteId)
     }
 
     /* Deleting Operations */

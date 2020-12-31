@@ -15,6 +15,7 @@ import com.example.todoer.daggerhilt.UiScope
 import com.example.todoer.databinding.FragmentNoteDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,15 +37,18 @@ class NoteDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("Creating NoteDetails fragment")
+        Timber.d("Creating NoteDetailsFragment")
         (activity as MainActivity).supportActionBar?.title = args.noteDetailArgs.noteName
 
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         binding.lifecycleOwner = this
 
-        setupView()
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupView()
     }
 
     private fun setupView() {
@@ -52,13 +56,18 @@ class NoteDetailsFragment : Fragment() {
             uiScope.launch {
                 val noteDescription = viewModel.getNoteDescription()
                 noteContent.setText(noteDescription)
-            }
-            noteContent.doAfterTextChanged { text ->
-                text?.let {
-                    viewModel.saveNoteDescription(it.toString())
+                noteContent.doAfterTextChanged { text ->
+                    text?.let {
+                        viewModel.saveNoteDescription(it.toString())
+                    }
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        uiScope.cancel()
     }
 
     companion object {

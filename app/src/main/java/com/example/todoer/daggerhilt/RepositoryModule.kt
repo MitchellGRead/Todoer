@@ -9,30 +9,32 @@ import com.example.todoer.domain.TodoNoteRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
-import dagger.hilt.android.scopes.FragmentScoped
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 @Module
-@InstallIn(FragmentComponent::class)
+@InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    @FragmentScoped
+    @Singleton
     fun provideTodoListRepo(
         todoListDao: TodoListDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ) : TodoListRepo = TodoListRepo(todoListDao, dispatcher)
 
     @Provides
-    @FragmentScoped
+    @Singleton
     fun provideTodoNoteRepo(
         todoNoteDao: TodoNoteDao,
-        @IoDispatcher dispatcher: CoroutineDispatcher
-    ) : TodoNoteRepo = TodoNoteRepo(todoNoteDao, dispatcher)
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        @AppIoScope ioScope: CoroutineScope
+    ) : TodoNoteRepo = TodoNoteRepo(todoNoteDao, dispatcher, ioScope)
 
     @Provides
-    @FragmentScoped
+    @Singleton
     fun provideTodoItemRepo(
         todoItemDao: TodoItemDao,
         @IoDispatcher dispatcher: CoroutineDispatcher

@@ -119,6 +119,7 @@ dependencies {
     kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hilt_core_version"
     testImplementation "com.google.dagger:hilt-android-testing:$dagger_hilt_core_version"
 
+    // Custom libraries
     testImplementation project(":testingmodule")
     androidTestImplementation project(":testingmodule")
 

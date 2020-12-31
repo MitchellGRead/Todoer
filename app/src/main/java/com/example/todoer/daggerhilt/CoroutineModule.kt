@@ -4,10 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import javax.inject.Qualifier
 
 @Module
@@ -22,6 +19,11 @@ object CoroutineModule {
     @UiScope
     fun provideUiScope(): CoroutineScope =
         CoroutineScope(Dispatchers.Main + Job())
+
+    @Provides
+    @AppIoScope
+    fun provideAppIoScope(): CoroutineScope =
+        CoroutineScope(Dispatchers.IO + SupervisorJob())
 }
 
 @Qualifier
@@ -31,3 +33,7 @@ annotation class IoDispatcher
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class UiScope
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AppIoScope

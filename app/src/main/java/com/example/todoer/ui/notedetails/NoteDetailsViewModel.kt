@@ -7,14 +7,19 @@ import com.example.todoer.domain.TodoNoteRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class NoteDetailsViewModel @AssistedInject constructor(
     @Assisted private val noteId: Long,
     private val noteRepo: TodoNoteRepo
 ) : ViewModel() {
 
+    init {
+        Timber.d("NoteDetailsViewModel created")
+    }
+
     suspend fun getNoteDescription(): String {
-        return noteRepo.getNoteDescription(noteId)
+        return noteRepo.getNoteDescription(noteId) ?: ""
     }
 
     fun saveNoteDescription(updatedDescription: String) {
