@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 
 class ListDetailsViewModel @AssistedInject constructor(
     @Assisted private val listId: Long,
@@ -85,6 +86,11 @@ class ListDetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             itemRepo.updateItemName(itemId, updatedText)
         }
+    }
+
+    fun updateEditedDate() {
+        val newDate = DateTime()
+        listRepo.updateEditDate(listId, newDate)
     }
 
     @AssistedInject.Factory

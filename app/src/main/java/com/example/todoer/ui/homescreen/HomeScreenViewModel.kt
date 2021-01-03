@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoer.daggerhilt.DefaultDispatcher
+import com.example.todoer.database.models.TodoList
+import com.example.todoer.database.models.TodoNote
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
@@ -13,13 +15,12 @@ import com.example.todoer.navigation.NoteDetailNavArgs
 import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
 import com.example.todoer.ui.homescreen.recycler.NoteItem
+import com.example.todoer.utils.DateTimeUtils.getDateTimeString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
@@ -51,8 +52,8 @@ class HomeScreenViewModel @ViewModelInject constructor(
     }
 
     private fun getHomeScreenItems() {
-        val checklistItems = listRepo.observeChecklistItems()
-        val noteItems = noteRepo.observeNoteItems()
+        val checklistItems = listRepo.observeTodoLists().toChecklistItems()
+        val noteItems = noteRepo.observeTodoNotes().toNoteItems()
 
         viewModelScope.launch {
             combine(checklistItems, noteItems) { checklists, notes ->
@@ -68,6 +69,32 @@ class HomeScreenViewModel @ViewModelInject constructor(
         }
     }
 
+    /* Conversion Extension Functions */
+    private fun Flow<List<TodoList>>.toChecklistItems(): Flow<List<ChecklistItem>> {
+        return this.map { todoLists ->
+            todoLists.map { todo ->
+                val editedString = todo.editedAt.getDateTimeString()
+                ChecklistItem(
+                    checkList = todo,
+                    editedString = editedString
+                )
+            }
+        }
+    }
+
+    private fun Flow<List<TodoNote>>.toNoteItems(): Flow<List<NoteItem>> {
+        return this.map { todoNotes ->
+            todoNotes.map { todo ->
+                val editedString = todo.editedAt.getDateTimeString()
+                NoteItem(
+                    note = todo,
+                    editedString = editedString
+                )
+            }
+        }
+    }
+
+    /* Card Operations */
     fun onDeleteTodo(homeScreenItem: HomeScreenItem) {
         viewModelScope.launch {
             when (homeScreenItem) {
@@ -96,19 +123,19 @@ class HomeScreenViewModel @ViewModelInject constructor(
     }
 
     /* Navigation Functions */
+    fun onHomeScreenItemClicked(homeScreenItem: HomeScreenItem) {
+        when (homeScreenItem) {
+            is ChecklistItem -> _navigateToListDetails.value = ListDetailNavArgs(homeScreenItem.id, homeScreenItem.checkList.listName)
+            is NoteItem -> _navigateToNoteDetails.value = NoteDetailNavArgs(homeScreenItem.id, homeScreenItem.note.noteName)
+        }
+    }
+
     fun onFabButtonClicked() {
         _navigateToCreateTodo.value = true
     }
 
     fun onCreateListNavigated() {
         _navigateToCreateTodo.value = false
-    }
-
-    fun onHomeScreenItemClicked(homeScreenItem: HomeScreenItem) {
-        when (homeScreenItem) {
-            is ChecklistItem -> _navigateToListDetails.value = ListDetailNavArgs(homeScreenItem.id, homeScreenItem.checkList.listName)
-            is NoteItem -> _navigateToNoteDetails.value = NoteDetailNavArgs(homeScreenItem.id, homeScreenItem.note.noteName)
-        }
     }
 
     fun onTodoListNavigated() {

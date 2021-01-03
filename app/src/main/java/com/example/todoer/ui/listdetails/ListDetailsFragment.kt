@@ -78,6 +78,12 @@ class ListDetailsFragment : Fragment() {
         )
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.updateEditedDate()
+    }
+
+
     companion object {
         const val LAYOUT_ID = R.layout.fragment_list_details
     }

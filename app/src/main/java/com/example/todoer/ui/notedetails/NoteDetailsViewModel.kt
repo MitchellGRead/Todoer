@@ -7,6 +7,7 @@ import com.example.todoer.domain.TodoNoteRepo
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 import timber.log.Timber
 
 class NoteDetailsViewModel @AssistedInject constructor(
@@ -26,6 +27,11 @@ class NoteDetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             noteRepo.updateNoteDescription(noteId, updatedDescription)
         }
+    }
+
+    fun updateEditedDate() {
+        val newDate = DateTime()
+        noteRepo.updateEditDate(noteId, newDate)
     }
 
     @AssistedInject.Factory

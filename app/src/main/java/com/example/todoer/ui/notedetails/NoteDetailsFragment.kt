@@ -67,6 +67,7 @@ class NoteDetailsFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        viewModel.updateEditedDate()
         uiScope.cancel()
     }
 
