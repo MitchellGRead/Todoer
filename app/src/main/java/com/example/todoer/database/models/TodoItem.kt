@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.util.*
+import org.joda.time.DateTime
 
 @Entity(
     tableName = "todo_item_table",
@@ -23,17 +23,11 @@ data class TodoItem(
     val listId: Long,
 
     @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
+    val createdAt: DateTime = DateTime(),
 
     @ColumnInfo(name = "item_name")
     val itemName: String,
 
-    @ColumnInfo(name = "item_description")
-    val itemDescription: String = "",
-
     @ColumnInfo(name = "is_complete")
-    val isComplete: Boolean = false,
-
-    @ColumnInfo(name = "icon_url")
-    val iconUrl: String = ""
+    val isComplete: Boolean = false
 )

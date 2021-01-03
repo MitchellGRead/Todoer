@@ -7,7 +7,7 @@ import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 
-@Database(entities = [TodoList::class, TodoItem::class, TodoNote::class], version = 8, exportSchema = false)
+@Database(entities = [TodoList::class, TodoItem::class, TodoNote::class], version = 9, exportSchema = false)
 @TypeConverters(value = [RoomTypeConverters::class])
 abstract class TodoDatabase : RoomDatabase() {
 

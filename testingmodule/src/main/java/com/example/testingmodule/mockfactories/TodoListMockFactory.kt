@@ -3,12 +3,14 @@ package com.example.testingmodule.mockfactories
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.ui.createtodo.TodoType
 import com.example.todoer.ui.homescreen.recycler.ChecklistItem
+import org.joda.time.DateTime
 import java.util.*
 
 class TodoListMockFactory {
 
     private val listName = "listName"
-    private val createdAt = Date(2020, 10, 10)
+    private val createdAt = DateTime(2020, 10, 10, 0, 0)
+    private val editedAt = DateTime(2020, 10, 10, 0, 0)
     private val listType = TodoType.toTodoType(TodoType.CheckListTypeId)
     private val completedTasks = 2
     private val totalTasks = 4
@@ -19,6 +21,7 @@ class TodoListMockFactory {
             listName = listName,
             todoType = listType,
             createdAt = createdAt,
+            editedAt = editedAt,
             completedTasks = completedTasks,
             totalTasks = totalTasks
         )
@@ -29,6 +32,7 @@ class TodoListMockFactory {
             listName = listName,
             todoType = listType,
             createdAt = createdAt,
+            editedAt = editedAt,
             completedTasks = completedTasks,
             totalTasks = totalTasks
         )

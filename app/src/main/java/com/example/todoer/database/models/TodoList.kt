@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.todoer.ui.createtodo.TodoType
-import java.util.*
+import org.joda.time.DateTime
 
 @Entity(tableName = "todo_list_table")
 data class TodoList(
@@ -13,7 +13,13 @@ data class TodoList(
     val listId: Long = 0L,
 
     @ColumnInfo(name = "created_at")
-    val createdAt: Date = Date(),
+    val createdAt: DateTime = DateTime(),
+
+    @ColumnInfo(name = "edited_at")
+    val editedAt: DateTime = DateTime(),
+
+    @ColumnInfo(name = "favourited")
+    val isFavourited: Boolean = false,
 
     @ColumnInfo(name = "list_name")
     val listName: String = "",

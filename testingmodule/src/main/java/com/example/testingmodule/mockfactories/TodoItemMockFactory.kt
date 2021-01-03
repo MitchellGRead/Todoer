@@ -2,7 +2,7 @@ package com.example.testingmodule.mockfactories
 
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
-import java.util.*
+import org.joda.time.DateTime
 
 class TodoItemMockFactory {
 
@@ -20,7 +20,7 @@ class TodoItemMockFactory {
         get() = TodoItem(
             itemId = 10L,
             listId = todoList.listId,
-            createdAt = Date(2020, 10, 4),
+            createdAt = DateTime(2020, 10, 4, 0, 0),
             itemName = itemName,
             isComplete = false
         )
@@ -29,7 +29,7 @@ class TodoItemMockFactory {
         get() = TodoItem(
             itemId = 11L,
             listId = todoList.listId,
-            createdAt = Date(2020, 10, 3),
+            createdAt = DateTime(2020, 10, 3, 0, 0),
             itemName = itemName,
             isComplete = true
         )
@@ -38,7 +38,7 @@ class TodoItemMockFactory {
         get() = TodoItem(
             itemId = 12L,
             listId = todoList.listId,
-            createdAt = Date(2020, 10, 5),
+            createdAt = DateTime(2020, 10, 5, 0, 0),
             itemName = itemName,
             isComplete = true
         )
@@ -56,7 +56,7 @@ class TodoItemMockFactory {
         get() = TodoItem(
             itemId = 9L,
             listId = rogueList.listId,
-            createdAt = Date(2020, 10, 4),
+            createdAt = DateTime(2020, 10, 5, 0, 0),
             itemName = itemName,
             isComplete = false
         )
