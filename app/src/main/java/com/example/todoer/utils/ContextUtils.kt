@@ -3,12 +3,11 @@ package com.example.todoer.utils
 import android.content.Context
 import android.content.res.Resources.Theme
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.renderscript.ScriptGroup
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 
 object ContextUtils {
@@ -23,20 +22,11 @@ object ContextUtils {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    fun Context.getResColor(@ColorRes color: Int, theme: Theme? = null): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            this.resources.getColor(color, theme)
-        } else {
-            @Suppress("DEPRECATION")
-            this.resources.getColor(color)
-        }
+    fun Context.getResColor(@ColorRes colorRes: Int, theme: Theme? = null): Int {
+        return ResourcesCompat.getColor(this.resources, colorRes, theme)
     }
 
-    fun Context?.getResDrawable(@DrawableRes drawable: Int, theme: Theme? = null): Drawable? {
-        return if (this == null) {
-            null
-        } else {
-            ResourcesCompat.getDrawable(this.resources, drawable, theme)
-        }
+    fun Context.getResDrawable(@DrawableRes drawableRes: Int, theme: Theme? = null): Drawable? {
+        return ResourcesCompat.getDrawable(this.resources, drawableRes, theme)
     }
 }

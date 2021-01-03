@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
 
 class TodoListViewHolder private constructor(
     private val binding: TodoListBinding,
-    private val context: Context?,
+    private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: ChecklistItem, cardListeners: TodoCardListeners) {
@@ -34,17 +34,25 @@ class TodoListViewHolder private constructor(
             todoListCard.setOnClickListener {
                 cardListeners.onClickTodoCard(item)
             }
-            setupTitle(item ,cardListeners)
-            todoCountsText.text = context?.resources?.getString(
-                R.string.checklist_item_complete_over_total_tasks,
-                completedTasks,
-                totalTasks
-            )
-            progressBar.progress = progress
-            setupFavourited(item, cardListeners)
             cardOptions.setOnClickListener {
-                showPopupMenu(cardOptions, item, cardListeners, listTitle)
+                showPopupMenu(item, cardListeners)
             }
+
+            setupTitle(item ,cardListeners)
+            setupFavourited(item, cardListeners)
+
+            with(context.resources) {
+                todoCountsText.text = getString(
+                    R.string.checklist_item_complete_over_total_tasks,
+                    completedTasks,
+                    totalTasks)
+                editedDate.text = getString(
+                    R.string.card_edited_date,
+                    item.editedString
+                )
+            }
+
+            progressBar.progress = progress
         }
     }
 
@@ -94,16 +102,14 @@ class TodoListViewHolder private constructor(
     }
 
     private fun showPopupMenu(
-        view: ImageView,
         item: ChecklistItem,
-        cardListeners: TodoCardListeners,
-        listTitle: ToggledEditText
+        cardListeners: TodoCardListeners
     ) {
-        val popupMenu = PopupMenu(context, view)
+        val popupMenu = PopupMenu(context, binding.cardOptions)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_rename -> {
-                    listTitle.enableEditText()
+                    binding.listTitle.enableEditText()
                     true
                 }
                 R.id.item_delete -> {
@@ -121,10 +127,10 @@ class TodoListViewHolder private constructor(
     }
 
     companion object {
-        fun from(parent: ViewGroup, context: Context?): TodoListViewHolder {
+        fun from(parent: ViewGroup): TodoListViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = TodoListBinding.inflate(layoutInflater, parent, false)
-            return TodoListViewHolder(binding, context)
+            return TodoListViewHolder(binding, parent.context)
         }
     }
 }

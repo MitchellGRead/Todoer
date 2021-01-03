@@ -15,7 +15,7 @@ import timber.log.Timber
 
 class TodoNoteViewHolder private constructor(
     private val binding: TodoNoteBinding,
-    private val context: Context?,
+    private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: NoteItem, cardListeners: TodoCardListeners) {
@@ -23,13 +23,19 @@ class TodoNoteViewHolder private constructor(
             todoNoteCard.setOnClickListener {
                 cardListeners.onClickTodoCard(item)
             }
+            cardOptions.setOnClickListener {
+                showPopupMenu(item, cardListeners)
+            }
 
             setupTitle(item, cardListeners)
-            notePreview.text = item.note.noteDescription
             setupFavourited(item, cardListeners)
-            cardOptions.setOnClickListener {
-                showPopupMenu(cardOptions, item, cardListeners, noteTitle)
-            }
+
+            editedDate.text = context.resources.getString(
+                R.string.card_edited_date,
+                item.editedString
+            )
+
+            notePreview.text = item.note.noteDescription
         }
     }
 
@@ -79,16 +85,14 @@ class TodoNoteViewHolder private constructor(
     }
 
     private fun showPopupMenu(
-        view: ImageView,
         item: NoteItem,
-        cardListeners: TodoCardListeners,
-        noteTitle: ToggledEditText
+        cardListeners: TodoCardListeners
     ) {
-        val popupMenu = PopupMenu(context, view)
+        val popupMenu = PopupMenu(context, binding.cardOptions)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_rename -> {
-                    noteTitle.enableEditText()
+                    binding.noteTitle.enableEditText()
                     true
                 }
                 R.id.item_delete -> {
@@ -106,10 +110,10 @@ class TodoNoteViewHolder private constructor(
     }
 
     companion object {
-        fun from(parent: ViewGroup, context: Context?): TodoNoteViewHolder {
+        fun from(parent: ViewGroup): TodoNoteViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = TodoNoteBinding.inflate(layoutInflater, parent, false)
-            return TodoNoteViewHolder(binding, context)
+            return TodoNoteViewHolder(binding, parent.context)
         }
     }
 }

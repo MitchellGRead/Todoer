@@ -38,7 +38,7 @@ class HomeScreenFragment : Fragment() {
         setupFabClickHandler()
         setupNavigation()
 
-        val adapter = HomeScreenAdapter(setupTodoListListeners(), activity)
+        val adapter = HomeScreenAdapter(setupTodoListListeners())
         binding.todoList.adapter = adapter
         viewModel.homeScreenItems.observe(viewLifecycleOwner, Observer {
             it?.let {

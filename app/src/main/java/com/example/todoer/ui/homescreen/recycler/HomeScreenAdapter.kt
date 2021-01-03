@@ -6,14 +6,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class HomeScreenAdapter(
-    private val cardListeners: TodoCardListeners,
-    private val context: Context?
+    private val cardListeners: TodoCardListeners
 ) : ListAdapter<HomeScreenItem, RecyclerView.ViewHolder>(HomeScreenDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            HomeScreenItem.ITEM_VIEW_TYPE_CHECKLIST -> TodoListViewHolder.from(parent, context)
-            HomeScreenItem.ITEM_VIEW_TYPE_NOTE -> TodoNoteViewHolder.from(parent, context)
+            HomeScreenItem.ITEM_VIEW_TYPE_CHECKLIST -> TodoListViewHolder.from(parent)
+            HomeScreenItem.ITEM_VIEW_TYPE_NOTE -> TodoNoteViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewtype: $viewType")
         }
     }

@@ -4,6 +4,7 @@
 
     <!-- Home Screen -->
     <string name="home_screen_toolbar_title">Todoer</string>
+    <string name="card_edited_date">Edited: %s</string>
 
     <!-- Create Todo Screen -->
     <string name="create_todo_toolbar_title">Create Todo</string>
