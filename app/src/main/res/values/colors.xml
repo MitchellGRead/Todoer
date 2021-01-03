@@ -13,4 +13,6 @@
     <color name="fabIconColor">#FFFFFFFF</color>
     <color name="todoItemCompleteBackground">#CBCDCDCD</color>
 
+    <color name="noteFavouritedStarColor">#FFFE32</color>
+
 </resources>

@@ -41,8 +41,8 @@ class TodoListViewHolder private constructor(
                 totalTasks
             )
             progressBar.progress = progress
-            listOptions.setOnClickListener {
-                showPopupMenu(listOptions, item, cardListeners, listTitle)
+            cardOptions.setOnClickListener {
+                showPopupMenu(cardOptions, item, cardListeners, listTitle)
             }
         }
     }

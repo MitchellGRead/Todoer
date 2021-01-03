@@ -26,8 +26,8 @@ class TodoNoteViewHolder private constructor(
 
             setupTitle(root, noteTitle, item, cardListeners)
             notePreview.text = item.note.noteDescription
-            listOptions.setOnClickListener {
-                showPopupMenu(listOptions, item, cardListeners, noteTitle)
+            cardOptions.setOnClickListener {
+                showPopupMenu(cardOptions, item, cardListeners, noteTitle)
             }
         }
     }

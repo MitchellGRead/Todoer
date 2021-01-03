@@ -1,19 +1,32 @@
 <resources>
+    <!-- App -->
     <string name="app_name">Todoer</string>
-    <string name="more_options">More Options</string>
+
+    <!-- Home Screen -->
+    <string name="home_screen_toolbar_title">Todoer</string>
+
+    <!-- Create Todo Screen -->
+    <string name="create_todo_toolbar_title">Create Todo</string>
     <string name="create_todo">Create Todo</string>
     <string name="todo_name_hint">Todo Name</string>
-    <string name="todo_list_options_rename">Rename</string>
-    <string name="todo_list_options_delete">Delete</string>
-    <string name="todo_list_options_share">Share</string>
-    <string name="add_item_hint">Things Todo</string>
-    <string name="home_screen_toolbar_title">Todoer</string>
-    <string name="create_todo_toolbar_title">Create Todo</string>
-    <string name="note_details_content_hint">Type in some notes!</string>
-    <string name="checklist_item_complete_over_total_tasks">%d/%d</string>
-
     <string-array name="create_todo_type_options">
         <item>Checklist</item>
         <item>Note</item>
     </string-array>
+
+    <!-- Card Options Menu -->
+    <string name="todo_list_options_rename">Rename</string>
+    <string name="todo_list_options_delete">Delete</string>
+    <string name="todo_list_options_share">Share</string>
+
+    <!-- Checklist Details Screen -->
+    <string name="add_item_hint">Things Todo</string>
+    <string name="checklist_item_complete_over_total_tasks">%d/%d</string>
+
+    <!-- Note Details Screen -->
+    <string name="note_details_content_hint">Type in some notes!</string>
+
+    <!--  Content Descriptions  -->
+    <string name="more_options_screen_reader">More Options</string>
+    <string name="favourite_todo_screen_reader">favourite this todo</string>
 </resources>

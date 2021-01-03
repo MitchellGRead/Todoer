@@ -22,40 +22,66 @@
                 style="@style/home_screen_card_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/list_options"
+                app:layout_constraintEnd_toStartOf="@+id/card_info"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 tools:ignore="LabelFor"
                 tools:text="Christmas ideas" />
 
-            <ImageView
-                android:id="@+id/list_options"
-                android:layout_width="@dimen/standard_icon_size"
-                android:layout_height="@dimen/standard_icon_size"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/more_options"
-                android:src="@drawable/ic_more_vertical"
+            <LinearLayout
+                android:id="@+id/card_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/note_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorPrimaryIcon"
-                tools:src="@drawable/ic_more_vertical" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/favourite"
+                    android:layout_width="@dimen/standard_icon_size"
+                    android:layout_height="@dimen/standard_icon_size"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:contentDescription="@string/favourite_todo_screen_reader"
+                    android:src="@drawable/ic_round_star_outline"
+                    tools:src="@drawable/ic_round_star_outline" />
+
+                <ImageView
+                    android:id="@+id/card_options"
+                    android:layout_width="@dimen/standard_icon_size"
+                    android:layout_height="@dimen/standard_icon_size"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/more_options_screen_reader"
+                    android:src="@drawable/ic_more_vertical"
+                    app:tint="@color/colorPrimaryIcon"
+                    tools:src="@drawable/ic_more_vertical" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/note_preview"
+                style="@style/home_screen_note_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing"
-                android:maxLines="3"
                 android:ellipsize="end"
-                style="@style/home_screen_note_preview"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:maxLines="3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/note_title"
                 tools:text="Some text that is contained withinSome textSome text that is contained withinSome textSome text that is contained withinSome text that is contained withinSome text that is contained within" />
+
+            <TextView
+                android:id="@+id/edited_date"
+                style="@style/home_screen_card_edit_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/note_preview"
+                tools:text="Edited: Dec 21, 2020" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
