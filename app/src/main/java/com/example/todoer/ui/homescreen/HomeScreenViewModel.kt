@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoer.daggerhilt.IoDispatcher
+import com.example.todoer.daggerhilt.DefaultDispatcher
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
@@ -18,6 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -25,7 +26,7 @@ import timber.log.Timber
 class HomeScreenViewModel @ViewModelInject constructor(
     private val listRepo: TodoListRepo,
     private val noteRepo: TodoNoteRepo,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _homeScreenItems: MutableLiveData<List<HomeScreenItem>> = MutableLiveData()
@@ -57,6 +58,9 @@ class HomeScreenViewModel @ViewModelInject constructor(
             combine(checklistItems, noteItems) { checklists, notes ->
                 checklists + notes
             }
+                .map { items ->
+                    items.sortedByDescending { it.editedDate }
+                }
                 .flowOn(dispatcher)
                 .collect{
                     _homeScreenItems.value = it
@@ -78,6 +82,15 @@ class HomeScreenViewModel @ViewModelInject constructor(
             when (homeScreenItem) {
                 is ChecklistItem -> listRepo.updateListName(homeScreenItem.id, updatedName)
                 is NoteItem -> noteRepo.updateNoteName(homeScreenItem.id, updatedName)
+            }
+        }
+    }
+
+    fun onTodoFavourited(homeScreenItem: HomeScreenItem, isFavourited: Boolean) {
+        viewModelScope.launch {
+            when (homeScreenItem) {
+                is ChecklistItem -> listRepo.updateIsFavourited(homeScreenItem.id, isFavourited)
+                is NoteItem -> noteRepo.updateIsFavourited(homeScreenItem.id, isFavourited)
             }
         }
     }

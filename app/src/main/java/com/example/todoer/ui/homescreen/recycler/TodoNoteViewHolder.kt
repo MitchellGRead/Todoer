@@ -2,7 +2,6 @@ package com.example.todoer.ui.homescreen.recycler
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoer.R
 import com.example.todoer.customviews.ToggledEditText
 import com.example.todoer.databinding.TodoNoteBinding
+import com.example.todoer.utils.ContextUtils.getResDrawable
 import timber.log.Timber
 
 class TodoNoteViewHolder private constructor(
@@ -24,8 +24,9 @@ class TodoNoteViewHolder private constructor(
                 cardListeners.onClickTodoCard(item)
             }
 
-            setupTitle(root, noteTitle, item, cardListeners)
+            setupTitle(item, cardListeners)
             notePreview.text = item.note.noteDescription
+            setupFavourited(item, cardListeners)
             cardOptions.setOnClickListener {
                 showPopupMenu(cardOptions, item, cardListeners, noteTitle)
             }
@@ -33,15 +34,42 @@ class TodoNoteViewHolder private constructor(
     }
 
     private fun setupTitle(
-        root: View,
-        noteTitle: ToggledEditText,
         item: NoteItem,
         cardListeners: TodoCardListeners
     ) {
-        noteTitle.setText(item.note.noteName)
-        noteTitle.rootView = root  // For passing click events to the root
-        noteTitle.setOnKeyboardHidden {
-            onListRename(noteTitle, item, cardListeners)
+        with(binding) {
+            noteTitle.setText(item.note.noteName)
+            noteTitle.rootView = root  // For passing click events to the root
+            noteTitle.setOnKeyboardHidden {
+                onListRename(noteTitle, item, cardListeners)
+            }
+        }
+    }
+
+    private fun setupFavourited(
+        item: NoteItem,
+        cardListeners: TodoCardListeners
+    ) {
+        with(binding) {
+            val isFavourited = item.note.isFavourited
+            favouriteIcon.isChecked = isFavourited
+            setFavouriteIcon(isFavourited)
+
+            favouriteIcon.setOnClickListener {
+                val toggleIsFavourited = favouriteIcon.isChecked
+                cardListeners.onCardFavouritedListener(item, toggleIsFavourited)
+                setFavouriteIcon(toggleIsFavourited)
+            }
+        }
+    }
+
+    private fun setFavouriteIcon(isFavourited: Boolean) {
+        with(binding) {
+            if (isFavourited) {
+                favouriteIcon.buttonDrawable = context.getResDrawable(R.drawable.ic_round_filled_star)
+            } else {
+                favouriteIcon.buttonDrawable = context.getResDrawable(R.drawable.ic_round_star_outline)
+            }
         }
     }
 

@@ -42,14 +42,15 @@
                 app:layout_constraintStart_toEndOf="@+id/list_title"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/favourite"
-                    android:layout_width="@dimen/standard_icon_size"
-                    android:layout_height="@dimen/standard_icon_size"
+                <CheckBox
+                    android:id="@+id/favouriteIcon"
+                    android:minWidth="@dimen/standard_icon_size"
+                    android:minHeight="@dimen/standard_icon_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing"
                     android:contentDescription="@string/favourite_todo_screen_reader"
-                    android:src="@drawable/ic_round_star_outline"
-                    tools:src="@drawable/ic_round_star_outline" />
+                    android:button="@drawable/ic_round_star_outline" />
 
                 <ImageView
                     android:id="@+id/card_options"
