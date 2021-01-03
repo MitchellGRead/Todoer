@@ -27,11 +27,11 @@ object DateTimeUtils {
 
     /*
     * Format example:
-    * Sun, 12:55 PM
+    * Sun, 01:55 PM
     * Mon, 8:48 AM
     * */
     fun DateTime.getTimeString(): String {
-        val fmt = DateTimeFormat.forPattern("EE, HH:mm a")
+        val fmt = DateTimeFormat.forPattern("EE, hh:mm a")
         return this.toString(fmt)
     }
 
