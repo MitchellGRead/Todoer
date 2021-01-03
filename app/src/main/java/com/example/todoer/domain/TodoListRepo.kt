@@ -1,19 +1,24 @@
 package com.example.todoer.domain
 
+import com.example.todoer.daggerhilt.AppIoScope
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoListDao
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.ui.homescreen.recycler.ChecklistItem
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class TodoListRepo @Inject constructor(
     private val todoListDao: TodoListDao,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    @AppIoScope private val appIoScope: CoroutineScope
 ) {
 
     /* Inserting Operations */
@@ -46,12 +51,22 @@ class TodoListRepo @Inject constructor(
             todoListDao.updateListName(listId, updatedName)
         }
     }
+    
+    fun updateEditDate(listId: Long, editedDate: DateTime) {
+        appIoScope.launch {
+            todoListDao.updateEditDate(listId, editedDate)
+        }
+    }
+
+    suspend fun updateIsFavourited(listId: Long, isFavourited: Boolean) {
+        withContext(dispatcher) {
+            todoListDao.updatedIsFavourited(listId, isFavourited)
+        }
+    }
 
     /* Fetching Operations */
-    fun observeChecklistItems(): Flow<List<ChecklistItem>> {
-        return todoListDao.observeTodoLists().map { checklists ->
-            checklists.map { ChecklistItem(it) }
-        }.flowOn(dispatcher)
+    fun observeTodoLists(): Flow<List<TodoList>> {
+        return todoListDao.observeTodoLists()
     }
 
     /* Deleting Operations */

@@ -10,6 +10,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import org.joda.time.DateTime
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -55,11 +56,21 @@ class TodoNoteRepo @Inject constructor(
         }
     }
 
+    fun updateEditDate(noteId: Long, editedDate: DateTime) {
+        appIoScope.launch {
+            todoNoteDao.updateEditDate(noteId, editedDate)
+        }
+    }
+
+    suspend fun updateIsFavourited(noteId: Long, isFavourited: Boolean) {
+        withContext(dispatcher) {
+            todoNoteDao.updatedIsFavourited(noteId, isFavourited)
+        }
+    }
+
     /* Fetching Operations */
-    fun observeNoteItems(): Flow<List<NoteItem>> {
-        return todoNoteDao.observeTodoNotes().map { notes ->
-            notes.map { NoteItem(it) }
-        }.flowOn(dispatcher)
+    fun observeTodoNotes(): Flow<List<TodoNote>> {
+        return todoNoteDao.observeTodoNotes()
     }
 
     suspend fun getNoteDescription(noteId: Long): String? {

@@ -22,8 +22,9 @@ object RepositoryModule {
     @Singleton
     fun provideTodoListRepo(
         todoListDao: TodoListDao,
-        @IoDispatcher dispatcher: CoroutineDispatcher
-    ) : TodoListRepo = TodoListRepo(todoListDao, dispatcher)
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        @AppIoScope appIoScope: CoroutineScope
+    ) : TodoListRepo = TodoListRepo(todoListDao, dispatcher, appIoScope)
 
     @Provides
     @Singleton

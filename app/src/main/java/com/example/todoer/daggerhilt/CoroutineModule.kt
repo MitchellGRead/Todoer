@@ -16,19 +16,35 @@ object CoroutineModule {
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
+    @DefaultDispatcher
+    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @MainDispatcher
+    fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
     @UiScope
-    fun provideUiScope(): CoroutineScope =
-        CoroutineScope(Dispatchers.Main + Job())
+    fun provideUiScope(@MainDispatcher dispatcher: CoroutineDispatcher): CoroutineScope =
+        CoroutineScope(dispatcher + Job())
 
     @Provides
     @AppIoScope
-    fun provideAppIoScope(): CoroutineScope =
-        CoroutineScope(Dispatchers.IO + SupervisorJob())
+    fun provideAppIoScope(@IoDispatcher dispatcher: CoroutineDispatcher): CoroutineScope =
+        CoroutineScope(dispatcher + SupervisorJob())
 }
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class IoDispatcher
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DefaultDispatcher
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MainDispatcher
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
