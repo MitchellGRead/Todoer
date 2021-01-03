@@ -20,7 +20,7 @@ class TodoItemViewHolder private constructor(
         with(binding) {
             itemName.setText(item.itemName)
             itemName.setOnKeyboardHidden {
-                onRenameItem(itemName, item.itemId, todoItemListeners)
+                onRenameItem(item.itemId, todoItemListeners)
             }
 
             itemCompleted(item.isComplete)
@@ -32,6 +32,7 @@ class TodoItemViewHolder private constructor(
             editItem.setOnClickListener {
                 itemName.enableEditText()
             }
+
             deleteItem.setOnClickListener {
                 todoItemListeners.onDeleted(item.itemId)
             }
@@ -39,11 +40,10 @@ class TodoItemViewHolder private constructor(
     }
 
     private fun onRenameItem(
-        itemName: ToggledEditText,
         itemId: Long,
         todoItemListeners: TodoItemListeners
     ) {
-        val updatedText = itemName.text.toString()
+        val updatedText = binding.itemName.text.toString()
         todoItemListeners.onEdited(itemId, updatedText)
     }
 
