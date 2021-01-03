@@ -3,6 +3,7 @@ package com.example.todoer.database
 import androidx.room.*
 import com.example.todoer.database.models.TodoList
 import kotlinx.coroutines.flow.Flow
+import org.joda.time.DateTime
 
 @Dao
 interface TodoListDao {
@@ -21,8 +22,14 @@ interface TodoListDao {
     @Query(value = "UPDATE todo_list_table SET list_name = :updatedName_ WHERE list_id = :listId_")
     suspend fun updateListName(listId_: Long, updatedName_: String)
 
+    @Query(value = "UPDATE todo_list_table SET edited_at = :editedDate_ WHERE list_id = :listId_")
+    suspend fun updateEditDate(listId_: Long, editedDate_: DateTime)
+
+    @Query(value = "UPDATE todo_list_table SET favourited = :isFavourited_ WHERE list_id = :listId_")
+    suspend fun updatedIsFavourited(listId_: Long, isFavourited_: Boolean)
+
     /* Getting List Queries */
-    @Query(value = "SELECT * FROM todo_list_table ORDER BY created_at")
+    @Query(value = "SELECT * FROM todo_list_table")
     fun observeTodoLists(): Flow<List<TodoList>>
 
     @Query(value = "SELECT * FROM todo_list_table WHERE list_id = :listId_")
