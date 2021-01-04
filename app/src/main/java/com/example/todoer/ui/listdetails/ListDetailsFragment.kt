@@ -12,16 +12,18 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.example.todoer.MainActivity
 import com.example.todoer.R
+import com.example.todoer.base.BaseFragment
 import com.example.todoer.databinding.FragmentListDetailsBinding
 import com.example.todoer.ui.listdetails.recycler.ListDetailsAdapter
 import com.example.todoer.ui.listdetails.recycler.TodoItemListeners
+import com.example.todoer.utils.ContextUtils.hideKeyboard
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListDetailsFragment : Fragment() {
+class ListDetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentListDetailsBinding
     private val args: ListDetailsFragmentArgs by navArgs()

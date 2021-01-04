@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.todoer.MainActivity
 import com.example.todoer.R
+import com.example.todoer.base.BaseFragment
 import com.example.todoer.daggerhilt.UiScope
 import com.example.todoer.databinding.FragmentNoteDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +22,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NoteDetailsFragment : Fragment() {
+class NoteDetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentNoteDetailsBinding
     private val args: NoteDetailsFragmentArgs by navArgs()

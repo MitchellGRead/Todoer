@@ -12,13 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
+import com.example.todoer.base.BaseFragment
 import com.example.todoer.databinding.FragmentCreateTodoBinding
 import com.example.todoer.utils.ContextUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class CreateTodoFragment : Fragment() {
+class CreateTodoFragment : BaseFragment() {
 
     private val viewModel: CreateTodoViewModel by viewModels()
     private lateinit var binding: FragmentCreateTodoBinding

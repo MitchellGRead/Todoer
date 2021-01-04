@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
+import com.example.todoer.base.BaseFragment
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
 import com.example.todoer.ui.homescreen.recycler.TodoCardListeners
@@ -19,7 +20,7 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class HomeScreenFragment : Fragment() {
+class HomeScreenFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeScreenBinding
     private val viewModel: HomeScreenViewModel by viewModels()
