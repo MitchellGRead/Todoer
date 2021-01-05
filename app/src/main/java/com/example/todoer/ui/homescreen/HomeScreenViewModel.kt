@@ -18,9 +18,12 @@ import com.example.todoer.ui.homescreen.recycler.NoteItem
 import com.example.todoer.utils.DateTimeUtils.getDateTimeString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
@@ -46,26 +49,49 @@ class HomeScreenViewModel @ViewModelInject constructor(
     val navigateToNoteDetails: LiveData<NoteDetailNavArgs?>
         get() = _navigateToNoteDetails
 
+    private val sortChannel = ConflatedBroadcastChannel<Boolean>()
+    private var homeScreenItemsJob: Job? = null
+
     init {
         Timber.d("Init HomeScreen ViewModel")
+    }
+
+    /* sortContent drives fetching the home options.*/
+    fun sortContent(shouldSort: Boolean) {
+        sortChannel.offer(shouldSort)
         getHomeScreenItems()
     }
 
     private fun getHomeScreenItems() {
         val checklistItems = listRepo.observeTodoLists().toChecklistItems()
         val noteItems = noteRepo.observeTodoNotes().toNoteItems()
+        val sortOption = sortChannel.valueOrNull ?: false
 
-        viewModelScope.launch {
-            combine(checklistItems, noteItems) { checklists, notes ->
+        homeScreenItemsJob?.cancel()
+        homeScreenItemsJob = viewModelScope.launch {
+            combine(
+                checklistItems,
+                noteItems
+            ) { checklists, notes ->
                 checklists + notes
             }
                 .map { items ->
-                    items.sortedByDescending { it.editedDate }
+                    items.sortedWith(getSortComparator(sortOption))
                 }
                 .flowOn(dispatcher)
                 .collect{
                     _homeScreenItems.value = it
                 }
+        }
+
+    }
+
+    private fun getSortComparator(favouritesToTop: Boolean): Comparator<HomeScreenItem> {
+        return if (favouritesToTop) {
+            compareByDescending<HomeScreenItem> { it.isFavourited }
+                .thenByDescending { it.editedDate }
+        } else {
+            compareByDescending { it.editedDate }
         }
     }
 

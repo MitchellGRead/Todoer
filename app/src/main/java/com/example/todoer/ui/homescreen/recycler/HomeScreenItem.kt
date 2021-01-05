@@ -9,6 +9,7 @@ sealed class HomeScreenItem {
     abstract val createdDate: DateTime
     abstract val editedDate: DateTime
     abstract val editedDateString: String
+    abstract val isFavourited: Boolean
 
     companion object {
         const val ITEM_VIEW_TYPE_CHECKLIST = 1
@@ -28,6 +29,8 @@ data class ChecklistItem(
         get() = checkList.editedAt
     override val editedDateString: String
         get() = editedString
+    override val isFavourited: Boolean
+        get() = checkList.isFavourited
 }
 
 data class NoteItem(
@@ -41,4 +44,6 @@ data class NoteItem(
         get() = note.editedAt
     override val editedDateString: String
         get() = editedString
+    override val isFavourited: Boolean
+        get() = note.isFavourited
 }

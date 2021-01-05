@@ -2,6 +2,9 @@
     <!-- App -->
     <string name="app_name">Todoer</string>
 
+    <!-- Shared Preferences -->
+    <string name="home_screen_favourites_to_top_option">HomeScreenFavouritesToTopOptionKey</string>
+
     <!-- Home Screen -->
     <string name="home_screen_toolbar_title">Todoer</string>
     <string name="card_edited_date">Edited: %s</string>
