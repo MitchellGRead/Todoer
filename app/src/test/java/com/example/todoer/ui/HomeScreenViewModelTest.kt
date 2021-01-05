@@ -9,12 +9,14 @@ import com.example.testingmodule.mockfactories.TodoNoteMockFactory.Companion.toH
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.ui.homescreen.HomeScreenViewModel
+import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
 import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -32,6 +34,7 @@ class HomeScreenViewModelTest {
 
     private val listFactory = TodoListMockFactory()
     private val noteFactory = TodoNoteMockFactory()
+    private val homeScreenItems = listFactory.checkListItems + noteFactory.noteItems
 
     private lateinit var viewModel: HomeScreenViewModel
 
@@ -45,13 +48,46 @@ class HomeScreenViewModelTest {
     }
 
     init {
-        whenever(listRepo.observeChecklistItems()).thenReturn(flow { emit(listFactory.checkListItems) })
-        whenever(noteRepo.observeNoteItems()).thenReturn(flow { emit(noteFactory.noteItems) })
+        whenever(listRepo.observeTodoLists()).thenReturn(flow { emit(listFactory.todoLists) })
+        whenever(noteRepo.observeTodoNotes()).thenReturn(flow { emit(noteFactory.todoNotes) })
     }
 
     @Test
-    fun `WHEN viewmodel is created THEN home screen items fetched`() {
-        val expected = listFactory.checkListItems + noteFactory.noteItems
+    fun `GIVEN no sorting WHEN viewmodel sortContent THEN home screen items fetched in MRU order`() {
+        val expected = homeScreenItems
+            .sortedByDescending { it.editedDate }
+
+        viewModel.sortContent(false)
+
+        viewModel.homeScreenItems
+            .test()
+            .assertHasValue()
+            .assertValue(expected)
+            .assertHistorySize(1)
+    }
+
+    @Test
+    fun `GIVEN sortOption true WHEN viewmodel sortContent THEN home screen items fetched with MRU and favs at top`() {
+        val expected = homeScreenItems
+            .sortedWith(compareByDescending<HomeScreenItem> { it.isFavourited }.thenByDescending{ it.editedDate })
+
+        viewModel.sortContent(true)
+
+        viewModel.homeScreenItems
+            .test()
+            .assertHasValue()
+            .assertValue(expected)
+            .assertHistorySize(1)
+    }
+
+    @Test
+    fun `GIVEN multiple calls to sortContent WHEN viewmodel sortContent THEN home screen items fetched with most recent option`() {
+        val expected = homeScreenItems
+            .sortedByDescending { it.editedDate }
+
+        viewModel.sortContent(false)
+        viewModel.sortContent(true)
+        viewModel.sortContent(false)
 
         viewModel.homeScreenItems
             .test()

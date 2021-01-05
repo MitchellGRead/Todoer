@@ -76,7 +76,7 @@ class HomeScreenFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.favourites_to_top -> {
-                val optionCheckedSwapped = !getFavouritesToTopValue()
+                val optionCheckedSwapped = getFavouritesToTopValue().not()
                 sharedPrefs.setBooleanValue(
                     getString(FAVOURITES_TO_TOP_PREF_KEY),
                     optionCheckedSwapped

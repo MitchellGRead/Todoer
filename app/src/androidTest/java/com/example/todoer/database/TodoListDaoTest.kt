@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -92,19 +93,35 @@ class TodoListDaoTest {
         }
 
     @Test
-    fun `GIVEN_new_list_name_WHEN_updateListName_THEN_name_is_updated`() =
+    fun `GIVEN_edit_date_WHEN_updateEditDate_THEN_date_is_updated`() =
         mainCoroutineRule.runBlockingTest {
             val list = listFactory.todoList1
             val listId = todoListDao.insertTodoList(list)
-            val expectedName = "what a new name"
-            assertEquals(list.listName, getList(listId)?.listName)
-            assertNotSame(expectedName, list.listName)
+            val expectedDate = DateTime()
+            assertEquals(list.editedAt, getList(listId)?.editedAt)
+            assertNotSame(expectedDate, list.editedAt)
 
-            todoListDao.updateListName(listId, expectedName)
+            todoListDao.updateEditDate(listId, expectedDate)
 
             val actual = getList(listId)
-            assertNotSame(list.listName, actual?.listName)
-            assertEquals(expectedName, actual?.listName)
+            assertNotSame(list.editedAt, actual?.editedAt)
+            assertEquals(expectedDate, actual?.editedAt)
+        }
+
+    @Test
+    fun `GIVEN_list_favourited_WHEN_updateIsFavourited_THEN_favourited_toggles`() =
+        mainCoroutineRule.runBlockingTest {
+            val list = listFactory.todoList1
+            val listId = todoListDao.insertTodoList(list)
+            val expectedBoolean = list.isFavourited.not()
+            assertEquals(list.isFavourited, getList(listId)?.isFavourited)
+            assertNotSame(expectedBoolean, list.isFavourited)
+
+            todoListDao.updatedIsFavourited(listId, expectedBoolean)
+
+            val actual = getList(listId)
+            assertNotSame(list.isFavourited, actual?.isFavourited)
+            assertEquals(expectedBoolean, actual?.isFavourited)
         }
 
     /* Getting Tests */

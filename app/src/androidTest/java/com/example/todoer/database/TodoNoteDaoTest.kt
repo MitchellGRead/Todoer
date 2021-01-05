@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -89,6 +90,38 @@ class TodoNoteDaoTest {
             val actual = getNote(noteId)
             assertNotSame(note.noteName, actual?.noteName)
             assertEquals(expectedName, actual?.noteName)
+        }
+
+    @Test
+    fun `GIVEN_edit_date_WHEN_updateEditDate_THEN_date_is_updated`() =
+        mainCoroutineRule.runBlockingTest {
+            val note = noteFactory.todoNote1
+            val noteId = todoNoteDao.insertTodoNote(note)
+            val expectedDate = DateTime()
+            assertEquals(note.editedAt, getNote(noteId)?.editedAt)
+            assertNotSame(expectedDate, note.editedAt)
+
+            todoNoteDao.updateEditDate(noteId, expectedDate)
+
+            val actual = getNote(noteId)
+            assertNotSame(note.editedAt, actual?.editedAt)
+            assertEquals(expectedDate, actual?.editedAt)
+        }
+
+    @Test
+    fun `GIVEN_note_favourited_WHEN_updateIsFavourited_THEN_favourited_toggles`() =
+        mainCoroutineRule.runBlockingTest {
+            val note = noteFactory.todoNote1
+            val noteId = todoNoteDao.insertTodoNote(note)
+            val expectedBoolean = note.isFavourited.not()
+            assertEquals(note.isFavourited, getNote(noteId)?.isFavourited)
+            assertNotSame(expectedBoolean, note.isFavourited)
+
+            todoNoteDao.updatedIsFavourited(noteId, expectedBoolean)
+
+            val actual = getNote(noteId)
+            assertNotSame(note.isFavourited, actual?.isFavourited)
+            assertEquals(expectedBoolean, actual?.isFavourited)
         }
 
     /* Getting Tests */

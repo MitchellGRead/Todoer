@@ -124,7 +124,7 @@ class TodoItemDaoTest {
             todoItemDao.insertTodoItem(itemFactory.incompleteItem1)
             todoItemDao.insertTodoItem(itemFactory.completedItem1)
             todoItemDao.insertTodoItem(itemFactory.rogueItem)
-            val expected: List<TodoItem> = itemFactory.listTodoItems
+            val expected: List<TodoItem> = itemFactory.listTodoItems.sortedBy { it.createdAt }
 
             val actual = todoItemDao.observeTodoItemsInList(listId).take(1).toList()[0]
 
