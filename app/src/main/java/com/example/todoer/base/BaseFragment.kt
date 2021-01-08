@@ -5,7 +5,6 @@ import com.example.todoer.utils.ContextUtils.hideKeyboard
 
 abstract class BaseFragment : Fragment() {
 
-
     override fun onStop() {
         super.onStop()
         activity?.currentFocus?.let { context?.hideKeyboard(it) }

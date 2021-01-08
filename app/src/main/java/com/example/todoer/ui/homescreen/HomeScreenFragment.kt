@@ -61,6 +61,7 @@ class HomeScreenFragment : BaseFragment() {
         val favouriteToTop = menu.findItem(R.id.favourites_to_top)
         val optionChecked = getFavouritesToTopValue()
         favouriteToTop.isChecked = optionChecked
+        favouriteToTop.setOnMenuItemClickListener { onFavouriteOption(it) }
         viewModel.sortContent(optionChecked)
 
         super.onCreateOptionsMenu(menu, inflater)
@@ -73,20 +74,15 @@ class HomeScreenFragment : BaseFragment() {
         )
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.favourites_to_top -> {
-                val optionCheckedSwapped = getFavouritesToTopValue().not()
-                sharedPrefs.setBooleanValue(
-                    getString(FAVOURITES_TO_TOP_PREF_KEY),
-                    optionCheckedSwapped
-                )
-                item.isChecked = optionCheckedSwapped
-                viewModel.sortContent(optionCheckedSwapped)
-                true
-            }
-            else -> false
-        }
+    private fun onFavouriteOption(item: MenuItem): Boolean {
+        val optionCheckedSwapped = getFavouritesToTopValue().not()
+        sharedPrefs.setBooleanValue(
+            getString(FAVOURITES_TO_TOP_PREF_KEY),
+            optionCheckedSwapped
+        )
+        item.isChecked = optionCheckedSwapped
+        viewModel.sortContent(optionCheckedSwapped)
+        return true
     }
 
     /* FAB Button */
