@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/favourites_to_top"
-        android:title="Favourites to top"
+        android:title="@string/favourites_to_top_option"
         android:checkable="true"/>
 
 </menu>

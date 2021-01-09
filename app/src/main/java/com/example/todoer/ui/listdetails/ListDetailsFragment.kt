@@ -43,18 +43,7 @@ class ListDetailsFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         binding.lifecycleOwner = this
 
-        undoSnackbar = Snackbar.make(
-            binding.snackbar,
-            getString(R.string.swipe_to_dismiss),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(getString(R.string.undo)) { viewModel.undoDelete() }
-            .addCallback(object : Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    super.onDismissed(transientBottomBar, event)
-                    viewModel.onSnackbarDismissed()
-                }
-            })
-
+        makeSnackbar()
         setHasOptionsMenu(true)
         setUpAddItem()
 
@@ -68,11 +57,25 @@ class ListDetailsFragment : BaseFragment() {
 
         viewModel.showSnackbar.observe(viewLifecycleOwner, Observer { event ->
             event.getContentIfNotHandled()?.let {
-                if (it) undoSnackbar.show()
+                if (it) undoSnackbar.show() else makeSnackbar()
             }
         })
 
         return binding.root
+    }
+
+    private fun makeSnackbar() {
+        undoSnackbar = Snackbar.make(
+            binding.snackbar,
+            getString(R.string.swipe_to_dismiss),
+            Snackbar.LENGTH_INDEFINITE
+        )        .setAction(getString(R.string.undo)) { viewModel.undoDelete() }
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    viewModel.onSnackbarDismissed()
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

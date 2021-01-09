@@ -34,7 +34,7 @@ class TodoItemViewHolder private constructor(
             }
 
             deleteItem.setOnClickListener {
-                todoItemListeners.onDeleted(item.itemId)
+                todoItemListeners.onDeleted(item)
             }
         }
     }
