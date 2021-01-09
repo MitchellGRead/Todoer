@@ -1,9 +1,6 @@
 package com.example.todoer.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.todoer.database.models.TodoItem
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +10,9 @@ interface TodoItemDao {
     /* Inserting Item Queries */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodoItem(item: TodoItem): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTodoItems(items: List<TodoItem>)
 
     /* Updating Item Queries */
     @Query(value = "UPDATE todo_item_table SET is_complete = :isCompleted_ WHERE item_id = :itemId_")
@@ -32,6 +32,9 @@ interface TodoItemDao {
     fun observeTodoItemsInList(listId_: Long): Flow<List<TodoItem>>
 
     /* Deleting Item Queries */
-    @Query(value = "DELETE FROM todo_item_table WHERE item_id = :itemId_")
-    suspend fun deleteItemById(itemId_: Long)
+    @Delete
+    suspend fun deleteItem(item: TodoItem)
+
+    @Delete
+    suspend fun deleteItems(items: List<TodoItem>)
 }

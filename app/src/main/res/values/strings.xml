@@ -8,6 +8,7 @@
     <!-- Home Screen -->
     <string name="home_screen_toolbar_title">Todoer</string>
     <string name="card_edited_date">Edited: %s</string>
+    <string name="favourites_to_top_option">Favourites to top</string>
 
     <!-- Create Todo Screen -->
     <string name="create_todo_toolbar_title">Create Todo</string>
@@ -26,6 +27,7 @@
     <!-- Checklist Details Screen -->
     <string name="add_item_hint">Things Todo</string>
     <string name="checklist_item_complete_over_total_tasks">%d/%d</string>
+    <string name="delete_finished_option">Delete Finished</string>
 
     <!-- Note Details Screen -->
     <string name="note_details_content_hint">Type in some notes!</string>
@@ -33,4 +35,8 @@
     <!--  Content Descriptions  -->
     <string name="more_options_screen_reader">More Options</string>
     <string name="favourite_todo_screen_reader">favourite this todo</string>
+
+    <!-- Snackbar -->
+    <string name="swipe_to_dismiss">Swipe to dismiss.</string>
+    <string name="undo">Undo</string>
 </resources>

@@ -1,16 +1,20 @@
 package com.example.todoer.domain
 
+import com.example.todoer.daggerhilt.AppIoScope
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.TodoItemDao
 import com.example.todoer.database.models.TodoItem
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TodoItemRepo @Inject constructor(
     private val todoItemDao: TodoItemDao,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    @AppIoScope private val appIoScope: CoroutineScope
 ) {
 
     /* Inserting Operations */
@@ -22,6 +26,12 @@ class TodoItemRepo @Inject constructor(
 
     private fun createTodoItem(listId: Long, itemName: String) =
         TodoItem(listId = listId, itemName = itemName)
+
+    suspend fun insertExisitingTodoItems(items: List<TodoItem>) {
+        withContext(dispatcher) {
+            todoItemDao.insertTodoItems(items)
+        }
+    }
 
     /* Updating Operations */
     suspend fun updateItemCompleted(itemId: Long, isComplete: Boolean) {
@@ -46,9 +56,15 @@ class TodoItemRepo @Inject constructor(
     }
 
     /* Deleting Operations */
-    suspend fun deleteTodoItem(itemId: Long) {
-        withContext(dispatcher) {
-            todoItemDao.deleteItemById(itemId)
-        }
+    suspend fun deleteItem(item: TodoItem) {
+        appIoScope.launch {
+            todoItemDao.deleteItem(item)
+        }.join()
+    }
+
+    suspend fun deleteItems(items: List<TodoItem>) {
+        appIoScope.launch {
+            todoItemDao.deleteItems(items)
+        }.join()
     }
 }

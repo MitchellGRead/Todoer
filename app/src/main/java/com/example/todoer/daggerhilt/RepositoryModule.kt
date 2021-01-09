@@ -38,6 +38,7 @@ object RepositoryModule {
     @Singleton
     fun provideTodoItemRepo(
         todoItemDao: TodoItemDao,
-        @IoDispatcher dispatcher: CoroutineDispatcher
-    ) : TodoItemRepo = TodoItemRepo(todoItemDao, dispatcher)
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        @AppIoScope appIoScope: CoroutineScope
+    ) : TodoItemRepo = TodoItemRepo(todoItemDao, dispatcher, appIoScope)
 }

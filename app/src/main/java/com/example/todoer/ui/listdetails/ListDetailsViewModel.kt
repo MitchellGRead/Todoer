@@ -1,6 +1,7 @@
 package com.example.todoer.ui.listdetails
 
 import androidx.lifecycle.*
+import com.example.todoer.base.UiEvent
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.domain.TodoItemRepo
@@ -26,6 +27,12 @@ class ListDetailsViewModel @AssistedInject constructor(
     val todoItems: LiveData<List<TodoItem>>
         get() = _todoItems
 
+    private val _showSnackbar: MutableLiveData<UiEvent<Boolean>> = MutableLiveData()
+    val showSnackbar: LiveData<UiEvent<Boolean>>
+        get() = _showSnackbar
+
+    private var deletedItems: List<TodoItem>? = null
+
     init {
         observeTodoItems()
     }
@@ -41,6 +48,10 @@ class ListDetailsViewModel @AssistedInject constructor(
                     _todoItems.value = it
                 }
         }
+    }
+
+    fun onSnackbarDismissed() {
+        _showSnackbar.value = UiEvent(false)
     }
 
     fun createTodoItem(itemName: String) {
@@ -74,11 +85,42 @@ class ListDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun onDeleteItem(itemId: Long) {
+    fun onDeleteItem(item: TodoItem) {
         viewModelScope.launch {
-            itemRepo.deleteTodoItem(itemId)
-            updateListCompletedItems()
-            updateListTotalItems()
+            delete(listOf(item))
+            updateListCounts()
+        }
+    }
+
+    private suspend fun delete(items: List<TodoItem>) {
+        if (items.isEmpty()) return
+
+        deletedItems = items
+        _showSnackbar.value = UiEvent(true)
+        itemRepo.deleteItems(items)
+        updateListCounts()
+    }
+
+    private suspend fun updateListCounts() {
+        updateListCompletedItems()
+        updateListTotalItems()
+    }
+
+    fun deleteFinished() {
+        viewModelScope.launch {
+            val completed = itemRepo.getTodoItems(listId)?.filter { it.isComplete }
+            completed?.let {
+                delete(it)
+            }
+        }
+    }
+
+    fun undoDelete() {
+        deletedItems?.let { items ->
+            viewModelScope.launch {
+                itemRepo.insertExisitingTodoItems(items)
+                updateListCounts()
+            }
         }
     }
 
