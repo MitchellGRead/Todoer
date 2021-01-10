@@ -3,6 +3,8 @@ package com.example.todoer.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.testingmodule.coroutines.MainCoroutineRule
 import com.example.testingmodule.mockfactories.TodoItemMockFactory
+import com.example.todoer.base.SnackbarEvent
+import com.example.todoer.base.UiEvent
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
@@ -13,6 +15,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -133,7 +136,7 @@ class ListDetailsViewModelTest {
         }
 
     @Test
-    fun `GIVEN completed item id WHEN onDeleteItem THEN item repo calls deleteItem and list totals adjusted`() =
+    fun `GIVEN completed item WHEN onDeleteItem THEN item repo calls deleteItem and list totals adjusted`() =
         mainCoroutineRule.runBlockingTest {
             val item = itemFactory.completedItem1
             val beforeCompleteTotal = list.completedTasks
@@ -141,11 +144,44 @@ class ListDetailsViewModelTest {
             existingItems.remove(item)
             whenever(itemRepo.getTodoItems(list.listId)).thenReturn(existingItems)
 
-            viewModel.onDeleteItem(item.itemId)
+            viewModel.onDeleteItem(item)
 
-            verify(itemRepo, times(1)).deleteTodoItem(item.itemId)
+            verify(itemRepo, times(1)).deleteItems(listOf(item))
             verify(listRepo, times(1)).updateListCompleteTasks(list.listId, beforeCompleteTotal - 1)
             verify(listRepo, times(1)).updateListTotalTasks(list.listId, beforeTotal - 1)
+            viewModel.showSnackbar
+                .test()
+                .assertHasValue()
+                .assertValue(SnackbarEvent(true))
+                .assertHistorySize(1)
+        }
+
+    @Test
+    fun `GIVEN delete all completed WHEN deleteFinished THEN items are deleted`() =
+        mainCoroutineRule.runBlockingTest {
+            val item = itemFactory.completedItem1
+            val item2 = itemFactory.completedItem2
+
+            viewModel.deleteFinished()
+
+            verify(itemRepo, times(1)).deleteItems(listOf(item, item2))
+            viewModel.showSnackbar
+                .test()
+                .assertHasValue()
+                .assertValue(SnackbarEvent(true))
+                .assertHistorySize(1)
+        }
+
+    @Test
+    fun `GIVEN items deleted WHEN undoDelete THEN items restored`() =
+        mainCoroutineRule.runBlockingTest {
+            val item = itemFactory.completedItem1
+            val item2 = itemFactory.completedItem2
+            viewModel.deleteFinished()
+
+            viewModel.undoDelete()
+
+            verify(itemRepo, times(1)).insertExisitingTodoItems(listOf(item, item2))
         }
 
     @Test

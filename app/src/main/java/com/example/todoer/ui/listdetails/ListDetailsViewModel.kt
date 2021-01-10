@@ -1,6 +1,7 @@
 package com.example.todoer.ui.listdetails
 
 import androidx.lifecycle.*
+import com.example.todoer.base.SnackbarEvent
 import com.example.todoer.base.UiEvent
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.models.TodoItem
@@ -27,8 +28,8 @@ class ListDetailsViewModel @AssistedInject constructor(
     val todoItems: LiveData<List<TodoItem>>
         get() = _todoItems
 
-    private val _showSnackbar: MutableLiveData<UiEvent<Boolean>> = MutableLiveData()
-    val showSnackbar: LiveData<UiEvent<Boolean>>
+    private val _showSnackbar: MutableLiveData<SnackbarEvent> = MutableLiveData()
+    val showSnackbar: LiveData<SnackbarEvent>
         get() = _showSnackbar
 
     private var deletedItems: List<TodoItem>? = null
@@ -51,7 +52,7 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     fun onSnackbarDismissed() {
-        _showSnackbar.value = UiEvent(false)
+        _showSnackbar.value = SnackbarEvent(false)
     }
 
     fun createTodoItem(itemName: String) {
@@ -88,7 +89,6 @@ class ListDetailsViewModel @AssistedInject constructor(
     fun onDeleteItem(item: TodoItem) {
         viewModelScope.launch {
             delete(listOf(item))
-            updateListCounts()
         }
     }
 
@@ -96,7 +96,7 @@ class ListDetailsViewModel @AssistedInject constructor(
         if (items.isEmpty()) return
 
         deletedItems = items
-        _showSnackbar.value = UiEvent(true)
+        _showSnackbar.value = SnackbarEvent(true)
         itemRepo.deleteItems(items)
         updateListCounts()
     }

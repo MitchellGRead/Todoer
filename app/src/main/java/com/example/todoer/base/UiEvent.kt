@@ -1,6 +1,6 @@
 package com.example.todoer.base
 
-class UiEvent<T>(private val content: T) {
+sealed class UiEvent<T>(private val content: T) {
 
     var hasBeenHandled = false
         private set
@@ -13,6 +13,8 @@ class UiEvent<T>(private val content: T) {
             content
         }
     }
-
-    fun peekContent(): T = content
 }
+
+data class SnackbarEvent(
+    val shouldDisplay: Boolean
+) : UiEvent<Boolean>(shouldDisplay)

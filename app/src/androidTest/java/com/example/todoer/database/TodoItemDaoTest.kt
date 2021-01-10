@@ -113,7 +113,7 @@ class TodoItemDaoTest {
             val actual = todoItemDao.getTodoItemsInList(listId)
 
             assertNotNull(actual)
-            assert(itemFactory.rogueItem !in expected)
+            assert(itemFactory.rogueItem !in actual!!)
             assertEquals(expected, actual)
         }
 
@@ -128,7 +128,7 @@ class TodoItemDaoTest {
 
             val actual = todoItemDao.observeTodoItemsInList(listId).take(1).toList()[0]
 
-            assert(itemFactory.rogueItem !in expected)
+            assert(itemFactory.rogueItem !in actual)
             assertEquals(expected, actual)
         }
 
@@ -139,7 +139,7 @@ class TodoItemDaoTest {
             val itemId = todoItemDao.insertTodoItem(itemFactory.completedItem1)
             assertNotNull(getItem(itemId))
 
-            todoItemDao.deleteItemById(itemId)
+            todoItemDao.deleteItem(itemFactory.completedItem1)
 
             assertNull(getItem(itemId))
         }
@@ -154,6 +154,23 @@ class TodoItemDaoTest {
             todoListDao.deleteListById(listId)
 
             assertNull(getItem(itemId))
+        }
+
+    @Test
+    fun `WHEN_delete_items_THEN_items`() =
+        mainCoroutineRule.runBlockingTest {
+            val incomplete1 = itemFactory.incompleteItem1
+            val complete1 = itemFactory.completedItem1
+            val complete2 = itemFactory.completedItem2
+            todoItemDao.insertTodoItem(incomplete1)
+            todoItemDao.insertTodoItem(complete1)
+            todoItemDao.insertTodoItem(complete2)
+            val delete = listOf(complete1, complete2)
+
+            todoItemDao.deleteItems(delete)
+
+            assertNull(getItem(complete1.itemId))
+            assertNull(getItem(complete2.itemId))
         }
 
     /* Helpers */
