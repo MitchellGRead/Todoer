@@ -6,6 +6,12 @@
         android:id="@+id/delete_finished"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete_finished_option"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/share_todo"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share_todo"
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

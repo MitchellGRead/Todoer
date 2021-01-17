@@ -1,6 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name">Todoer</string>
+    <string name="share_todo">Share Todo</string>
 
     <!-- Shared Preferences -->
     <string name="home_screen_favourites_to_top_option">HomeScreenFavouritesToTopOptionKey</string>
