@@ -1,8 +1,7 @@
 package com.example.todoer.ui.listdetails
 
 import androidx.lifecycle.*
-import com.example.todoer.base.SnackbarEvent
-import com.example.todoer.base.UiEvent
+import com.example.todoer.base.BaseViewModel
 import com.example.todoer.daggerhilt.IoDispatcher
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.domain.TodoItemRepo
@@ -22,15 +21,11 @@ class ListDetailsViewModel @AssistedInject constructor(
     private val itemRepo: TodoItemRepo,
     private val listRepo: TodoListRepo,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : BaseViewModel<ListAction>() {
 
     private val _todoItems: MutableLiveData<List<TodoItem>> = MutableLiveData()
     val todoItems: LiveData<List<TodoItem>>
         get() = _todoItems
-
-    private val _showSnackbar: MutableLiveData<SnackbarEvent> = MutableLiveData()
-    val showSnackbar: LiveData<SnackbarEvent>
-        get() = _showSnackbar
 
     private var deletedItems: List<TodoItem>? = null
 
@@ -52,7 +47,7 @@ class ListDetailsViewModel @AssistedInject constructor(
     }
 
     fun onSnackbarDismissed() {
-        _showSnackbar.value = SnackbarEvent(false)
+        setAction(SnackbarAction(false))
     }
 
     fun createTodoItem(itemName: String) {
@@ -96,7 +91,7 @@ class ListDetailsViewModel @AssistedInject constructor(
         if (items.isEmpty()) return
 
         deletedItems = items
-        _showSnackbar.value = SnackbarEvent(true)
+        setAction(SnackbarAction(true))
         itemRepo.deleteItems(items)
         updateListCounts()
     }
@@ -133,6 +128,22 @@ class ListDetailsViewModel @AssistedInject constructor(
     fun updateEditedDate() {
         val newDate = DateTime()
         listRepo.updateEditDate(listId, newDate)
+    }
+
+    /* Sharing logic */
+    fun shareTodo() {
+        viewModelScope.launch {
+            val incompleteItems = itemRepo.getTodoItems(listId)?.filter { it.isComplete.not() }
+            incompleteItems?.let {
+                val share = parseItemsToShareString(it)
+                setAction(ShareAction(share))
+            }
+        }
+    }
+
+    private fun parseItemsToShareString(items: List<TodoItem>): String {
+        val titles = items.map { "- ${it.itemName}" }
+        return titles.joinToString(separator = "\n")
     }
 
     @AssistedInject.Factory
