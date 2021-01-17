@@ -66,7 +66,6 @@ class ToggledEditText(
             context.showKeyboard(this)
         } else {
             mOnKeyboardHidden?.invoke()
-            context.hideKeyboard(this)
         }
         super.onFocusChanged(focused, direction, previouslyFocusedRect)
     }
