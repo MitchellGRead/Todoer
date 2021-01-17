@@ -9,12 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.example.todoer.MainActivity
 import com.example.todoer.R
+import com.example.todoer.base.ViewModelAction
 import com.example.todoer.base.BaseFragment
 import com.example.todoer.databinding.FragmentListDetailsBinding
+import com.example.todoer.sharing.ShareIntentFactory
 import com.example.todoer.ui.listdetails.recycler.ListDetailsAdapter
 import com.example.todoer.ui.listdetails.recycler.TodoItemListeners
 import com.example.todoer.utils.ViewUtils.setMultiLineAndDoneAction
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -24,9 +25,10 @@ import javax.inject.Inject
 class ListDetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentListDetailsBinding
-    private val args: ListDetailsFragmentArgs by navArgs()
     private lateinit var undoSnackbar: Snackbar
+    private val args: ListDetailsFragmentArgs by navArgs()
 
+    @Inject lateinit var shareIntentFactory: ShareIntentFactory
     @Inject lateinit var viewModelAssistedInjectFactory: ListDetailsViewModel.AssistedFactory
     private val viewModel: ListDetailsViewModel by viewModels {
         ListDetailsViewModel.provideFactory(viewModelAssistedInjectFactory, args.listDetailArgs.listId)
@@ -55,13 +57,25 @@ class ListDetailsFragment : BaseFragment() {
             }
         })
 
-        viewModel.showSnackbar.observe(viewLifecycleOwner, Observer { event ->
-            event.getContentIfNotHandled()?.let {
-                if (it) undoSnackbar.show() else makeSnackbar()
-            }
+        viewModel.action.observe(viewLifecycleOwner, Observer { action ->
+            action?.let { onAction(it) }
         })
 
         return binding.root
+    }
+
+    private fun onAction(action: ViewModelAction<ListAction>) {
+        val listAction = action.getContentIfNotHandled()
+        when (listAction) {
+            is SnackbarAction -> {
+                if (listAction.shouldShow) undoSnackbar.show() else makeSnackbar()
+            }
+            is ShareAction -> {
+                val shareIntent = shareIntentFactory.createTextShareIntent(listAction.data)
+                startActivity(shareIntent)
+            }
+            null -> Timber.e("Error: $action has a null listAction type.")
+        }
     }
 
     private fun makeSnackbar() {
@@ -80,14 +94,21 @@ class ListDetailsFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_details_toolbar_options, menu)
-
-        val item = menu.findItem(R.id.delete_finished)
-        item.setOnMenuItemClickListener {
-            viewModel.deleteFinished()
-            true
-        }
-
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete_finished -> {
+                viewModel.deleteFinished()
+                true
+            }
+            R.id.share_todo -> {
+                viewModel.shareTodo()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun setUpAddItem() {
