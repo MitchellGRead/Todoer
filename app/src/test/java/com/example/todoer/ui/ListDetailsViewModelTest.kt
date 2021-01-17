@@ -3,13 +3,15 @@ package com.example.todoer.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.testingmodule.coroutines.MainCoroutineRule
 import com.example.testingmodule.mockfactories.TodoItemMockFactory
-import com.example.todoer.base.SnackbarEvent
-import com.example.todoer.base.UiEvent
+import com.example.todoer.base.ViewModelAction
 import com.example.todoer.database.models.TodoItem
 import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.ui.createtodo.CheckList
+import com.example.todoer.ui.listdetails.ListAction
 import com.example.todoer.ui.listdetails.ListDetailsViewModel
+import com.example.todoer.ui.listdetails.ShareAction
+import com.example.todoer.ui.listdetails.SnackbarAction
 import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
@@ -149,11 +151,12 @@ class ListDetailsViewModelTest {
             verify(itemRepo, times(1)).deleteItems(listOf(item))
             verify(listRepo, times(1)).updateListCompleteTasks(list.listId, beforeCompleteTotal - 1)
             verify(listRepo, times(1)).updateListTotalTasks(list.listId, beforeTotal - 1)
-            viewModel.showSnackbar
+            viewModel.action
                 .test()
                 .assertHasValue()
-                .assertValue(SnackbarEvent(true))
                 .assertHistorySize(1)
+            val actual = (viewModel.action.value?.getContentIfNotHandled() as SnackbarAction).shouldShow
+            assertEquals(true, actual)
         }
 
     @Test
@@ -165,11 +168,12 @@ class ListDetailsViewModelTest {
             viewModel.deleteFinished()
 
             verify(itemRepo, times(1)).deleteItems(listOf(item, item2))
-            viewModel.showSnackbar
+            viewModel.action
                 .test()
                 .assertHasValue()
-                .assertValue(SnackbarEvent(true))
                 .assertHistorySize(1)
+            val actual = (viewModel.action.value?.getContentIfNotHandled() as SnackbarAction).shouldShow
+            assertEquals(true, actual)
         }
 
     @Test
@@ -193,6 +197,22 @@ class ListDetailsViewModelTest {
             viewModel.onRenameItem(item.itemId, newName)
 
             verify(itemRepo, times(1)).updateItemName(item.itemId, newName)
+        }
+
+    @Test
+    fun `WHEN shareTodo THEN all incomplete items formatted to string for sharing`() =
+        mainCoroutineRule.runBlockingTest {
+            val item = itemFactory.incompleteItem1
+            val shareData = "- ${item.itemName}"
+
+            viewModel.shareTodo()
+
+            viewModel.action
+                .test()
+                .assertHasValue()
+                .assertHistorySize(1)
+            val actual = (viewModel.action.value?.getContentIfNotHandled() as ShareAction).data
+            assertEquals(shareData, actual)
         }
 
 
