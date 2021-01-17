@@ -8,6 +8,8 @@ import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.ui.homescreen.HomeScreenViewModel
 import com.example.todoer.ui.notedetails.NoteDetailsViewModel
+import com.example.todoer.ui.notedetails.ShareNote
+import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
@@ -65,6 +67,21 @@ class NoteDetailsViewModelTest {
             viewModel.saveNoteDescription(newDescription)
 
             verify(noteRepo, times(1)).updateNoteDescription(note.noteId, newDescription)
+        }
+
+    @Test
+    fun `WHEN shareTodo THEN notes description set in action`() =
+        mainCoroutineRule.runBlockingTest {
+            val expected = note.noteDescription
+
+            viewModel.shareTodo()
+
+            viewModel.action
+                .test()
+                .assertHasValue()
+                .assertHistorySize(1)
+            val actual = (viewModel.action.value?.getContentIfNotHandled() as ShareNote).data
+            assertEquals(expected, actual)
         }
 
 }
