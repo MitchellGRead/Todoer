@@ -3,11 +3,12 @@ package com.example.todoer.ui.homescreen
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.base.BaseViewModel
 import com.example.todoer.daggerhilt.DefaultDispatcher
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
+import com.example.todoer.domain.TodoItemRepo
 import com.example.todoer.domain.TodoListRepo
 import com.example.todoer.domain.TodoNoteRepo
 import com.example.todoer.navigation.ListDetailNavArgs
@@ -19,9 +20,7 @@ import com.example.todoer.utils.DateTimeUtils.getDateTimeString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,8 +29,9 @@ import timber.log.Timber
 class HomeScreenViewModel @ViewModelInject constructor(
     private val listRepo: TodoListRepo,
     private val noteRepo: TodoNoteRepo,
+    private val itemRepo: TodoItemRepo,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : BaseViewModel<HomeAction>() {
 
     private val _homeScreenItems: MutableLiveData<List<HomeScreenItem>> = MutableLiveData()
     val homeScreenItems: LiveData<List<HomeScreenItem>>
@@ -51,6 +51,7 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     private val sortChannel = ConflatedBroadcastChannel<Boolean>()
     private var homeScreenItemsJob: Job? = null
+    private var lastDeletedCard: HomeScreenItem? = null
 
     init {
         Timber.d("Init HomeScreen ViewModel")
@@ -102,6 +103,7 @@ class HomeScreenViewModel @ViewModelInject constructor(
                 val editedString = todo.editedAt.getDateTimeString()
                 ChecklistItem(
                     checkList = todo,
+                    todoItems = itemRepo.getTodoItems(todo.listId),
                     editedString = editedString
                 )
             }
@@ -122,10 +124,28 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     /* Card Operations */
     fun onDeleteTodo(homeScreenItem: HomeScreenItem) {
+        setAction(SnackbarAction(true))
         viewModelScope.launch {
             when (homeScreenItem) {
                 is ChecklistItem -> listRepo.deleteList(homeScreenItem.id)
                 is NoteItem -> noteRepo.deleteNote(homeScreenItem.id)
+            }
+            lastDeletedCard = homeScreenItem
+        }
+    }
+
+    fun undoDelete() {
+        lastDeletedCard?.let { card ->
+            viewModelScope.launch {
+                when(card) {
+                    is ChecklistItem -> {
+                        listRepo.insertExistingList(card.checkList)
+                        itemRepo.insertExisitingTodoItems(card.todoItems)
+                    }
+                    is NoteItem -> {
+                        noteRepo.insertExistingNote(card.note)
+                    }
+                }
             }
         }
     }
@@ -170,5 +190,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     fun onTodoNoteNavigated() {
         _navigateToNoteDetails.value = null
+    }
+
+    /* Action functions */
+    fun onSnackbarDismissed() {
+        setAction(SnackbarAction(false))
     }
 }

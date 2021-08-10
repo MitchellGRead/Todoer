@@ -61,9 +61,7 @@ class ListDetailsViewModel @AssistedInject constructor(
 
     private suspend fun updateListTotalItems() {
         val listItems = itemRepo.getTodoItems(listId)
-        listItems?.let {
-            listRepo.updateListTotalTasks(listId, it.size)
-        }
+        listRepo.updateListTotalTasks(listId, listItems.size)
     }
 
     fun onItemCompleted(itemId: Long, isChecked: Boolean) {
@@ -75,10 +73,8 @@ class ListDetailsViewModel @AssistedInject constructor(
 
     private suspend fun updateListCompletedItems() {
         val listItems = itemRepo.getTodoItems(listId)
-        listItems?.let { items ->
-            val totalCompleted = items.filter { it.isComplete }.size
-            listRepo.updateListCompleteTasks(listId, totalCompleted)
-        }
+        val totalCompleted = listItems.filter { it.isComplete }.size
+        listRepo.updateListCompleteTasks(listId, totalCompleted)
     }
 
     fun onDeleteItem(item: TodoItem) {
@@ -103,10 +99,8 @@ class ListDetailsViewModel @AssistedInject constructor(
 
     fun deleteFinished() {
         viewModelScope.launch {
-            val completed = itemRepo.getTodoItems(listId)?.filter { it.isComplete }
-            completed?.let {
-                delete(it)
-            }
+            val completed = itemRepo.getTodoItems(listId).filter { it.isComplete }
+            delete(completed)
         }
     }
 
@@ -133,11 +127,9 @@ class ListDetailsViewModel @AssistedInject constructor(
     /* Sharing logic */
     fun shareTodo() {
         viewModelScope.launch {
-            val incompleteItems = itemRepo.getTodoItems(listId)?.filter { it.isComplete.not() }
-            incompleteItems?.let {
-                val share = parseItemsToShareString(it)
-                setAction(ShareAction(share))
-            }
+            val incompleteItems = itemRepo.getTodoItems(listId).filter { it.isComplete.not() }
+            val share = parseItemsToShareString(incompleteItems)
+            setAction(ShareAction(share))
         }
     }
 
