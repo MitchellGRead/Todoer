@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoer.base.BaseViewModel
 import com.example.todoer.daggerhilt.DefaultDispatcher
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
@@ -19,9 +20,7 @@ import com.example.todoer.utils.DateTimeUtils.getDateTimeString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -31,7 +30,7 @@ class HomeScreenViewModel @ViewModelInject constructor(
     private val listRepo: TodoListRepo,
     private val noteRepo: TodoNoteRepo,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : BaseViewModel<HomeAction>() {
 
     private val _homeScreenItems: MutableLiveData<List<HomeScreenItem>> = MutableLiveData()
     val homeScreenItems: LiveData<List<HomeScreenItem>>
