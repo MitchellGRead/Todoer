@@ -129,6 +129,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
         }
     }
 
+    fun undoDelete() {
+
+    }
+
     fun onRenameTodo(homeScreenItem: HomeScreenItem, updatedName: String) {
         viewModelScope.launch {
             when (homeScreenItem) {
@@ -169,5 +173,10 @@ class HomeScreenViewModel @ViewModelInject constructor(
 
     fun onTodoNoteNavigated() {
         _navigateToNoteDetails.value = null
+    }
+
+    /* Action functions */
+    fun onSnackbarDismissed() {
+
     }
 }

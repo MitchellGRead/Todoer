@@ -16,6 +16,7 @@ import com.example.todoer.ui.homescreen.recycler.TodoCardListeners
 import com.example.todoer.ui.listdetails.ListDetailsViewModel
 import com.example.todoer.utils.SharedPreferencesUtils.getBooleanValue
 import com.example.todoer.utils.SharedPreferencesUtils.setBooleanValue
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -25,6 +26,7 @@ import timber.log.Timber
 class HomeScreenFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeScreenBinding
+    private lateinit var undoSnackbar: Snackbar
     private val viewModel: HomeScreenViewModel by viewModels()
     private var sharedPrefs: SharedPreferences? = null
 
@@ -39,6 +41,7 @@ class HomeScreenFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, LAYOUT_ID, container, false)
         binding.lifecycleOwner = this
 
+        makeSnackbar()
         setHasOptionsMenu(true)
         setupFabClickHandler()
         setupNavigation()
@@ -84,6 +87,21 @@ class HomeScreenFragment : BaseFragment() {
         item.isChecked = optionCheckedSwapped
         viewModel.sortContent(optionCheckedSwapped)
         return true
+    }
+
+    /* Snackbar functions */
+    private fun makeSnackbar() {
+        undoSnackbar = Snackbar.make(
+            binding.snackbar,
+            getString(R.string.swipe_to_dismiss),
+            Snackbar.LENGTH_INDEFINITE
+        )        .setAction(getString(R.string.undo)) { viewModel.undoDelete() }
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    viewModel.onSnackbarDismissed()
+                }
+            })
     }
 
     /* FAB Button */
