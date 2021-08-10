@@ -47,8 +47,8 @@ class TodoItemRepo @Inject constructor(
     }
 
     /* Fetching Operations */
-    suspend fun getTodoItems(listId: Long): List<TodoItem>? {
-        return todoItemDao.getTodoItemsInList(listId)
+    suspend fun getTodoItems(listId: Long): List<TodoItem> {
+        return todoItemDao.getTodoItemsInList(listId) ?: emptyList()
     }
 
     fun observeTodoItems(listId: Long): Flow<List<TodoItem>> {
