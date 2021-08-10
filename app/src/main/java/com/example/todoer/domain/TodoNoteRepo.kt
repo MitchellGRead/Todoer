@@ -39,6 +39,12 @@ class TodoNoteRepo @Inject constructor(
         return TodoNote(noteName = noteName)
     }
 
+    suspend fun insertExistingNote(note: TodoNote): Long {
+        return withContext(dispatcher) {
+            todoNoteDao.insertTodoNote(note)
+        }
+    }
+
     /* Updating Operations */
     suspend fun updateNoteName(noteId: Long, updatedName: String) {
         updateNameJob?.cancel()

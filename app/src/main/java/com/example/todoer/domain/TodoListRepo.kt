@@ -33,6 +33,12 @@ class TodoListRepo @Inject constructor(
         return TodoList(listName = listName)
     }
 
+    suspend fun insertExistingList(todoList: TodoList): Long {
+        return withContext(dispatcher) {
+            todoListDao.insertTodoList(todoList)
+        }
+    }
+
     /* Updating Operations */
     suspend fun updateListCompleteTasks(listId: Long, completedTasks: Int) {
         withContext(dispatcher) {
