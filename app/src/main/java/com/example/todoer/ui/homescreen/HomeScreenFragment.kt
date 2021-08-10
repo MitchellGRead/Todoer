@@ -10,8 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.todoer.R
 import com.example.todoer.base.BaseFragment
+import com.example.todoer.base.ViewModelAction
 import com.example.todoer.databinding.FragmentHomeScreenBinding
 import com.example.todoer.ui.homescreen.recycler.HomeScreenAdapter
+import com.example.todoer.ui.homescreen.recycler.HomeScreenItem
 import com.example.todoer.ui.homescreen.recycler.TodoCardListeners
 import com.example.todoer.ui.listdetails.ListDetailsViewModel
 import com.example.todoer.utils.SharedPreferencesUtils.getBooleanValue
@@ -54,6 +56,10 @@ class HomeScreenFragment : BaseFragment() {
             }
         })
 
+        viewModel.action.observe(viewLifecycleOwner, Observer { action ->
+            action?.let { onAction(it) }
+        })
+
         return binding.root
     }
 
@@ -87,21 +93,6 @@ class HomeScreenFragment : BaseFragment() {
         item.isChecked = optionCheckedSwapped
         viewModel.sortContent(optionCheckedSwapped)
         return true
-    }
-
-    /* Snackbar functions */
-    private fun makeSnackbar() {
-        undoSnackbar = Snackbar.make(
-            binding.snackbar,
-            getString(R.string.swipe_to_dismiss),
-            Snackbar.LENGTH_INDEFINITE
-        )        .setAction(getString(R.string.undo)) { viewModel.undoDelete() }
-            .addCallback(object : Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    super.onDismissed(transientBottomBar, event)
-                    viewModel.onSnackbarDismissed()
-                }
-            })
     }
 
     /* FAB Button */
@@ -146,6 +137,29 @@ class HomeScreenFragment : BaseFragment() {
             deleteTodoListener = { homeScreenItem -> viewModel.onDeleteTodo(homeScreenItem) },
             onCardFavouritedListener = { homeScreenItem, isFavourited -> viewModel.onTodoFavourited(homeScreenItem, isFavourited) }
         )
+
+    /* Fragment Actions */
+    private fun makeSnackbar() {
+        undoSnackbar = Snackbar.make(
+            binding.snackbar,
+            getString(R.string.swipe_to_dismiss),
+            Snackbar.LENGTH_INDEFINITE
+        )        .setAction(getString(R.string.undo)) { viewModel.undoDelete() }
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    viewModel.onSnackbarDismissed()
+                }
+            })
+    }
+
+    private fun onAction(action: ViewModelAction<HomeAction>) {
+        when (val homeAction = action.getContentIfNotHandled()) {
+            is SnackbarAction -> if (homeAction.shouldShow) undoSnackbar.show() else makeSnackbar()
+            is ShareAction -> TODO()
+            null -> Timber.e("Error: $action has null homeAction type.")
+        }
+    }
 
     companion object {
         const val LAYOUT_ID = R.layout.fragment_home_screen
