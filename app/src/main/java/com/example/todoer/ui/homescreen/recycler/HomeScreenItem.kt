@@ -1,5 +1,6 @@
 package com.example.todoer.ui.homescreen.recycler
 
+import com.example.todoer.database.models.TodoItem
 import com.example.todoer.database.models.TodoList
 import com.example.todoer.database.models.TodoNote
 import org.joda.time.DateTime
@@ -19,6 +20,7 @@ sealed class HomeScreenItem {
 
 data class ChecklistItem(
     val checkList: TodoList,
+    val todoItems: List<TodoItem>,  // Used to keep a copy of when we delete a list
     val editedString: String
 ) : HomeScreenItem() {
     override val id: Long
